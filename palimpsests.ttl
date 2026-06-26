@@ -1,0 +1,1956 @@
+@prefix : <http://example.org/palimpsests#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix creon: <http://www.ontologydesignpatterns.org/ont/creativity/creon.owl#> .
+@base <http://example.org/palimpsests#> .
+
+<http://example.org/palimpsests> rdf:type owl:Ontology .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://example.org/palimpsests#externalRef
+:externalRef rdf:type owl:AnnotationProperty ;
+             rdfs:label "external reference" .
+
+
+###  http://example.org/palimpsests#rationale
+:rationale rdf:type owl:AnnotationProperty ;
+           rdfs:label "rationale" .
+
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://example.org/palimpsests#actsOnElement
+:actsOnElement rdf:type owl:ObjectProperty ;
+               rdfs:domain :CreativeStrategy ;
+               rdfs:range :NarrativeElement .
+
+
+###  http://example.org/palimpsests#elementOfWork
+:elementOfWork rdf:type owl:ObjectProperty ;
+               owl:inverseOf :hasNarrativeElement ;
+               rdfs:domain :NarrativeElement ;
+               rdfs:range :Work .
+
+
+###  http://example.org/palimpsests#hasNarrativeElement
+:hasNarrativeElement rdf:type owl:ObjectProperty ;
+                     rdfs:domain :Work ;
+                     rdfs:range :NarrativeElement .
+
+
+###  http://example.org/palimpsests#hasOriginalWork
+:hasOriginalWork rdf:type owl:ObjectProperty ;
+                 rdfs:domain :CreativeStrategy ;
+                 rdfs:range :Work .
+
+
+###  http://example.org/palimpsests#hasTransformativeWork
+:hasTransformativeWork rdf:type owl:ObjectProperty ;
+                       rdfs:domain :CreativeStrategy ;
+                       rdfs:range :Work .
+
+
+###  http://example.org/palimpsests#sourceElement
+:sourceElement rdf:type owl:ObjectProperty ;
+               rdfs:domain :CreativeStrategy ;
+               rdfs:range :NarrativeElement .
+
+
+###  http://example.org/palimpsests#targetElement
+:targetElement rdf:type owl:ObjectProperty ;
+               rdfs:domain :CreativeStrategy ;
+               rdfs:range :NarrativeElement .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://example.org/palimpsests#BackgroundSetting
+:BackgroundSetting rdf:type owl:Class ;
+                   rdfs:subClassOf :NarrativeElement .
+
+
+###  http://example.org/palimpsests#Causality
+:Causality rdf:type owl:Class ;
+           rdfs:subClassOf :StoryStructure .
+
+
+###  http://example.org/palimpsests#Character
+:Character rdf:type owl:Class ;
+           rdfs:subClassOf :NarrativeElement .
+
+
+###  http://example.org/palimpsests#CharacterArc
+:CharacterArc rdf:type owl:Class ;
+              rdfs:subClassOf :Character .
+
+
+###  http://example.org/palimpsests#CharacterFunction
+:CharacterFunction rdf:type owl:Class ;
+                   rdfs:subClassOf :Character .
+
+
+###  http://example.org/palimpsests#CharacterIdentity
+:CharacterIdentity rdf:type owl:Class ;
+                   rdfs:subClassOf :Character .
+
+
+###  http://example.org/palimpsests#Chronotope
+:Chronotope rdf:type owl:Class ;
+            rdfs:subClassOf :BackgroundSetting .
+
+
+###  http://example.org/palimpsests#ContentDomain
+:ContentDomain rdf:type owl:Class ;
+               rdfs:subClassOf :NarrativeElement .
+
+
+###  http://example.org/palimpsests#CreativeStrategy
+:CreativeStrategy rdf:type owl:Class .
+
+
+###  http://example.org/palimpsests#EventSequence
+:EventSequence rdf:type owl:Class ;
+               rdfs:subClassOf :StoryStructure .
+
+
+###  http://example.org/palimpsests#Focalization
+:Focalization rdf:type owl:Class ;
+              rdfs:subClassOf :StoryStructure .
+
+
+###  http://example.org/palimpsests#Imitation
+:Imitation rdf:type owl:Class ;
+           rdfs:subClassOf :CreativeStrategy .
+
+
+###  http://example.org/palimpsests#Inheritance
+:Inheritance rdf:type owl:Class ;
+             rdfs:subClassOf :CreativeStrategy .
+
+
+###  http://example.org/palimpsests#MediumType
+:MediumType rdf:type owl:Class ;
+            rdfs:subClassOf :NarrativeElement .
+
+
+###  http://example.org/palimpsests#NarrativeElement
+:NarrativeElement rdf:type owl:Class .
+
+
+###  http://example.org/palimpsests#Outcome
+:Outcome rdf:type owl:Class ;
+         rdfs:subClassOf :StoryStructure .
+
+
+###  http://example.org/palimpsests#Relation
+:Relation rdf:type owl:Class ;
+          rdfs:subClassOf :NarrativeElement .
+
+
+###  http://example.org/palimpsests#RelationTopology
+:RelationTopology rdf:type owl:Class ;
+                  rdfs:subClassOf :Relation .
+
+
+###  http://example.org/palimpsests#RelationType
+:RelationType rdf:type owl:Class ;
+              rdfs:subClassOf :Relation .
+
+
+###  http://example.org/palimpsests#StoryStructure
+:StoryStructure rdf:type owl:Class ;
+                rdfs:subClassOf :NarrativeElement .
+
+
+###  http://example.org/palimpsests#Transformation
+:Transformation rdf:type owl:Class ;
+                rdfs:subClassOf :CreativeStrategy .
+
+
+###  http://example.org/palimpsests#Work
+:Work rdf:type owl:Class ;
+      owl:equivalentClass creon:CreativeProduct .
+
+
+###  http://example.org/palimpsests#WorldRules
+:WorldRules rdf:type owl:Class ;
+            rdfs:subClassOf :BackgroundSetting .
+
+
+###  http://www.ontologydesignpatterns.org/ont/creativity/creon.owl#CreativeProduct
+creon:CreativeProduct rdf:type owl:Class .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://example.org/palimpsests#A_Chinese_Odyssey
+:A_Chinese_Odyssey rdf:type owl:NamedIndividual ,
+                            :Work ;
+                   :externalRef "https://www.wikidata.org/wiki/Q868483" ;
+                   rdfs:label "A Chinese Odyssey" .
+
+
+###  http://example.org/palimpsests#Abstinent_Supernatural_Romance
+:Abstinent_Supernatural_Romance rdf:type owl:NamedIndividual ,
+                                         :ContentDomain ;
+                                :elementOfWork :The_Twilight_Saga ;
+                                rdfs:label "Abstinent_Supernatural_Romance" .
+
+
+###  http://example.org/palimpsests#Ancient_Mediterranean_Decade
+:Ancient_Mediterranean_Decade rdf:type owl:NamedIndividual ,
+                                       :Chronotope ;
+                              :elementOfWork :Odyssey ;
+                              rdfs:label "Ancient_Mediterranean_Decade" .
+
+
+###  http://example.org/palimpsests#Ascetic_Pilgrim_Destiny
+:Ascetic_Pilgrim_Destiny rdf:type owl:NamedIndividual ,
+                                  :CharacterArc ;
+                         :elementOfWork :Journey_to_the_West ;
+                         rdfs:label "Ascetic_Pilgrim_Destiny" .
+
+
+###  http://example.org/palimpsests#BadBoy_ResilientGirl_Pairing
+:BadBoy_ResilientGirl_Pairing rdf:type owl:NamedIndividual ,
+                                       :RelationType ;
+                              :elementOfWork :Harry_Potter ,
+                                             :The_Mortal_Instruments ;
+                              rdfs:label "BadBoy_ResilientGirl_Pairing" .
+
+
+###  http://example.org/palimpsests#Bennet_Family
+:Bennet_Family rdf:type owl:NamedIndividual ,
+                        :CharacterIdentity ;
+               :elementOfWork :Pride_and_Prejudice ;
+               rdfs:label "Bennet_Family" .
+
+
+###  http://example.org/palimpsests#Campus_Student_Roster
+:Campus_Student_Roster rdf:type owl:NamedIndividual ,
+                                :CharacterIdentity ;
+                       :elementOfWork :The_Here_and_Now_Youth ;
+                       rdfs:label "Campus_Student_Roster" .
+
+
+###  http://example.org/palimpsests#Campus_Youth_Life
+:Campus_Youth_Life rdf:type owl:NamedIndividual ,
+                            :ContentDomain ;
+                   :elementOfWork :The_Here_and_Now_Youth ;
+                   rdfs:label "Campus_Youth_Life" .
+
+
+###  http://example.org/palimpsests#Canon_Characters_Yun_Tianming
+:Canon_Characters_Yun_Tianming rdf:type owl:NamedIndividual ,
+                                        :CharacterIdentity ;
+                               :elementOfWork :The_Three_Body_Problem ,
+                                              :ThreeBodyX ;
+                               rdfs:label "Canon_Characters_Yun_Tianming" .
+
+
+###  http://example.org/palimpsests#Canon_of_Sherlock_Holmes
+:Canon_of_Sherlock_Holmes rdf:type owl:NamedIndividual ,
+                                   :Work ;
+                          :externalRef "https://www.wikidata.org/wiki/Q2316684" ;
+                          rdfs:label "Canon of Sherlock Holmes" .
+
+
+###  http://example.org/palimpsests#Character_Relationship_Web
+:Character_Relationship_Web rdf:type owl:NamedIndividual ,
+                                     :RelationTopology ;
+                            :elementOfWork :Jin_Yong_universe ,
+                                           :The_Here_and_Now_Youth ;
+                            rdfs:label "Character_Relationship_Web" .
+
+
+###  http://example.org/palimpsests#Cher_Horowitz
+:Cher_Horowitz rdf:type owl:NamedIndividual ,
+                        :CharacterIdentity ;
+               :elementOfWork :Clueless ;
+               rdfs:label "Cher_Horowitz" .
+
+
+###  http://example.org/palimpsests#Chivalric_Ethos
+:Chivalric_Ethos rdf:type owl:NamedIndividual ,
+                          :ContentDomain ;
+                 :elementOfWork :Jin_Yong_Novel_Xiake_Xing ,
+                                :Li_Bai_Poem_Xiake_Xing ;
+                 rdfs:label "Chivalric_Ethos" .
+
+
+###  http://example.org/palimpsests#Chivalric_Heroism
+:Chivalric_Heroism rdf:type owl:NamedIndividual ,
+                            :ContentDomain ;
+                   :elementOfWork :Water_Margin ;
+                   rdfs:label "Chivalric_Heroism" .
+
+
+###  http://example.org/palimpsests#Chosen_One_and_Pairings
+:Chosen_One_and_Pairings rdf:type owl:NamedIndividual ,
+                                  :CharacterFunction ;
+                         :elementOfWork :Harry_Potter ,
+                                        :The_Mortal_Instruments ;
+                         rdfs:label "Chosen_One_and_Pairings" .
+
+
+###  http://example.org/palimpsests#Classical_Poem
+:Classical_Poem rdf:type owl:NamedIndividual ,
+                         :MediumType ;
+                :elementOfWork :Li_Bai_Poem_Xiake_Xing ;
+                rdfs:label "Classical_Poem" .
+
+
+###  http://example.org/palimpsests#Clueless
+:Clueless rdf:type owl:NamedIndividual ,
+                   :Work ;
+          :externalRef "https://www.wikidata.org/wiki/Q931165" ;
+          rdfs:label "Clueless" .
+
+
+###  http://example.org/palimpsests#Complex_Pan_Jin_Lian
+:Complex_Pan_Jin_Lian rdf:type owl:NamedIndividual ,
+                               :CharacterFunction ;
+                      :elementOfWork :Jin_Ping_Mei ;
+                      rdfs:label "Complex_Pan_Jin_Lian" .
+
+
+###  http://example.org/palimpsests#Consulting_Detective_Assists_Police
+:Consulting_Detective_Assists_Police rdf:type owl:NamedIndividual ,
+                                              :RelationType ;
+                                     :elementOfWork :Canon_of_Sherlock_Holmes ,
+                                                    :Elementary ;
+                                     rdfs:label "Consulting_Detective_Assists_Police" .
+
+
+###  http://example.org/palimpsests#Contemporary_London
+:Contemporary_London rdf:type owl:NamedIndividual ,
+                              :Chronotope ;
+                     :elementOfWork :Sherlock ;
+                     rdfs:label "Contemporary_London" .
+
+
+###  http://example.org/palimpsests#Contemporary_New_York
+:Contemporary_New_York rdf:type owl:NamedIndividual ,
+                                :Chronotope ;
+                       :elementOfWork :Elementary ;
+                       rdfs:label "Contemporary_New_York" .
+
+
+###  http://example.org/palimpsests#Core_Cast_Ximen_Pan_Wu
+:Core_Cast_Ximen_Pan_Wu rdf:type owl:NamedIndividual ,
+                                 :CharacterIdentity ;
+                        :elementOfWork :Jin_Ping_Mei ,
+                                       :Water_Margin ;
+                        rdfs:label "Core_Cast_Ximen_Pan_Wu" .
+
+
+###  http://example.org/palimpsests#Count_Dracula
+:Count_Dracula rdf:type owl:NamedIndividual ,
+                        :CharacterIdentity ;
+               :elementOfWork :Dracula ;
+               rdfs:label "Count_Dracula" .
+
+
+###  http://example.org/palimpsests#Count_Orlok
+:Count_Orlok rdf:type owl:NamedIndividual ,
+                      :CharacterIdentity ;
+             :elementOfWork :Nosferatu ;
+             rdfs:label "Count_Orlok" .
+
+
+###  http://example.org/palimpsests#Daomu_Biji
+:Daomu_Biji rdf:type owl:NamedIndividual ,
+                     :Work ;
+            :externalRef "https://www.wikidata.org/wiki/Q4861172" ;
+            rdfs:label "Daomu Biji" .
+
+
+###  http://example.org/palimpsests#Domestic_Desire_and_Manners
+:Domestic_Desire_and_Manners rdf:type owl:NamedIndividual ,
+                                      :ContentDomain ;
+                             :elementOfWork :Jin_Ping_Mei ;
+                             rdfs:label "Domestic_Desire_and_Manners" .
+
+
+###  http://example.org/palimpsests#Dominant_Male_Submissive_Female
+:Dominant_Male_Submissive_Female rdf:type owl:NamedIndividual ,
+                                          :RelationType ;
+                                 :elementOfWork :Fifty_Shades_of_Grey ,
+                                                :The_Twilight_Saga ;
+                                 rdfs:label "Dominant_Male_Submissive_Female" .
+
+
+###  http://example.org/palimpsests#Dorothy_Focal
+:Dorothy_Focal rdf:type owl:NamedIndividual ,
+                        :Focalization ;
+               :elementOfWork :The_Wonderful_Wizard_of_Oz ;
+               rdfs:label "Dorothy_Focal" .
+
+
+###  http://example.org/palimpsests#Dracula
+:Dracula rdf:type owl:NamedIndividual ,
+                  :Work ;
+         :externalRef "https://www.wikidata.org/wiki/Q41542" ;
+         rdfs:label "Dracula" .
+
+
+###  http://example.org/palimpsests#Eccentric_Rationalist_Holmes
+:Eccentric_Rationalist_Holmes rdf:type owl:NamedIndividual ,
+                                       :CharacterArc ;
+                              :elementOfWork :Canon_of_Sherlock_Holmes ;
+                              rdfs:label "Eccentric_Rationalist_Holmes" .
+
+
+###  http://example.org/palimpsests#Elementary
+:Elementary rdf:type owl:NamedIndividual ,
+                     :Work ;
+            :externalRef "https://www.wikidata.org/wiki/Q247643" ;
+            rdfs:label "Elementary" .
+
+
+###  http://example.org/palimpsests#Elphaba_Focal
+:Elphaba_Focal rdf:type owl:NamedIndividual ,
+                        :Focalization ;
+               :elementOfWork :Wicked ;
+               rdfs:label "Elphaba_Focal" .
+
+
+###  http://example.org/palimpsests#Emma
+:Emma rdf:type owl:NamedIndividual ,
+               :Work ;
+      :externalRef "https://www.wikidata.org/wiki/Q223880" ;
+      rdfs:label "Emma" .
+
+
+###  http://example.org/palimpsests#Emma_Woodhouse
+:Emma_Woodhouse rdf:type owl:NamedIndividual ,
+                         :CharacterIdentity ;
+                :elementOfWork :Emma ;
+                rdfs:label "Emma_Woodhouse" .
+
+
+###  http://example.org/palimpsests#Epic_Poem
+:Epic_Poem rdf:type owl:NamedIndividual ,
+                    :MediumType ;
+           :elementOfWork :Odyssey ;
+           rdfs:label "Epic_Poem" .
+
+
+###  http://example.org/palimpsests#Epistolary_Novel
+:Epistolary_Novel rdf:type owl:NamedIndividual ,
+                           :MediumType ;
+                  :elementOfWork :Dracula ;
+                  rdfs:label "Epistolary_Novel" .
+
+
+###  http://example.org/palimpsests#EventSequence
+:EventSequence rdf:type owl:NamedIndividual .
+
+
+###  http://example.org/palimpsests#Everyman_Leopold_Bloom
+:Everyman_Leopold_Bloom rdf:type owl:NamedIndividual ,
+                                 :CharacterIdentity ;
+                        :elementOfWork :Ulysses ;
+                        rdfs:label "Everyman_Leopold_Bloom" .
+
+
+###  http://example.org/palimpsests#Expanded_Cosmic_Sociology
+:Expanded_Cosmic_Sociology rdf:type owl:NamedIndividual ,
+                                    :EventSequence ;
+                           :elementOfWork :ThreeBodyX ;
+                           rdfs:label "Expanded_Cosmic_Sociology" .
+
+
+###  http://example.org/palimpsests#Explicit_Eroticism
+:Explicit_Eroticism rdf:type owl:NamedIndividual ,
+                             :ContentDomain ;
+                    :elementOfWork :Fifty_Shades_of_Grey ;
+                    rdfs:label "Explicit_Eroticism" .
+
+
+###  http://example.org/palimpsests#External_Heroic_Narration
+:External_Heroic_Narration rdf:type owl:NamedIndividual ,
+                                    :Focalization ;
+                           :elementOfWork :Odyssey ;
+                           rdfs:label "External_Heroic_Narration" .
+
+
+###  http://example.org/palimpsests#Factual_Travelogue_World
+:Factual_Travelogue_World rdf:type owl:NamedIndividual ,
+                                   :WorldRules ;
+                          :elementOfWork :Record_of_the_Western_Regions ;
+                          rdfs:label "Factual_Travelogue_World" .
+
+
+###  http://example.org/palimpsests#Female_Sober_Companion_Joan_Watson
+:Female_Sober_Companion_Joan_Watson rdf:type owl:NamedIndividual ,
+                                             :CharacterFunction ;
+                                    :elementOfWork :Elementary ;
+                                    rdfs:label "Female_Sober_Companion_Joan_Watson" .
+
+
+###  http://example.org/palimpsests#Fengshen_Deity_Roster
+:Fengshen_Deity_Roster rdf:type owl:NamedIndividual ,
+                                :CharacterIdentity ;
+                       :elementOfWork :Investiture_of_the_Gods ,
+                                      :KamigamiNoJonin ;
+                       rdfs:label "Fengshen_Deity_Roster" .
+
+
+###  http://example.org/palimpsests#Fengshen_Mythos
+:Fengshen_Mythos rdf:type owl:NamedIndividual ,
+                          :WorldRules ;
+                 :elementOfWork :Investiture_of_the_Gods ,
+                                :KamigamiNoJonin ;
+                 rdfs:label "Fengshen_Mythos" .
+
+
+###  http://example.org/palimpsests#Fictional_Pilgrim_Tang_Sanzang
+:Fictional_Pilgrim_Tang_Sanzang rdf:type owl:NamedIndividual ,
+                                         :CharacterIdentity ;
+                                :elementOfWork :Journey_to_the_West ;
+                                rdfs:label "Fictional_Pilgrim_Tang_Sanzang" .
+
+
+###  http://example.org/palimpsests#Fifty_Shades_of_Grey
+:Fifty_Shades_of_Grey rdf:type owl:NamedIndividual ,
+                               :Work ;
+                      :externalRef "https://www.wikidata.org/wiki/Q557867" ;
+                      rdfs:label "Fifty Shades of Grey" .
+
+
+###  http://example.org/palimpsests#Film
+:Film rdf:type owl:NamedIndividual ,
+               :MediumType ;
+      :elementOfWork :Clueless ;
+      rdfs:label "Film" .
+
+
+###  http://example.org/palimpsests#Fixed_Deity_Alignments
+:Fixed_Deity_Alignments rdf:type owl:NamedIndividual ,
+                                 :CharacterFunction ;
+                        :elementOfWork :Investiture_of_the_Gods ;
+                        rdfs:label "Fixed_Deity_Alignments" .
+
+
+###  http://example.org/palimpsests#Full_Length_Wuxia_Novel
+:Full_Length_Wuxia_Novel rdf:type owl:NamedIndividual ,
+                                  :MediumType ;
+                         :elementOfWork :Jin_Yong_Novel_Xiake_Xing ;
+                         rdfs:label "Full_Length_Wuxia_Novel" .
+
+
+###  http://example.org/palimpsests#Ghost_Blows_Out_the_Light
+:Ghost_Blows_Out_the_Light rdf:type owl:NamedIndividual ,
+                                    :Work ;
+                           :externalRef "https://www.wikidata.org/wiki/Q5557059" ;
+                           rdfs:label "Ghost Blows Out the Light" .
+
+
+###  http://example.org/palimpsests#Gods_and_Demons_Cosmos
+:Gods_and_Demons_Cosmos rdf:type owl:NamedIndividual ,
+                                 :WorldRules ;
+                        :elementOfWork :Journey_to_the_West ;
+                        rdfs:label "Gods_and_Demons_Cosmos" .
+
+
+###  http://example.org/palimpsests#Hardcore_Adventure_Folklore
+:Hardcore_Adventure_Folklore rdf:type owl:NamedIndividual ,
+                                      :ContentDomain ;
+                             :elementOfWork :Ghost_Blows_Out_the_Light ;
+                             rdfs:label "Hardcore_Adventure_Folklore" .
+
+
+###  http://example.org/palimpsests#Harry_Potter
+:Harry_Potter rdf:type owl:NamedIndividual ,
+                       :Work ;
+              :externalRef "https://www.wikidata.org/wiki/Q8337" ;
+              rdfs:label "Harry Potter" .
+
+
+###  http://example.org/palimpsests#Hero_Odysseus
+:Hero_Odysseus rdf:type owl:NamedIndividual ,
+                        :CharacterIdentity ;
+               :elementOfWork :Odyssey ;
+               rdfs:label "Hero_Odysseus" .
+
+
+###  http://example.org/palimpsests#Hidden_Magic_Boarding_School
+:Hidden_Magic_Boarding_School rdf:type owl:NamedIndividual ,
+                                       :WorldRules ;
+                              :elementOfWork :Harry_Potter ;
+                              rdfs:label "Hidden_Magic_Boarding_School" .
+
+
+###  http://example.org/palimpsests#High_Functioning_Sociopath_Holmes
+:High_Functioning_Sociopath_Holmes rdf:type owl:NamedIndividual ,
+                                            :CharacterArc ;
+                                   :elementOfWork :Sherlock ;
+                                   rdfs:label "High_Functioning_Sociopath_Holmes" .
+
+
+###  http://example.org/palimpsests#Historical_Monk_Xuanzang
+:Historical_Monk_Xuanzang rdf:type owl:NamedIndividual ,
+                                   :CharacterIdentity ;
+                          :elementOfWork :Record_of_the_Western_Regions ;
+                          rdfs:label "Historical_Monk_Xuanzang" .
+
+
+###  http://example.org/palimpsests#Holmes_Watson_Bromance
+:Holmes_Watson_Bromance rdf:type owl:NamedIndividual ,
+                                 :RelationType ;
+                        :elementOfWork :Canon_of_Sherlock_Holmes ,
+                                       :Sherlock ;
+                        rdfs:label "Holmes_Watson_Bromance" .
+
+
+###  http://example.org/palimpsests#Homeric_Episode_Structure
+:Homeric_Episode_Structure rdf:type owl:NamedIndividual ,
+                                    :EventSequence ;
+                           :elementOfWork :Odyssey ,
+                                          :Ulysses ;
+                           rdfs:label "Homeric_Episode_Structure" .
+
+
+###  http://example.org/palimpsests#Interior_Stream_of_Consciousness
+:Interior_Stream_of_Consciousness rdf:type owl:NamedIndividual ,
+                                           :Focalization ;
+                                  :elementOfWork :Ulysses ;
+                                  rdfs:label "Interior_Stream_of_Consciousness" .
+
+
+###  http://example.org/palimpsests#Investiture_of_the_Gods
+:Investiture_of_the_Gods rdf:type owl:NamedIndividual ,
+                                  :Work ;
+                         :externalRef "https://www.wikidata.org/wiki/Q1336310" ;
+                         rdfs:label "Investiture of the Gods" .
+
+
+###  http://example.org/palimpsests#Jin_Ping_Mei
+:Jin_Ping_Mei rdf:type owl:NamedIndividual ,
+                       :Work ;
+              :externalRef "https://www.wikidata.org/wiki/Q753535" ;
+              rdfs:label "Jin Ping Mei" .
+
+
+###  http://example.org/palimpsests#Jin_Yong_Hero_Roster
+:Jin_Yong_Hero_Roster rdf:type owl:NamedIndividual ,
+                               :CharacterIdentity ;
+                      :elementOfWork :Jin_Yong_universe ;
+                      rdfs:label "Jin_Yong_Hero_Roster" .
+
+
+###  http://example.org/palimpsests#Jin_Yong_Novel_Xiake_Xing
+:Jin_Yong_Novel_Xiake_Xing rdf:type owl:NamedIndividual ,
+                                    :Work ;
+                           :externalRef "https://www.wikidata.org/wiki/Q835716" ;
+                           rdfs:label "Jin Yong Novel Xiake Xing" .
+
+
+###  http://example.org/palimpsests#Jin_Yong_universe
+:Jin_Yong_universe rdf:type owl:NamedIndividual ,
+                            :Work ;
+                   :externalRef "https://www.wikidata.org/wiki/Q180626" ;
+                   rdfs:label "Jin Yong universe" .
+
+
+###  http://example.org/palimpsests#Journey_to_the_West
+:Journey_to_the_West rdf:type owl:NamedIndividual ,
+                              :Work ;
+                     :externalRef "https://www.wikidata.org/wiki/Q70784" ;
+                     rdfs:label "Journey to the West" .
+
+
+###  http://example.org/palimpsests#KamigamiNoJonin
+:KamigamiNoJonin rdf:type owl:NamedIndividual ,
+                          :Work ;
+                 :externalRef "https://ja.wikipedia.org/wiki/封神演義_(漫画)" ;
+                 rdfs:label "KamigamiNoJonin" .
+
+
+###  http://example.org/palimpsests#Land_of_Oz_and_Cast
+:Land_of_Oz_and_Cast rdf:type owl:NamedIndividual ,
+                              :WorldRules ;
+                     :elementOfWork :The_Wonderful_Wizard_of_Oz ,
+                                    :Wicked ;
+                     rdfs:label "Land_of_Oz_and_Cast" .
+
+
+###  http://example.org/palimpsests#Li_Bai_Poem_Xiake_Xing
+:Li_Bai_Poem_Xiake_Xing rdf:type owl:NamedIndividual ,
+                                 :Work ;
+                        :externalRef "https://zh.wikipedia.org/wiki/侠客行_(诗)" ;
+                        rdfs:label "Li Bai Poem Xiake Xing" .
+
+
+###  http://example.org/palimpsests#Lovers_Between_Feuding_Factions
+:Lovers_Between_Feuding_Factions rdf:type owl:NamedIndividual ,
+                                          :RelationTopology ;
+                                 :elementOfWork :Romeo_and_Juliet ,
+                                                :West_Side_Story ;
+                                 rdfs:label "Lovers_Between_Feuding_Factions" .
+
+
+###  http://example.org/palimpsests#Male_Narrator_John_Watson
+:Male_Narrator_John_Watson rdf:type owl:NamedIndividual ,
+                                    :CharacterFunction ;
+                           :elementOfWork :Canon_of_Sherlock_Holmes ;
+                           rdfs:label "Male_Narrator_John_Watson" .
+
+
+###  http://example.org/palimpsests#Manga
+:Manga rdf:type owl:NamedIndividual ,
+                :MediumType ;
+       :elementOfWork :KamigamiNoJonin ;
+       rdfs:label "Manga" .
+
+
+###  http://example.org/palimpsests#Marriage_Plot_and_Original_Prose
+:Marriage_Plot_and_Original_Prose rdf:type owl:NamedIndividual ,
+                                           :EventSequence ;
+                                  :elementOfWork :Pride_and_Prejudice ,
+                                                 :Pride_and_Prejudice_and_Zombies ;
+                                  rdfs:label "Marriage_Plot_and_Original_Prose" .
+
+
+###  http://example.org/palimpsests#Martial_Arts_Manual_Puzzle
+:Martial_Arts_Manual_Puzzle rdf:type owl:NamedIndividual ,
+                                     :EventSequence ;
+                            :elementOfWork :Jin_Yong_Novel_Xiake_Xing ;
+                            rdfs:label "Martial_Arts_Manual_Puzzle" .
+
+
+###  http://example.org/palimpsests#Martial_Heroism
+:Martial_Heroism rdf:type owl:NamedIndividual ,
+                          :ContentDomain ;
+                 :elementOfWork :Jin_Yong_universe ;
+                 rdfs:label "Martial_Heroism" .
+
+
+###  http://example.org/palimpsests#Matchmaker_Plot_and_Dynamics
+:Matchmaker_Plot_and_Dynamics rdf:type owl:NamedIndividual ,
+                                       :EventSequence ;
+                              :elementOfWork :Clueless ,
+                                             :Emma ;
+                              rdfs:label "Matchmaker_Plot_and_Dynamics" .
+
+
+###  http://example.org/palimpsests#Merchant_Household_Focal
+:Merchant_Household_Focal rdf:type owl:NamedIndividual ,
+                                   :Focalization ;
+                          :elementOfWork :Jin_Ping_Mei ;
+                          rdfs:label "Merchant_Household_Focal" .
+
+
+###  http://example.org/palimpsests#Modern_University_Campus
+:Modern_University_Campus rdf:type owl:NamedIndividual ,
+                                   :Chronotope ;
+                          :elementOfWork :The_Here_and_Now_Youth ;
+                          rdfs:label "Modern_University_Campus" .
+
+
+###  http://example.org/palimpsests#Modernist_Novel
+:Modernist_Novel rdf:type owl:NamedIndividual ,
+                          :MediumType ;
+                 :elementOfWork :Ulysses ;
+                 rdfs:label "Modernist_Novel" .
+
+
+###  http://example.org/palimpsests#Monotonic_Villain_Pan_Jin_Lian
+:Monotonic_Villain_Pan_Jin_Lian rdf:type owl:NamedIndividual ,
+                                         :CharacterFunction ;
+                                :elementOfWork :Water_Margin ;
+                                rdfs:label "Monotonic_Villain_Pan_Jin_Lian" .
+
+
+###  http://example.org/palimpsests#Musical
+:Musical rdf:type owl:NamedIndividual ,
+                  :MediumType ;
+         :elementOfWork :West_Side_Story ;
+         rdfs:label "Musical" .
+
+
+###  http://example.org/palimpsests#Nosferatu
+:Nosferatu rdf:type owl:NamedIndividual ,
+                    :Work ;
+           :externalRef "https://www.wikidata.org/wiki/Q151895" ;
+           rdfs:label "Nosferatu" .
+
+
+###  http://example.org/palimpsests#Novel
+:Novel rdf:type owl:NamedIndividual ,
+                :MediumType ;
+       :elementOfWork :Emma ,
+                      :The_Wonderful_Wizard_of_Oz ;
+       rdfs:label "Novel" .
+
+
+###  http://example.org/palimpsests#Observation_and_Deduction
+:Observation_and_Deduction rdf:type owl:NamedIndividual ,
+                                    :CharacterFunction ;
+                           :elementOfWork :Canon_of_Sherlock_Holmes ,
+                                          :Elementary ;
+                           rdfs:label "Observation_and_Deduction" .
+
+
+###  http://example.org/palimpsests#Occasional_Drug_Use_Detail
+:Occasional_Drug_Use_Detail rdf:type owl:NamedIndividual ,
+                                     :CharacterArc ;
+                            :elementOfWork :Canon_of_Sherlock_Holmes ;
+                            rdfs:label "Occasional_Drug_Use_Detail" .
+
+
+###  http://example.org/palimpsests#Odyssey
+:Odyssey rdf:type owl:NamedIndividual ,
+                  :Work ;
+         :externalRef "https://www.wikidata.org/wiki/Q35160" ;
+         rdfs:label "Odyssey" .
+
+
+###  http://example.org/palimpsests#Op_Canon_of_Sherlock_Holmes_to_Elementary_ConsultingRoleInheritance
+:Op_Canon_of_Sherlock_Holmes_to_Elementary_ConsultingRoleInheritance rdf:type owl:NamedIndividual ,
+                                                                              :Inheritance ;
+                                                                     :hasOriginalWork :Canon_of_Sherlock_Holmes ;
+                                                                     :hasTransformativeWork :Elementary ;
+                                                                     :sourceElement :Consulting_Detective_Assists_Police ;
+                                                                     :targetElement :Consulting_Detective_Assists_Police ;
+                                                                     :rationale "The structural relationship of the consulting detective assisting the official police is inherited from the source." ;
+                                                                     rdfs:label "Op_Canon_of_Sherlock_Holmes_to_Elementary_ConsultingRoleInheritance" .
+
+
+###  http://example.org/palimpsests#Op_Canon_of_Sherlock_Holmes_to_Elementary_DeductiveMethodImitation
+:Op_Canon_of_Sherlock_Holmes_to_Elementary_DeductiveMethodImitation rdf:type owl:NamedIndividual ,
+                                                                             :Imitation ;
+                                                                    :hasOriginalWork :Canon_of_Sherlock_Holmes ;
+                                                                    :hasTransformativeWork :Elementary ;
+                                                                    :sourceElement :Observation_and_Deduction ;
+                                                                    :targetElement :Observation_and_Deduction ;
+                                                                    :rationale "Holmes's signature method of observation and deduction is reused as the recognizable prototype of the protagonist's function." ;
+                                                                    rdfs:label "Op_Canon_of_Sherlock_Holmes_to_Elementary_DeductiveMethodImitation" .
+
+
+###  http://example.org/palimpsests#Op_Canon_of_Sherlock_Holmes_to_Elementary_HolmesAddictionArc
+:Op_Canon_of_Sherlock_Holmes_to_Elementary_HolmesAddictionArc rdf:type owl:NamedIndividual ,
+                                                                       :Transformation ;
+                                                              :hasOriginalWork :Canon_of_Sherlock_Holmes ;
+                                                              :hasTransformativeWork :Elementary ;
+                                                              :sourceElement :Occasional_Drug_Use_Detail ;
+                                                              :targetElement :Recovering_Addict_Arc ;
+                                                              :rationale "A minor canonical detail (Holmes's drug use) is amplified into the protagonist's defining arc as a recovering addict." ;
+                                                              rdfs:label "Op_Canon_of_Sherlock_Holmes_to_Elementary_HolmesAddictionArc" .
+
+
+###  http://example.org/palimpsests#Op_Canon_of_Sherlock_Holmes_to_Elementary_SettingTransposition
+:Op_Canon_of_Sherlock_Holmes_to_Elementary_SettingTransposition rdf:type owl:NamedIndividual ,
+                                                                         :Transformation ;
+                                                                :hasOriginalWork :Canon_of_Sherlock_Holmes ;
+                                                                :hasTransformativeWork :Elementary ;
+                                                                :sourceElement :Victorian_London ;
+                                                                :targetElement :Contemporary_New_York ;
+                                                                :rationale "Both era and place are replaced: Victorian London becomes contemporary New York City." ;
+                                                                rdfs:label "Op_Canon_of_Sherlock_Holmes_to_Elementary_SettingTransposition" .
+
+
+###  http://example.org/palimpsests#Op_Canon_of_Sherlock_Holmes_to_Elementary_WatsonReconception
+:Op_Canon_of_Sherlock_Holmes_to_Elementary_WatsonReconception rdf:type owl:NamedIndividual ,
+                                                                       :Transformation ;
+                                                              :hasOriginalWork :Canon_of_Sherlock_Holmes ;
+                                                              :hasTransformativeWork :Elementary ;
+                                                              :sourceElement :Male_Narrator_John_Watson ;
+                                                              :targetElement :Female_Sober_Companion_Joan_Watson ;
+                                                              :rationale "Elementary's central creative move: Watson is reconceived as Joan Watson, changing both gender and narrative function from male chronicler to sober companion." ;
+                                                              rdfs:label "Op_Canon_of_Sherlock_Holmes_to_Elementary_WatsonReconception" .
+
+
+###  http://example.org/palimpsests#Op_Canon_of_Sherlock_Holmes_to_Sherlock_CharacterIntensification
+:Op_Canon_of_Sherlock_Holmes_to_Sherlock_CharacterIntensification rdf:type owl:NamedIndividual ,
+                                                                           :Imitation ;
+                                                                  :hasOriginalWork :Canon_of_Sherlock_Holmes ;
+                                                                  :hasTransformativeWork :Sherlock ;
+                                                                  :sourceElement :Eccentric_Rationalist_Holmes ;
+                                                                  :targetElement :High_Functioning_Sociopath_Holmes ;
+                                                                  :rationale "Holmes's baseline characterization is reused but intensified, reframing eccentric rationalism through a modern clinical idiom." ;
+                                                                  rdfs:label "Op_Canon_of_Sherlock_Holmes_to_Sherlock_CharacterIntensification" .
+
+
+###  http://example.org/palimpsests#Op_Canon_of_Sherlock_Holmes_to_Sherlock_CrossMediaTransformation
+:Op_Canon_of_Sherlock_Holmes_to_Sherlock_CrossMediaTransformation rdf:type owl:NamedIndividual ,
+                                                                           :Transformation ;
+                                                                  :hasOriginalWork :Canon_of_Sherlock_Holmes ;
+                                                                  :hasTransformativeWork :Sherlock ;
+                                                                  :sourceElement :ShortStoryCollection ;
+                                                                  :targetElement :TV_Series ;
+                                                                  :rationale "The short-story collection is recast as serialized television, expanding episodic cases into season-long arcs." ;
+                                                                  rdfs:label "Op_Canon_of_Sherlock_Holmes_to_Sherlock_CrossMediaTransformation" .
+
+
+###  http://example.org/palimpsests#Op_Canon_of_Sherlock_Holmes_to_Sherlock_RelationshipInheritance
+:Op_Canon_of_Sherlock_Holmes_to_Sherlock_RelationshipInheritance rdf:type owl:NamedIndividual ,
+                                                                          :Inheritance ;
+                                                                 :hasOriginalWork :Canon_of_Sherlock_Holmes ;
+                                                                 :hasTransformativeWork :Sherlock ;
+                                                                 :sourceElement :Holmes_Watson_Bromance ;
+                                                                 :targetElement :Holmes_Watson_Bromance ;
+                                                                 :rationale "The Holmes-Watson friendship and cohabitation is inherited intact -- the point of contrast with Elementary's reconfiguration." ;
+                                                                 rdfs:label "Op_Canon_of_Sherlock_Holmes_to_Sherlock_RelationshipInheritance" .
+
+
+###  http://example.org/palimpsests#Op_Canon_of_Sherlock_Holmes_to_Sherlock_SettingTransposition
+:Op_Canon_of_Sherlock_Holmes_to_Sherlock_SettingTransposition rdf:type owl:NamedIndividual ,
+                                                                       :Transformation ;
+                                                              :hasOriginalWork :Canon_of_Sherlock_Holmes ;
+                                                              :hasTransformativeWork :Sherlock ;
+                                                              :sourceElement :Victorian_London ;
+                                                              :targetElement :Contemporary_London ;
+                                                              :rationale "The historical era is replaced (Victorian becomes contemporary London) while the geographical setting is preserved." ;
+                                                              rdfs:label "Op_Canon_of_Sherlock_Holmes_to_Sherlock_SettingTransposition" .
+
+
+###  http://example.org/palimpsests#Op_Dracula_to_Nosferatu_CharacterImitation
+:Op_Dracula_to_Nosferatu_CharacterImitation rdf:type owl:NamedIndividual ,
+                                                     :Imitation ;
+                                            :hasOriginalWork :Dracula ;
+                                            :hasTransformativeWork :Nosferatu ;
+                                            :sourceElement :Count_Dracula ;
+                                            :targetElement :Count_Orlok ;
+                                            :rationale "Lacking authorization, the film files off the source's names -- renaming Dracula as Count Orlok -- while reusing the underlying vampire prototype." ;
+                                            rdfs:label "Op_Dracula_to_Nosferatu_CharacterImitation" .
+
+
+###  http://example.org/palimpsests#Op_Dracula_to_Nosferatu_CrossMediaTransformation
+:Op_Dracula_to_Nosferatu_CrossMediaTransformation rdf:type owl:NamedIndividual ,
+                                                           :Transformation ;
+                                                  :hasOriginalWork :Dracula ;
+                                                  :hasTransformativeWork :Nosferatu ;
+                                                  :sourceElement :Epistolary_Novel ;
+                                                  :targetElement :Silent_Expressionist_Film ;
+                                                  :rationale "The epistolary novel is transformed into a silent expressionist film whose Gothic amplification shaped later vampire visual conventions." ;
+                                                  rdfs:label "Op_Dracula_to_Nosferatu_CrossMediaTransformation" .
+
+
+###  http://example.org/palimpsests#Op_Dracula_to_Nosferatu_PlotInheritance
+:Op_Dracula_to_Nosferatu_PlotInheritance rdf:type owl:NamedIndividual ,
+                                                  :Inheritance ;
+                                         :actsOnElement :EventSequence ;
+                                         :hasOriginalWork :Dracula ;
+                                         :hasTransformativeWork :Nosferatu ;
+                                         :sourceElement :Vampire_Relocation_and_Plague ;
+                                         :targetElement :Vampire_Relocation_and_Plague ;
+                                         :rationale "The core plot -- a vampire's relocation and the predatory plague he spreads -- is inherited from the source." ;
+                                         rdfs:label "Op_Dracula_to_Nosferatu_PlotInheritance" .
+
+
+###  http://example.org/palimpsests#Op_Emma_to_Clueless_CrossMediaTransformation
+:Op_Emma_to_Clueless_CrossMediaTransformation rdf:type owl:NamedIndividual ,
+                                                       :Transformation ;
+                                              :hasOriginalWork :Emma ;
+                                              :hasTransformativeWork :Clueless ;
+                                              :sourceElement :Novel ;
+                                              :targetElement :Film ;
+                                              :rationale "The source novel is adapted into a feature film." ;
+                                              rdfs:label "Op_Emma_to_Clueless_CrossMediaTransformation" .
+
+
+###  http://example.org/palimpsests#Op_Emma_to_Clueless_HeroineImitation
+:Op_Emma_to_Clueless_HeroineImitation rdf:type owl:NamedIndividual ,
+                                               :Imitation ;
+                                      :hasOriginalWork :Emma ;
+                                      :hasTransformativeWork :Clueless ;
+                                      :sourceElement :Emma_Woodhouse ;
+                                      :targetElement :Cher_Horowitz ;
+                                      :rationale "The heroine Emma Woodhouse is reused as the prototype for Cher Horowitz." ;
+                                      rdfs:label "Op_Emma_to_Clueless_HeroineImitation" .
+
+
+###  http://example.org/palimpsests#Op_Emma_to_Clueless_PlotInheritance
+:Op_Emma_to_Clueless_PlotInheritance rdf:type owl:NamedIndividual ,
+                                              :Inheritance ;
+                                     :actsOnElement :EventSequence ;
+                                     :hasOriginalWork :Emma ;
+                                     :hasTransformativeWork :Clueless ;
+                                     :sourceElement :Matchmaker_Plot_and_Dynamics ;
+                                     :targetElement :Matchmaker_Plot_and_Dynamics ;
+                                     :rationale "The matchmaking plot and its interpersonal power dynamics are inherited and shown to still operate in a modern microcosm." ;
+                                     rdfs:label "Op_Emma_to_Clueless_PlotInheritance" .
+
+
+###  http://example.org/palimpsests#Op_Emma_to_Clueless_SettingTransposition
+:Op_Emma_to_Clueless_SettingTransposition rdf:type owl:NamedIndividual ,
+                                                   :Transformation ;
+                                          :hasOriginalWork :Emma ;
+                                          :hasTransformativeWork :Clueless ;
+                                          :sourceElement :Regency_Gentry ;
+                                          :targetElement :n_1990s_Beverly_Hills_High_School ;
+                                          :rationale "The Regency gentry's matchmaking and class hierarchy is mapped onto a 1990s Beverly Hills high school." ;
+                                          rdfs:label "Op_Emma_to_Clueless_SettingTransposition" .
+
+
+###  http://example.org/palimpsests#Op_Ghost_Blows_Out_the_Light_to_Daomu_Biji_AffectiveModeShift
+:Op_Ghost_Blows_Out_the_Light_to_Daomu_Biji_AffectiveModeShift rdf:type owl:NamedIndividual ,
+                                                                        :Transformation ;
+                                                               :hasOriginalWork :Ghost_Blows_Out_the_Light ;
+                                                               :hasTransformativeWork :Daomu_Biji ;
+                                                               :sourceElement :Hardcore_Adventure_Folklore ;
+                                                               :targetElement :Suspense_and_Emotional_Bonds ;
+                                                               :rationale "The dominant mode is transformed from the predecessor's hardcore exploration-and-folklore adventure toward serialized suspense centered on mystery and the emotional bonds between characters." ;
+                                                               rdfs:label "Op_Ghost_Blows_Out_the_Light_to_Daomu_Biji_AffectiveModeShift" .
+
+
+###  http://example.org/palimpsests#Op_Ghost_Blows_Out_the_Light_to_Daomu_Biji_TombRaiderImitation
+:Op_Ghost_Blows_Out_the_Light_to_Daomu_Biji_TombRaiderImitation rdf:type owl:NamedIndividual ,
+                                                                         :Imitation ;
+                                                                :hasOriginalWork :Ghost_Blows_Out_the_Light ;
+                                                                :hasTransformativeWork :Daomu_Biji ;
+                                                                :sourceElement :Tomb_Raider_Protagonist_Archetype ;
+                                                                :targetElement :Tomb_Raider_Protagonist_Archetype ;
+                                                                :rationale "Having begun as a derivative tribute to its predecessor, it reuses the tomb-raider protagonist archetype as the prototype for its own cast." ;
+                                                                rdfs:label "Op_Ghost_Blows_Out_the_Light_to_Daomu_Biji_TombRaiderImitation" .
+
+
+###  http://example.org/palimpsests#Op_Ghost_Blows_Out_the_Light_to_Daomu_Biji_WorldRulesInheritance
+:Op_Ghost_Blows_Out_the_Light_to_Daomu_Biji_WorldRulesInheritance rdf:type owl:NamedIndividual ,
+                                                                           :Inheritance ;
+                                                                  :hasOriginalWork :Ghost_Blows_Out_the_Light ;
+                                                                  :hasTransformativeWork :Daomu_Biji ;
+                                                                  :sourceElement :Tomb_Raiding_World_and_Hazards ;
+                                                                  :targetElement :Tomb_Raiding_World_and_Hazards ;
+                                                                  :rationale "The grave-robbing world-building -- ancient tombs, supernatural hazards, and the lore governing them -- is inherited from the source." ;
+                                                                  rdfs:label "Op_Ghost_Blows_Out_the_Light_to_Daomu_Biji_WorldRulesInheritance" .
+
+
+###  http://example.org/palimpsests#Op_Harry_Potter_to_The_Mortal_Instruments_CharacterArchetypeImitation
+:Op_Harry_Potter_to_The_Mortal_Instruments_CharacterArchetypeImitation rdf:type owl:NamedIndividual ,
+                                                                                :Imitation ;
+                                                                       :hasOriginalWork :Harry_Potter ;
+                                                                       :hasTransformativeWork :The_Mortal_Instruments ;
+                                                                       :sourceElement :Chosen_One_and_Pairings ;
+                                                                       :targetElement :Chosen_One_and_Pairings ;
+                                                                       :rationale "Originating as Harry Potter fan fiction, it reuses the 'chosen one' archetype and specific character tensions established in the fan community as prototypes for its new cast." ;
+                                                                       rdfs:label "Op_Harry_Potter_to_The_Mortal_Instruments_CharacterArchetypeImitation" .
+
+
+###  http://example.org/palimpsests#Op_Harry_Potter_to_The_Mortal_Instruments_PairingInheritance
+:Op_Harry_Potter_to_The_Mortal_Instruments_PairingInheritance rdf:type owl:NamedIndividual ,
+                                                                       :Inheritance ;
+                                                              :hasOriginalWork :Harry_Potter ;
+                                                              :hasTransformativeWork :The_Mortal_Instruments ;
+                                                              :sourceElement :BadBoy_ResilientGirl_Pairing ;
+                                                              :targetElement :BadBoy_ResilientGirl_Pairing ;
+                                                              :rationale "The central romantic pairing dynamic carried over from the fan community is inherited without transformation." ;
+                                                              rdfs:label "Op_Harry_Potter_to_The_Mortal_Instruments_PairingInheritance" .
+
+
+###  http://example.org/palimpsests#Op_Harry_Potter_to_The_Mortal_Instruments_WorldRulesTransformation
+:Op_Harry_Potter_to_The_Mortal_Instruments_WorldRulesTransformation rdf:type owl:NamedIndividual ,
+                                                                             :Transformation ;
+                                                                    :hasOriginalWork :Harry_Potter ;
+                                                                    :hasTransformativeWork :The_Mortal_Instruments ;
+                                                                    :sourceElement :Hidden_Magic_Boarding_School ;
+                                                                    :targetElement :Urban_Fantasy_Shadow_World ;
+                                                                    :rationale "The hidden-magic premise is relocated from a magical boarding school into an urban-fantasy shadow-world ontology, transforming the rules of the magic system." ;
+                                                                    rdfs:label "Op_Harry_Potter_to_The_Mortal_Instruments_WorldRulesTransformation" .
+
+
+###  http://example.org/palimpsests#Op_Investiture_of_the_Gods_to_KamigamiNoJonin_AlignmentReinterpretation
+:Op_Investiture_of_the_Gods_to_KamigamiNoJonin_AlignmentReinterpretation rdf:type owl:NamedIndividual ,
+                                                                                  :Transformation ;
+                                                                         :hasOriginalWork :Investiture_of_the_Gods ;
+                                                                         :hasTransformativeWork :KamigamiNoJonin ;
+                                                                         :sourceElement :Fixed_Deity_Alignments ;
+                                                                         :targetElement :Reinterpreted_Roles_and_Motives ;
+                                                                         :rationale "The fixed moral alignments of the deities are reinterpreted, recasting roles and motivations across the ensemble." ;
+                                                                         rdfs:label "Op_Investiture_of_the_Gods_to_KamigamiNoJonin_AlignmentReinterpretation" .
+
+
+###  http://example.org/palimpsests#Op_Investiture_of_the_Gods_to_KamigamiNoJonin_CrossMediaTransformation
+:Op_Investiture_of_the_Gods_to_KamigamiNoJonin_CrossMediaTransformation rdf:type owl:NamedIndividual ,
+                                                                                 :Transformation ;
+                                                                        :hasOriginalWork :Investiture_of_the_Gods ;
+                                                                        :hasTransformativeWork :KamigamiNoJonin ;
+                                                                        :sourceElement :Vernacular_Novel ;
+                                                                        :targetElement :Manga ;
+                                                                        :rationale "The chapter-based mythological novel is reimagined as manga, a transformation influential enough to turn the classical Fengshen IP into a modern repository of fan-creative material." ;
+                                                                        rdfs:label "Op_Investiture_of_the_Gods_to_KamigamiNoJonin_CrossMediaTransformation" .
+
+
+###  http://example.org/palimpsests#Op_Investiture_of_the_Gods_to_KamigamiNoJonin_DeityImitation
+:Op_Investiture_of_the_Gods_to_KamigamiNoJonin_DeityImitation rdf:type owl:NamedIndividual ,
+                                                                       :Imitation ;
+                                                              :hasOriginalWork :Investiture_of_the_Gods ;
+                                                              :hasTransformativeWork :KamigamiNoJonin ;
+                                                              :sourceElement :Fengshen_Deity_Roster ;
+                                                              :targetElement :Fengshen_Deity_Roster ;
+                                                              :rationale "The deities and immortals of the source, led by Taigong Wang, are reused as the manga's cast." ;
+                                                              rdfs:label "Op_Investiture_of_the_Gods_to_KamigamiNoJonin_DeityImitation" .
+
+
+###  http://example.org/palimpsests#Op_Investiture_of_the_Gods_to_KamigamiNoJonin_WorldInheritance
+:Op_Investiture_of_the_Gods_to_KamigamiNoJonin_WorldInheritance rdf:type owl:NamedIndividual ,
+                                                                         :Inheritance ;
+                                                                :hasOriginalWork :Investiture_of_the_Gods ;
+                                                                :hasTransformativeWork :KamigamiNoJonin ;
+                                                                :sourceElement :Fengshen_Mythos ;
+                                                                :targetElement :Fengshen_Mythos ;
+                                                                :rationale "The mythological cosmology of the source is inherited as the world framework." ;
+                                                                rdfs:label "Op_Investiture_of_the_Gods_to_KamigamiNoJonin_WorldInheritance" .
+
+
+###  http://example.org/palimpsests#Op_Jin_Yong_Universe_to_The_Here_and_Now_Youth_CharacterImitation
+:Op_Jin_Yong_Universe_to_The_Here_and_Now_Youth_CharacterImitation rdf:type owl:NamedIndividual ,
+                                                                            :Imitation ;
+                                                                   :hasOriginalWork :Jin_Yong_universe ;
+                                                                   :hasTransformativeWork :The_Here_and_Now_Youth ;
+                                                                   :sourceElement :Jin_Yong_Hero_Roster ;
+                                                                   :targetElement :Campus_Student_Roster ;
+                                                                   :rationale "Jin Yong's characters (Guo Jing, Huang Rong, Linghu Chong, and others) are reused as prototypes for the campus cast." ;
+                                                                   rdfs:label "Op_Jin_Yong_Universe_to_The_Here_and_Now_Youth_CharacterImitation" .
+
+
+###  http://example.org/palimpsests#Op_Jin_Yong_Universe_to_The_Here_and_Now_Youth_ContentDomainShift
+:Op_Jin_Yong_Universe_to_The_Here_and_Now_Youth_ContentDomainShift rdf:type owl:NamedIndividual ,
+                                                                            :Transformation ;
+                                                                   :hasOriginalWork :Jin_Yong_universe ;
+                                                                   :hasTransformativeWork :The_Here_and_Now_Youth ;
+                                                                   :sourceElement :Martial_Heroism ;
+                                                                   :targetElement :Campus_Youth_Life ;
+                                                                   :rationale "The content domain shifts from martial heroism to everyday campus youth and friendship." ;
+                                                                   rdfs:label "Op_Jin_Yong_Universe_to_The_Here_and_Now_Youth_ContentDomainShift" .
+
+
+###  http://example.org/palimpsests#Op_Jin_Yong_Universe_to_The_Here_and_Now_Youth_RelationInheritance
+:Op_Jin_Yong_Universe_to_The_Here_and_Now_Youth_RelationInheritance rdf:type owl:NamedIndividual ,
+                                                                             :Inheritance ;
+                                                                    :hasOriginalWork :Jin_Yong_universe ;
+                                                                    :hasTransformativeWork :The_Here_and_Now_Youth ;
+                                                                    :sourceElement :Character_Relationship_Web ;
+                                                                    :targetElement :Character_Relationship_Web ;
+                                                                    :rationale "The web of relationships among the original characters is transposed largely intact into the new setting." ;
+                                                                    rdfs:label "Op_Jin_Yong_Universe_to_The_Here_and_Now_Youth_RelationInheritance" .
+
+
+###  http://example.org/palimpsests#Op_Jin_Yong_Universe_to_The_Here_and_Now_Youth_SettingTransposition
+:Op_Jin_Yong_Universe_to_The_Here_and_Now_Youth_SettingTransposition rdf:type owl:NamedIndividual ,
+                                                                              :Transformation ;
+                                                                     :hasOriginalWork :Jin_Yong_universe ;
+                                                                     :hasTransformativeWork :The_Here_and_Now_Youth ;
+                                                                     :sourceElement :Wuxia_Jianghu ;
+                                                                     :targetElement :Modern_University_Campus ;
+                                                                     :rationale "The famous wuxia characters are extracted from the jianghu and relocated into a modern university campus, pioneering the 'characters-in-a-new-context' fan fiction model." ;
+                                                                     rdfs:label "Op_Jin_Yong_Universe_to_The_Here_and_Now_Youth_SettingTransposition" .
+
+
+###  http://example.org/palimpsests#Op_Journey_to_the_West_to_A_Chinese_Odyssey_CharacterInheritance
+:Op_Journey_to_the_West_to_A_Chinese_Odyssey_CharacterInheritance rdf:type owl:NamedIndividual ,
+                                                                           :Inheritance ;
+                                                                  :hasOriginalWork :Journey_to_the_West ;
+                                                                  :hasTransformativeWork :A_Chinese_Odyssey ;
+                                                                  :sourceElement :Sun_Wukong_and_Companions ;
+                                                                  :targetElement :Sun_Wukong_and_Companions ;
+                                                                  :rationale "The iconic pilgrims, led by Sun Wukong, are inherited from the source." ;
+                                                                  rdfs:label "Op_Journey_to_the_West_to_A_Chinese_Odyssey_CharacterInheritance" .
+
+
+###  http://example.org/palimpsests#Op_Journey_to_the_West_to_A_Chinese_Odyssey_DestinySubversion
+:Op_Journey_to_the_West_to_A_Chinese_Odyssey_DestinySubversion rdf:type owl:NamedIndividual ,
+                                                                        :Transformation ;
+                                                               :hasOriginalWork :Journey_to_the_West ;
+                                                               :hasTransformativeWork :A_Chinese_Odyssey ;
+                                                               :sourceElement :Ascetic_Pilgrim_Destiny ;
+                                                               :targetElement :Romantic_Mortal_Tragicomedy ;
+                                                               :rationale "The Monkey King's ascetic, predestined divinity is subverted into secular romantic love and a postmodern meditation on fate, recasting a religious pilgrimage as romantic tragicomedy." ;
+                                                               rdfs:label "Op_Journey_to_the_West_to_A_Chinese_Odyssey_DestinySubversion" .
+
+
+###  http://example.org/palimpsests#Op_Journey_to_the_West_to_A_Chinese_Odyssey_PilgrimageFrameImitation
+:Op_Journey_to_the_West_to_A_Chinese_Odyssey_PilgrimageFrameImitation rdf:type owl:NamedIndividual ,
+                                                                               :Imitation ;
+                                                                      :actsOnElement :EventSequence ;
+                                                                      :hasOriginalWork :Journey_to_the_West ;
+                                                                      :hasTransformativeWork :A_Chinese_Odyssey ;
+                                                                      :sourceElement :Westward_Pilgrimage_Frame ;
+                                                                      :targetElement :Westward_Pilgrimage_Frame ;
+                                                                      :rationale "The recognizable westward-pilgrimage premise is reused as the scaffold on which the new story is built." ;
+                                                                      rdfs:label "Op_Journey_to_the_West_to_A_Chinese_Odyssey_PilgrimageFrameImitation" .
+
+
+###  http://example.org/palimpsests#Op_Li_Bai_Poem_to_Jin_Yong_Novel_ChivalricSpiritInheritance
+:Op_Li_Bai_Poem_to_Jin_Yong_Novel_ChivalricSpiritInheritance rdf:type owl:NamedIndividual ,
+                                                                      :Inheritance ;
+                                                             :hasOriginalWork :Li_Bai_Poem_Xiake_Xing ;
+                                                             :hasTransformativeWork :Jin_Yong_Novel_Xiake_Xing ;
+                                                             :sourceElement :Chivalric_Ethos ;
+                                                             :targetElement :Chivalric_Ethos ;
+                                                             :rationale "The chivalrous spirit and ethos defined by the source poem are inherited -- a relationship of spiritual continuity across literary forms." ;
+                                                             rdfs:label "Op_Li_Bai_Poem_to_Jin_Yong_Novel_ChivalricSpiritInheritance" .
+
+
+###  http://example.org/palimpsests#Op_Li_Bai_Poem_to_Jin_Yong_Novel_CrossMediaExpansion
+:Op_Li_Bai_Poem_to_Jin_Yong_Novel_CrossMediaExpansion rdf:type owl:NamedIndividual ,
+                                                               :Transformation ;
+                                                      :hasOriginalWork :Li_Bai_Poem_Xiake_Xing ;
+                                                      :hasTransformativeWork :Jin_Yong_Novel_Xiake_Xing ;
+                                                      :sourceElement :Classical_Poem ;
+                                                      :targetElement :Full_Length_Wuxia_Novel ;
+                                                      :rationale "A short classical poem is expanded across media into a full-length wuxia novel that interrogates what it means to be truly chivalrous." ;
+                                                      rdfs:label "Op_Li_Bai_Poem_to_Jin_Yong_Novel_CrossMediaExpansion" .
+
+
+###  http://example.org/palimpsests#Op_Li_Bai_Poem_to_Jin_Yong_Novel_PlotDeviceReuse
+:Op_Li_Bai_Poem_to_Jin_Yong_Novel_PlotDeviceReuse rdf:type owl:NamedIndividual ,
+                                                           :Imitation ;
+                                                  :actsOnElement :EventSequence ;
+                                                  :hasOriginalWork :Li_Bai_Poem_Xiake_Xing ;
+                                                  :hasTransformativeWork :Jin_Yong_Novel_Xiake_Xing ;
+                                                  :sourceElement :Poem_Text ;
+                                                  :targetElement :Martial_Arts_Manual_Puzzle ;
+                                                  :rationale "The verses of Li Bai's poem are reused as the central plot device: martial masters study the text hoping to unlock a legendary skill, yet only an illiterate protagonist grasps its true essence." ;
+                                                  rdfs:label "Op_Li_Bai_Poem_to_Jin_Yong_Novel_PlotDeviceReuse" .
+
+
+###  http://example.org/palimpsests#Op_Odyssey_to_Ulysses_CrossMediaTransformation
+:Op_Odyssey_to_Ulysses_CrossMediaTransformation rdf:type owl:NamedIndividual ,
+                                                         :Transformation ;
+                                                :hasOriginalWork :Odyssey ;
+                                                :hasTransformativeWork :Ulysses ;
+                                                :sourceElement :Epic_Poem ;
+                                                :targetElement :Modernist_Novel ;
+                                                :rationale "The classical epic poem is transformed into a modernist prose novel." ;
+                                                rdfs:label "Op_Odyssey_to_Ulysses_CrossMediaTransformation" .
+
+
+###  http://example.org/palimpsests#Op_Odyssey_to_Ulysses_FocalizationShift
+:Op_Odyssey_to_Ulysses_FocalizationShift rdf:type owl:NamedIndividual ,
+                                                  :Transformation ;
+                                         :hasOriginalWork :Odyssey ;
+                                         :hasTransformativeWork :Ulysses ;
+                                         :sourceElement :External_Heroic_Narration ;
+                                         :targetElement :Interior_Stream_of_Consciousness ;
+                                         :rationale "Narration shifts from external heroic deeds to interior stream-of-consciousness." ;
+                                         rdfs:label "Op_Odyssey_to_Ulysses_FocalizationShift" .
+
+
+###  http://example.org/palimpsests#Op_Odyssey_to_Ulysses_HeroImitation
+:Op_Odyssey_to_Ulysses_HeroImitation rdf:type owl:NamedIndividual ,
+                                              :Imitation ;
+                                     :hasOriginalWork :Odyssey ;
+                                     :hasTransformativeWork :Ulysses ;
+                                     :sourceElement :Hero_Odysseus ;
+                                     :targetElement :Everyman_Leopold_Bloom ;
+                                     :rationale "The hero Odysseus is reimagined as the everyman Leopold Bloom, an imitative mapping of prototype onto modern figure." ;
+                                     rdfs:label "Op_Odyssey_to_Ulysses_HeroImitation" .
+
+
+###  http://example.org/palimpsests#Op_Odyssey_to_Ulysses_SettingTransposition
+:Op_Odyssey_to_Ulysses_SettingTransposition rdf:type owl:NamedIndividual ,
+                                                     :Transformation ;
+                                            :hasOriginalWork :Odyssey ;
+                                            :hasTransformativeWork :Ulysses ;
+                                            :sourceElement :Ancient_Mediterranean_Decade ;
+                                            :targetElement :Single_Day_Modern_Dublin ;
+                                            :rationale "A decade-spanning ancient epic is compressed onto a single ordinary day in modern Dublin." ;
+                                            rdfs:label "Op_Odyssey_to_Ulysses_SettingTransposition" .
+
+
+###  http://example.org/palimpsests#Op_Odyssey_to_Ulysses_StructuralInheritance
+:Op_Odyssey_to_Ulysses_StructuralInheritance rdf:type owl:NamedIndividual ,
+                                                      :Inheritance ;
+                                             :actsOnElement :EventSequence ;
+                                             :hasOriginalWork :Odyssey ;
+                                             :hasTransformativeWork :Ulysses ;
+                                             :sourceElement :Homeric_Episode_Structure ;
+                                             :targetElement :Homeric_Episode_Structure ;
+                                             :rationale "The episodic skeleton of the Homeric source is inherited as a metaphorical scaffold mapping each chapter to an episode." ;
+                                             rdfs:label "Op_Odyssey_to_Ulysses_StructuralInheritance" .
+
+
+###  http://example.org/palimpsests#Op_Pride_and_Prejudice_to_Pride_and_Prejudice_and_Zombies_CharacterImitation
+:Op_Pride_and_Prejudice_to_Pride_and_Prejudice_and_Zombies_CharacterImitation rdf:type owl:NamedIndividual ,
+                                                                                       :Imitation ;
+                                                                              :hasOriginalWork :Pride_and_Prejudice ;
+                                                                              :hasTransformativeWork :Pride_and_Prejudice_and_Zombies ;
+                                                                              :sourceElement :Bennet_Family ;
+                                                                              :targetElement :Zombie_Slaying_Bennet_Family ;
+                                                                              :rationale "The Bennet sisters and other named characters are reused, recast as trained zombie-slayers." ;
+                                                                              rdfs:label "Op_Pride_and_Prejudice_to_Pride_and_Prejudice_and_Zombies_CharacterImitation" .
+
+
+###  http://example.org/palimpsests#Op_Pride_and_Prejudice_to_Pride_and_Prejudice_and_Zombies_GenreHybridization
+:Op_Pride_and_Prejudice_to_Pride_and_Prejudice_and_Zombies_GenreHybridization rdf:type owl:NamedIndividual ,
+                                                                                       :Transformation ;
+                                                                              :hasOriginalWork :Pride_and_Prejudice ;
+                                                                              :hasTransformativeWork :Pride_and_Prejudice_and_Zombies ;
+                                                                              :sourceElement :Regency_Comedy_of_Manners ;
+                                                                              :targetElement :Romance_Horror_Mashup ;
+                                                                              :rationale "Zombie-apocalypse horror is injected into the comedy of manners, producing a parodic cross-genre mash-up." ;
+                                                                              rdfs:label "Op_Pride_and_Prejudice_to_Pride_and_Prejudice_and_Zombies_GenreHybridization" .
+
+
+###  http://example.org/palimpsests#Op_Pride_and_Prejudice_to_Pride_and_Prejudice_and_Zombies_PlotAndProseInheritance
+:Op_Pride_and_Prejudice_to_Pride_and_Prejudice_and_Zombies_PlotAndProseInheritance rdf:type owl:NamedIndividual ,
+                                                                                            :Inheritance ;
+                                                                                   :actsOnElement :EventSequence ;
+                                                                                   :hasOriginalWork :Pride_and_Prejudice ;
+                                                                                   :hasTransformativeWork :Pride_and_Prejudice_and_Zombies ;
+                                                                                   :sourceElement :Marriage_Plot_and_Original_Prose ;
+                                                                                   :targetElement :Marriage_Plot_and_Original_Prose ;
+                                                                                   :rationale "The plot skeleton and large stretches of the original prose and dialogue are inherited near-verbatim." ;
+                                                                                   rdfs:label "Op_Pride_and_Prejudice_to_Pride_and_Prejudice_and_Zombies_PlotAndProseInheritance" .
+
+
+###  http://example.org/palimpsests#Op_Record_of_the_Western_Regions_to_Journey_to_the_West_HistoricalSettingInheritance
+:Op_Record_of_the_Western_Regions_to_Journey_to_the_West_HistoricalSettingInheritance rdf:type owl:NamedIndividual ,
+                                                                                               :Inheritance ;
+                                                                                      :hasOriginalWork :Record_of_the_Western_Regions ;
+                                                                                      :hasTransformativeWork :Journey_to_the_West ;
+                                                                                      :sourceElement :Xuanzang_Pilgrimage_Route_and_Era ;
+                                                                                      :targetElement :Xuanzang_Pilgrimage_Route_and_Era ;
+                                                                                      :rationale "The historical journey of Xuanzang to obtain scriptures -- its route, destination, and Tang-era spatio-temporal frame -- is inherited from the record." ;
+                                                                                      rdfs:label "Op_Record_of_the_Western_Regions_to_Journey_to_the_West_HistoricalSettingInheritance" .
+
+
+###  http://example.org/palimpsests#Op_Record_of_the_Western_Regions_to_Journey_to_the_West_MonkImitation
+:Op_Record_of_the_Western_Regions_to_Journey_to_the_West_MonkImitation rdf:type owl:NamedIndividual ,
+                                                                                :Imitation ;
+                                                                       :hasOriginalWork :Record_of_the_Western_Regions ;
+                                                                       :hasTransformativeWork :Journey_to_the_West ;
+                                                                       :sourceElement :Historical_Monk_Xuanzang ;
+                                                                       :targetElement :Fictional_Pilgrim_Tang_Sanzang ;
+                                                                       :rationale "The historical monk Xuanzang is reused as the prototype for the fictional pilgrim Tang Sanzang." ;
+                                                                       rdfs:label "Op_Record_of_the_Western_Regions_to_Journey_to_the_West_MonkImitation" .
+
+
+###  http://example.org/palimpsests#Op_Record_of_the_Western_Regions_to_Journey_to_the_West_WorldRulesTransformation
+:Op_Record_of_the_Western_Regions_to_Journey_to_the_West_WorldRulesTransformation rdf:type owl:NamedIndividual ,
+                                                                                           :Transformation ;
+                                                                                  :hasOriginalWork :Record_of_the_Western_Regions ;
+                                                                                  :hasTransformativeWork :Journey_to_the_West ;
+                                                                                  :sourceElement :Factual_Travelogue_World ;
+                                                                                  :targetElement :Gods_and_Demons_Cosmos ;
+                                                                                  :rationale "A factual geographic travelogue is transformed into a supernatural cosmos of gods and demons fusing Confucian, Buddhist, and Daoist thought." ;
+                                                                                  rdfs:label "Op_Record_of_the_Western_Regions_to_Journey_to_the_West_WorldRulesTransformation" .
+
+
+###  http://example.org/palimpsests#Op_Romeo_and_Juliet_to_West_Side_Story_CrossMediaTransformation
+:Op_Romeo_and_Juliet_to_West_Side_Story_CrossMediaTransformation rdf:type owl:NamedIndividual ,
+                                                                          :Transformation ;
+                                                                 :hasOriginalWork :Romeo_and_Juliet ;
+                                                                 :hasTransformativeWork :West_Side_Story ;
+                                                                 :sourceElement :Verse_Tragedy ;
+                                                                 :targetElement :Musical ;
+                                                                 :rationale "The verse tragedy is transformed into a song-and-dance musical." ;
+                                                                 rdfs:label "Op_Romeo_and_Juliet_to_West_Side_Story_CrossMediaTransformation" .
+
+
+###  http://example.org/palimpsests#Op_Romeo_and_Juliet_to_West_Side_Story_LoversImitation
+:Op_Romeo_and_Juliet_to_West_Side_Story_LoversImitation rdf:type owl:NamedIndividual ,
+                                                                 :Imitation ;
+                                                        :hasOriginalWork :Romeo_and_Juliet ;
+                                                        :hasTransformativeWork :West_Side_Story ;
+                                                        :sourceElement :Romeo_and_Juliet ;
+                                                        :targetElement :Tony_and_Maria ;
+                                                        :rationale "The lovers Romeo and Juliet are reused as prototypes for Tony and Maria." ;
+                                                        rdfs:label "Op_Romeo_and_Juliet_to_West_Side_Story_LoversImitation" .
+
+
+###  http://example.org/palimpsests#Op_Romeo_and_Juliet_to_West_Side_Story_RelationTopologyInheritance
+:Op_Romeo_and_Juliet_to_West_Side_Story_RelationTopologyInheritance rdf:type owl:NamedIndividual ,
+                                                                             :Inheritance ;
+                                                                    :hasOriginalWork :Romeo_and_Juliet ;
+                                                                    :hasTransformativeWork :West_Side_Story ;
+                                                                    :sourceElement :Lovers_Between_Feuding_Factions ;
+                                                                    :targetElement :Lovers_Between_Feuding_Factions ;
+                                                                    :rationale "The core relational topology -- two lovers caught between two feuding factions, ending in tragedy -- is inherited from the source." ;
+                                                                    rdfs:label "Op_Romeo_and_Juliet_to_West_Side_Story_RelationTopologyInheritance" .
+
+
+###  http://example.org/palimpsests#Op_Romeo_and_Juliet_to_West_Side_Story_SettingTransposition
+:Op_Romeo_and_Juliet_to_West_Side_Story_SettingTransposition rdf:type owl:NamedIndividual ,
+                                                                      :Transformation ;
+                                                             :hasOriginalWork :Romeo_and_Juliet ;
+                                                             :hasTransformativeWork :West_Side_Story ;
+                                                             :sourceElement :Renaissance_Verona_Feud ;
+                                                             :targetElement :n_1950s_New_York_Gang_Conflict ;
+                                                             :rationale "The setting is transposed from Renaissance Verona to 1950s New York, recasting aristocratic feud as urban racial and gang conflict." ;
+                                                             rdfs:label "Op_Romeo_and_Juliet_to_West_Side_Story_SettingTransposition" .
+
+
+###  http://example.org/palimpsests#Op_The_Three_Body_Problem_to_ThreeBodyX_CharacterImitation
+:Op_The_Three_Body_Problem_to_ThreeBodyX_CharacterImitation rdf:type owl:NamedIndividual ,
+                                                                     :Imitation ;
+                                                            :hasOriginalWork :The_Three_Body_Problem ;
+                                                            :hasTransformativeWork :ThreeBodyX ;
+                                                            :sourceElement :Canon_Characters_Yun_Tianming ;
+                                                            :targetElement :Canon_Characters_Yun_Tianming ;
+                                                            :rationale "Canonical characters such as Yun Tianming are reused to suture the continuation to the parent text." ;
+                                                            rdfs:label "Op_The_Three_Body_Problem_to_ThreeBodyX_CharacterImitation" .
+
+
+###  http://example.org/palimpsests#Op_The_Three_Body_Problem_to_ThreeBodyX_NarrativeGapExpansion
+:Op_The_Three_Body_Problem_to_ThreeBodyX_NarrativeGapExpansion rdf:type owl:NamedIndividual ,
+                                                                        :Transformation ;
+                                                               :actsOnElement :EventSequence ;
+                                                               :hasOriginalWork :The_Three_Body_Problem ;
+                                                               :hasTransformativeWork :ThreeBodyX ;
+                                                               :sourceElement :Yun_Tianming_Blank_Storyline ;
+                                                               :targetElement :Expanded_Cosmic_Sociology ;
+                                                               :rationale "As an authorized continuation, it fills a storyline the parent text left blank (Yun Tianming's fate), expanding the original's cosmic-sociology concepts into new territory." ;
+                                                               rdfs:label "Op_The_Three_Body_Problem_to_ThreeBodyX_NarrativeGapExpansion" .
+
+
+###  http://example.org/palimpsests#Op_The_Three_Body_Problem_to_ThreeBodyX_WorldInheritance
+:Op_The_Three_Body_Problem_to_ThreeBodyX_WorldInheritance rdf:type owl:NamedIndividual ,
+                                                                   :Inheritance ;
+                                                          :hasOriginalWork :The_Three_Body_Problem ;
+                                                          :hasTransformativeWork :ThreeBodyX ;
+                                                          :sourceElement :Three_Body_Cosmology ;
+                                                          :targetElement :Three_Body_Cosmology ;
+                                                          :rationale "The physics, cosmology, and world-building of the Three-Body universe are inherited directly from the source." ;
+                                                          rdfs:label "Op_The_Three_Body_Problem_to_ThreeBodyX_WorldInheritance" .
+
+
+###  http://example.org/palimpsests#Op_The_Twilight_Saga_to_Fifty_Shades_of_Grey_ContentDomainShift
+:Op_The_Twilight_Saga_to_Fifty_Shades_of_Grey_ContentDomainShift rdf:type owl:NamedIndividual ,
+                                                                          :Transformation ;
+                                                                 :hasOriginalWork :The_Twilight_Saga ;
+                                                                 :hasTransformativeWork :Fifty_Shades_of_Grey ;
+                                                                 :sourceElement :Abstinent_Supernatural_Romance ;
+                                                                 :targetElement :Explicit_Eroticism ;
+                                                                 :rationale "The content domain is inverted: the source's abstinence theme becomes explicit eroticism as the central narrative material." ;
+                                                                 rdfs:label "Op_The_Twilight_Saga_to_Fifty_Shades_of_Grey_ContentDomainShift" .
+
+
+###  http://example.org/palimpsests#Op_The_Twilight_Saga_to_Fifty_Shades_of_Grey_HeroArchetypeImitation
+:Op_The_Twilight_Saga_to_Fifty_Shades_of_Grey_HeroArchetypeImitation rdf:type owl:NamedIndividual ,
+                                                                              :Imitation ;
+                                                                     :hasOriginalWork :The_Twilight_Saga ;
+                                                                     :hasTransformativeWork :Fifty_Shades_of_Grey ;
+                                                                     :sourceElement :PowerfulDangerousHero_Vampire ;
+                                                                     :targetElement :PowerfulDangerousHero_Tycoon ;
+                                                                     :rationale "The dangerous-male-lead archetype is reused, but the source of danger is relocated from the supernatural (vampirism) to the psychological (childhood trauma); the 'darkness' is retained while its explanatory frame becomes realist." ;
+                                                                     rdfs:label "Op_The_Twilight_Saga_to_Fifty_Shades_of_Grey_HeroArchetypeImitation" .
+
+
+###  http://example.org/palimpsests#Op_The_Twilight_Saga_to_Fifty_Shades_of_Grey_PowerStructureInheritance
+:Op_The_Twilight_Saga_to_Fifty_Shades_of_Grey_PowerStructureInheritance rdf:type owl:NamedIndividual ,
+                                                                                 :Inheritance ;
+                                                                        :hasOriginalWork :The_Twilight_Saga ;
+                                                                        :hasTransformativeWork :Fifty_Shades_of_Grey ;
+                                                                        :sourceElement :Dominant_Male_Submissive_Female ;
+                                                                        :targetElement :Dominant_Male_Submissive_Female ;
+                                                                        :rationale "The asymmetric dominant-male / submissive-female relational dynamic, together with the heroine's redeem-him-through-love arc, is inherited from the source." ;
+                                                                        rdfs:label "Op_The_Twilight_Saga_to_Fifty_Shades_of_Grey_PowerStructureInheritance" .
+
+
+###  http://example.org/palimpsests#Op_The_Wonderful_Wizard_of_Oz_to_Wicked_CharacterImitation
+:Op_The_Wonderful_Wizard_of_Oz_to_Wicked_CharacterImitation rdf:type owl:NamedIndividual ,
+                                                                     :Imitation ;
+                                                            :hasOriginalWork :The_Wonderful_Wizard_of_Oz ;
+                                                            :hasTransformativeWork :Wicked ;
+                                                            :sourceElement :Witches_of_Oz ;
+                                                            :targetElement :Witches_of_Oz ;
+                                                            :rationale "The witches of Oz are reused as the retelling's central figures." ;
+                                                            rdfs:label "Op_The_Wonderful_Wizard_of_Oz_to_Wicked_CharacterImitation" .
+
+
+###  http://example.org/palimpsests#Op_The_Wonderful_Wizard_of_Oz_to_Wicked_CrossMediaTransformation
+:Op_The_Wonderful_Wizard_of_Oz_to_Wicked_CrossMediaTransformation rdf:type owl:NamedIndividual ,
+                                                                           :Transformation ;
+                                                                  :hasOriginalWork :The_Wonderful_Wizard_of_Oz ;
+                                                                  :hasTransformativeWork :Wicked ;
+                                                                  :sourceElement :Novel ;
+                                                                  :targetElement :Stage_Musical ;
+                                                                  :rationale "The source novel is adapted into a stage musical." ;
+                                                                  rdfs:label "Op_The_Wonderful_Wizard_of_Oz_to_Wicked_CrossMediaTransformation" .
+
+
+###  http://example.org/palimpsests#Op_The_Wonderful_Wizard_of_Oz_to_Wicked_PerspectiveShift
+:Op_The_Wonderful_Wizard_of_Oz_to_Wicked_PerspectiveShift rdf:type owl:NamedIndividual ,
+                                                                   :Transformation ;
+                                                          :hasOriginalWork :The_Wonderful_Wizard_of_Oz ;
+                                                          :hasTransformativeWork :Wicked ;
+                                                          :sourceElement :Dorothy_Focal ;
+                                                          :targetElement :Elphaba_Focal ;
+                                                          :rationale "The focal point shifts from the heroine Dorothy to the previously marginalized Wicked Witch of the West." ;
+                                                          rdfs:label "Op_The_Wonderful_Wizard_of_Oz_to_Wicked_PerspectiveShift" .
+
+
+###  http://example.org/palimpsests#Op_The_Wonderful_Wizard_of_Oz_to_Wicked_VillainSubversion
+:Op_The_Wonderful_Wizard_of_Oz_to_Wicked_VillainSubversion rdf:type owl:NamedIndividual ,
+                                                                    :Transformation ;
+                                                           :hasOriginalWork :The_Wonderful_Wizard_of_Oz ;
+                                                           :hasTransformativeWork :Wicked ;
+                                                           :sourceElement :Wicked_Witch_as_Evil ;
+                                                           :targetElement :Sympathetic_Elphaba ;
+                                                           :rationale "The fixed villain is elevated to protagonist and given a sympathetic backstory, deconstructing the good-versus-evil binary and adding reflection on propaganda and prejudice." ;
+                                                           rdfs:label "Op_The_Wonderful_Wizard_of_Oz_to_Wicked_VillainSubversion" .
+
+
+###  http://example.org/palimpsests#Op_The_Wonderful_Wizard_of_Oz_to_Wicked_WorldInheritance
+:Op_The_Wonderful_Wizard_of_Oz_to_Wicked_WorldInheritance rdf:type owl:NamedIndividual ,
+                                                                   :Inheritance ;
+                                                          :hasOriginalWork :The_Wonderful_Wizard_of_Oz ;
+                                                          :hasTransformativeWork :Wicked ;
+                                                          :sourceElement :Land_of_Oz_and_Cast ;
+                                                          :targetElement :Land_of_Oz_and_Cast ;
+                                                          :rationale "The Land of Oz, its inhabitants, and named characters are inherited from the source." ;
+                                                          rdfs:label "Op_The_Wonderful_Wizard_of_Oz_to_Wicked_WorldInheritance" .
+
+
+###  http://example.org/palimpsests#Op_Water_Margin_to_Jin_Ping_Mei_CharacterInheritance
+:Op_Water_Margin_to_Jin_Ping_Mei_CharacterInheritance rdf:type owl:NamedIndividual ,
+                                                               :Inheritance ;
+                                                      :hasOriginalWork :Water_Margin ;
+                                                      :hasTransformativeWork :Jin_Ping_Mei ;
+                                                      :sourceElement :Core_Cast_Ximen_Pan_Wu ;
+                                                      :targetElement :Core_Cast_Ximen_Pan_Wu ;
+                                                      :rationale "The core cast (Xi Men Qing, Pan Jin Lian, Wu Song) is inherited directly from the source; note that Wu Song, a protagonist there, is radically marginalized here." ;
+                                                      rdfs:label "Op_Water_Margin_to_Jin_Ping_Mei_CharacterInheritance" .
+
+
+###  http://example.org/palimpsests#Op_Water_Margin_to_Jin_Ping_Mei_ContentDomainShift
+:Op_Water_Margin_to_Jin_Ping_Mei_ContentDomainShift rdf:type owl:NamedIndividual ,
+                                                             :Transformation ;
+                                                    :hasOriginalWork :Water_Margin ;
+                                                    :hasTransformativeWork :Jin_Ping_Mei ;
+                                                    :sourceElement :Chivalric_Heroism ;
+                                                    :targetElement :Domestic_Desire_and_Manners ;
+                                                    :rationale "The content domain is transformed from chivalric heroism and outlaw violence into the everyday domestic world of desire, money, and social maneuvering -- the founding move of the Chinese novel of manners." ;
+                                                    rdfs:label "Op_Water_Margin_to_Jin_Ping_Mei_ContentDomainShift" .
+
+
+###  http://example.org/palimpsests#Op_Water_Margin_to_Jin_Ping_Mei_FocalizationShift
+:Op_Water_Margin_to_Jin_Ping_Mei_FocalizationShift rdf:type owl:NamedIndividual ,
+                                                            :Transformation ;
+                                                   :hasOriginalWork :Water_Margin ;
+                                                   :hasTransformativeWork :Jin_Ping_Mei ;
+                                                   :sourceElement :Outlaw_Hero_Ensemble_Focal ;
+                                                   :targetElement :Merchant_Household_Focal ;
+                                                   :rationale "The narrative focus shifts from a rotating ensemble of outlaw heroes to the enclosed interior of a single merchant household." ;
+                                                   rdfs:label "Op_Water_Margin_to_Jin_Ping_Mei_FocalizationShift" .
+
+
+###  http://example.org/palimpsests#Op_Water_Margin_to_Jin_Ping_Mei_PanJinLianReinterpretation
+:Op_Water_Margin_to_Jin_Ping_Mei_PanJinLianReinterpretation rdf:type owl:NamedIndividual ,
+                                                                     :Transformation ;
+                                                            :hasOriginalWork :Water_Margin ;
+                                                            :hasTransformativeWork :Jin_Ping_Mei ;
+                                                            :sourceElement :Monotonic_Villain_Pan_Jin_Lian ;
+                                                            :targetElement :Complex_Pan_Jin_Lian ;
+                                                            :rationale "The flat villainess of the source is given psychological depth and her moral condemnation is suspended, transforming her narrative function from object of judgment to ambiguous subject." ;
+                                                            rdfs:label "Op_Water_Margin_to_Jin_Ping_Mei_PanJinLianReinterpretation" .
+
+
+###  http://example.org/palimpsests#Op_Water_Margin_to_Jin_Ping_Mei_PlotGrafting
+:Op_Water_Margin_to_Jin_Ping_Mei_PlotGrafting rdf:type owl:NamedIndividual ,
+                                                       :Imitation ;
+                                              :actsOnElement :EventSequence ;
+                                              :hasOriginalWork :Water_Margin ;
+                                              :hasTransformativeWork :Jin_Ping_Mei ;
+                                              :sourceElement :Wu_Song_Kills_Sister_in_law_Episode ;
+                                              :targetElement :Seed_Plot_of_Jin_Ping_Mei ;
+                                              :rationale "A single marginal episode of the source -- Wu Song's killing of his adulterous sister-in-law, in places quoted almost verbatim -- is extracted and reused as the seed plot from which the entire new novel is grown." ;
+                                              rdfs:label "Op_Water_Margin_to_Jin_Ping_Mei_PlotGrafting" .
+
+
+###  http://example.org/palimpsests#Outlaw_Hero_Ensemble_Focal
+:Outlaw_Hero_Ensemble_Focal rdf:type owl:NamedIndividual ,
+                                     :Focalization ;
+                            :elementOfWork :Water_Margin ;
+                            rdfs:label "Outlaw_Hero_Ensemble_Focal" .
+
+
+###  http://example.org/palimpsests#Poem_Text
+:Poem_Text rdf:type owl:NamedIndividual ,
+                    :EventSequence ;
+           :elementOfWork :Li_Bai_Poem_Xiake_Xing ;
+           rdfs:label "Poem_Text" .
+
+
+###  http://example.org/palimpsests#PowerfulDangerousHero_Tycoon
+:PowerfulDangerousHero_Tycoon rdf:type owl:NamedIndividual ,
+                                       :CharacterFunction ;
+                              :elementOfWork :Fifty_Shades_of_Grey ;
+                              rdfs:label "PowerfulDangerousHero_Tycoon" .
+
+
+###  http://example.org/palimpsests#PowerfulDangerousHero_Vampire
+:PowerfulDangerousHero_Vampire rdf:type owl:NamedIndividual ,
+                                        :CharacterFunction ;
+                               :elementOfWork :The_Twilight_Saga ;
+                               rdfs:label "PowerfulDangerousHero_Vampire" .
+
+
+###  http://example.org/palimpsests#Pride_and_Prejudice
+:Pride_and_Prejudice rdf:type owl:NamedIndividual ,
+                              :Work ;
+                     :externalRef "https://www.wikidata.org/wiki/Q170583" ;
+                     rdfs:label "Pride and Prejudice" .
+
+
+###  http://example.org/palimpsests#Pride_and_Prejudice_and_Zombies
+:Pride_and_Prejudice_and_Zombies rdf:type owl:NamedIndividual ,
+                                          :Work ;
+                                 :externalRef "https://www.wikidata.org/wiki/Q2659311" ;
+                                 rdfs:label "Pride and Prejudice and Zombies" .
+
+
+###  http://example.org/palimpsests#Record_of_the_Western_Regions
+:Record_of_the_Western_Regions rdf:type owl:NamedIndividual ,
+                                        :Work ;
+                               :externalRef "https://www.wikidata.org/wiki/Q1146069" ;
+                               rdfs:label "Record of the Western Regions" .
+
+
+###  http://example.org/palimpsests#Recovering_Addict_Arc
+:Recovering_Addict_Arc rdf:type owl:NamedIndividual ,
+                                :CharacterArc ;
+                       :elementOfWork :Elementary ;
+                       rdfs:label "Recovering_Addict_Arc" .
+
+
+###  http://example.org/palimpsests#Regency_Comedy_of_Manners
+:Regency_Comedy_of_Manners rdf:type owl:NamedIndividual ,
+                                    :ContentDomain ;
+                           :elementOfWork :Pride_and_Prejudice ;
+                           rdfs:label "Regency_Comedy_of_Manners" .
+
+
+###  http://example.org/palimpsests#Regency_Gentry
+:Regency_Gentry rdf:type owl:NamedIndividual ,
+                         :Chronotope ;
+                :elementOfWork :Emma ;
+                rdfs:label "Regency_Gentry" .
+
+
+###  http://example.org/palimpsests#Reinterpreted_Roles_and_Motives
+:Reinterpreted_Roles_and_Motives rdf:type owl:NamedIndividual ,
+                                          :CharacterFunction ;
+                                 :elementOfWork :KamigamiNoJonin ;
+                                 rdfs:label "Reinterpreted_Roles_and_Motives" .
+
+
+###  http://example.org/palimpsests#Renaissance_Verona_Feud
+:Renaissance_Verona_Feud rdf:type owl:NamedIndividual ,
+                                  :Chronotope ;
+                         :elementOfWork :Romeo_and_Juliet ;
+                         rdfs:label "Renaissance_Verona_Feud" .
+
+
+###  http://example.org/palimpsests#Romance_Horror_Mashup
+:Romance_Horror_Mashup rdf:type owl:NamedIndividual ,
+                                :ContentDomain ;
+                       :elementOfWork :Pride_and_Prejudice_and_Zombies ;
+                       rdfs:label "Romance_Horror_Mashup" .
+
+
+###  http://example.org/palimpsests#Romantic_Mortal_Tragicomedy
+:Romantic_Mortal_Tragicomedy rdf:type owl:NamedIndividual ,
+                                      :CharacterArc ;
+                             :elementOfWork :A_Chinese_Odyssey ;
+                             rdfs:label "Romantic_Mortal_Tragicomedy" .
+
+
+###  http://example.org/palimpsests#Romeo_and_Juliet
+:Romeo_and_Juliet rdf:type owl:NamedIndividual ,
+                           :CharacterIdentity ,
+                           :Work ;
+                  :elementOfWork :Romeo_and_Juliet ;
+                  :externalRef "https://www.wikidata.org/wiki/Q83186" ;
+                  rdfs:label "Romeo and Juliet" ,
+                             "Romeo_and_Juliet" .
+
+
+###  http://example.org/palimpsests#Seed_Plot_of_Jin_Ping_Mei
+:Seed_Plot_of_Jin_Ping_Mei rdf:type owl:NamedIndividual ,
+                                    :EventSequence ;
+                           :elementOfWork :Jin_Ping_Mei ;
+                           rdfs:label "Seed_Plot_of_Jin_Ping_Mei" .
+
+
+###  http://example.org/palimpsests#Sherlock
+:Sherlock rdf:type owl:NamedIndividual ,
+                   :Work ;
+          :externalRef "https://www.wikidata.org/wiki/Q192837" ;
+          rdfs:label "Sherlock" .
+
+
+###  http://example.org/palimpsests#ShortStoryCollection
+:ShortStoryCollection rdf:type owl:NamedIndividual ,
+                               :MediumType ;
+                      :elementOfWork :Canon_of_Sherlock_Holmes ;
+                      rdfs:label "ShortStoryCollection" .
+
+
+###  http://example.org/palimpsests#Silent_Expressionist_Film
+:Silent_Expressionist_Film rdf:type owl:NamedIndividual ,
+                                    :MediumType ;
+                           :elementOfWork :Nosferatu ;
+                           rdfs:label "Silent_Expressionist_Film" .
+
+
+###  http://example.org/palimpsests#Single_Day_Modern_Dublin
+:Single_Day_Modern_Dublin rdf:type owl:NamedIndividual ,
+                                   :Chronotope ;
+                          :elementOfWork :Ulysses ;
+                          rdfs:label "Single_Day_Modern_Dublin" .
+
+
+###  http://example.org/palimpsests#Stage_Musical
+:Stage_Musical rdf:type owl:NamedIndividual ,
+                        :MediumType ;
+               :elementOfWork :Wicked ;
+               rdfs:label "Stage_Musical" .
+
+
+###  http://example.org/palimpsests#Sun_Wukong_and_Companions
+:Sun_Wukong_and_Companions rdf:type owl:NamedIndividual ,
+                                    :CharacterIdentity ;
+                           :elementOfWork :A_Chinese_Odyssey ,
+                                          :Journey_to_the_West ;
+                           rdfs:label "Sun_Wukong_and_Companions" .
+
+
+###  http://example.org/palimpsests#Suspense_and_Emotional_Bonds
+:Suspense_and_Emotional_Bonds rdf:type owl:NamedIndividual ,
+                                       :ContentDomain ;
+                              :elementOfWork :Daomu_Biji ;
+                              rdfs:label "Suspense_and_Emotional_Bonds" .
+
+
+###  http://example.org/palimpsests#Sympathetic_Elphaba
+:Sympathetic_Elphaba rdf:type owl:NamedIndividual ,
+                              :CharacterFunction ;
+                     :elementOfWork :Wicked ;
+                     rdfs:label "Sympathetic_Elphaba" .
+
+
+###  http://example.org/palimpsests#TV_Series
+:TV_Series rdf:type owl:NamedIndividual ,
+                    :MediumType ;
+           :elementOfWork :Sherlock ;
+           rdfs:label "TV_Series" .
+
+
+###  http://example.org/palimpsests#The_Here_and_Now_Youth
+:The_Here_and_Now_Youth rdf:type owl:NamedIndividual ,
+                                 :Work ;
+                        :externalRef "https://zh.wikipedia.org/wiki/此间的少年" ;
+                        rdfs:label "The Here and Now Youth" .
+
+
+###  http://example.org/palimpsests#The_Mortal_Instruments
+:The_Mortal_Instruments rdf:type owl:NamedIndividual ,
+                                 :Work ;
+                        :externalRef "https://www.wikidata.org/wiki/Q478151" ;
+                        rdfs:label "The Mortal Instruments" .
+
+
+###  http://example.org/palimpsests#The_Three_Body_Problem
+:The_Three_Body_Problem rdf:type owl:NamedIndividual ,
+                                 :Work ;
+                        :externalRef "https://www.wikidata.org/wiki/Q607112" ;
+                        rdfs:label "The Three-Body Problem" .
+
+
+###  http://example.org/palimpsests#The_Twilight_Saga
+:The_Twilight_Saga rdf:type owl:NamedIndividual ,
+                            :Work ;
+                   :externalRef "https://www.wikidata.org/wiki/Q652599" ;
+                   rdfs:label "The Twilight Saga" .
+
+
+###  http://example.org/palimpsests#The_Wonderful_Wizard_of_Oz
+:The_Wonderful_Wizard_of_Oz rdf:type owl:NamedIndividual ,
+                                     :Work ;
+                            :externalRef "https://www.wikidata.org/wiki/Q130295" ;
+                            rdfs:label "The Wonderful Wizard of Oz" .
+
+
+###  http://example.org/palimpsests#ThreeBodyX
+:ThreeBodyX rdf:type owl:NamedIndividual ,
+                     :Work ;
+            :externalRef "https://baike.baidu.com/item/三体X·观想之宙/7656426" ;
+            rdfs:label "ThreeBodyX" .
+
+
+###  http://example.org/palimpsests#Three_Body_Cosmology
+:Three_Body_Cosmology rdf:type owl:NamedIndividual ,
+                               :WorldRules ;
+                      :elementOfWork :The_Three_Body_Problem ,
+                                     :ThreeBodyX ;
+                      rdfs:label "Three_Body_Cosmology" .
+
+
+###  http://example.org/palimpsests#Tomb_Raider_Protagonist_Archetype
+:Tomb_Raider_Protagonist_Archetype rdf:type owl:NamedIndividual ,
+                                            :CharacterFunction ;
+                                   :elementOfWork :Daomu_Biji ,
+                                                  :Ghost_Blows_Out_the_Light ;
+                                   rdfs:label "Tomb_Raider_Protagonist_Archetype" .
+
+
+###  http://example.org/palimpsests#Tomb_Raiding_World_and_Hazards
+:Tomb_Raiding_World_and_Hazards rdf:type owl:NamedIndividual ,
+                                         :WorldRules ;
+                                :elementOfWork :Daomu_Biji ,
+                                               :Ghost_Blows_Out_the_Light ;
+                                rdfs:label "Tomb_Raiding_World_and_Hazards" .
+
+
+###  http://example.org/palimpsests#Tony_and_Maria
+:Tony_and_Maria rdf:type owl:NamedIndividual ,
+                         :CharacterIdentity ;
+                :elementOfWork :West_Side_Story ;
+                rdfs:label "Tony_and_Maria" .
+
+
+###  http://example.org/palimpsests#Ulysses
+:Ulysses rdf:type owl:NamedIndividual ,
+                  :Work ;
+         :externalRef "https://www.wikidata.org/wiki/Q6511" ;
+         rdfs:label "Ulysses" .
+
+
+###  http://example.org/palimpsests#Urban_Fantasy_Shadow_World
+:Urban_Fantasy_Shadow_World rdf:type owl:NamedIndividual ,
+                                     :WorldRules ;
+                            :elementOfWork :The_Mortal_Instruments ;
+                            rdfs:label "Urban_Fantasy_Shadow_World" .
+
+
+###  http://example.org/palimpsests#Vampire_Relocation_and_Plague
+:Vampire_Relocation_and_Plague rdf:type owl:NamedIndividual ,
+                                        :EventSequence ;
+                               :elementOfWork :Dracula ,
+                                              :Nosferatu ;
+                               rdfs:label "Vampire_Relocation_and_Plague" .
+
+
+###  http://example.org/palimpsests#Vernacular_Novel
+:Vernacular_Novel rdf:type owl:NamedIndividual ,
+                           :MediumType ;
+                  :elementOfWork :Investiture_of_the_Gods ;
+                  rdfs:label "Vernacular_Novel" .
+
+
+###  http://example.org/palimpsests#Verse_Tragedy
+:Verse_Tragedy rdf:type owl:NamedIndividual ,
+                        :MediumType ;
+               :elementOfWork :Romeo_and_Juliet ;
+               rdfs:label "Verse_Tragedy" .
+
+
+###  http://example.org/palimpsests#Victorian_London
+:Victorian_London rdf:type owl:NamedIndividual ,
+                           :Chronotope ;
+                  :elementOfWork :Canon_of_Sherlock_Holmes ;
+                  rdfs:label "Victorian_London" .
+
+
+###  http://example.org/palimpsests#Water_Margin
+:Water_Margin rdf:type owl:NamedIndividual ,
+                       :Work ;
+              :externalRef "https://www.wikidata.org/wiki/Q70827" ;
+              rdfs:label "Water Margin" .
+
+
+###  http://example.org/palimpsests#West_Side_Story
+:West_Side_Story rdf:type owl:NamedIndividual ,
+                          :Work ;
+                 :externalRef "https://www.wikidata.org/wiki/Q669010" ;
+                 rdfs:label "West Side Story" .
+
+
+###  http://example.org/palimpsests#Westward_Pilgrimage_Frame
+:Westward_Pilgrimage_Frame rdf:type owl:NamedIndividual ,
+                                    :EventSequence ;
+                           :elementOfWork :A_Chinese_Odyssey ,
+                                          :Journey_to_the_West ;
+                           rdfs:label "Westward_Pilgrimage_Frame" .
+
+
+###  http://example.org/palimpsests#Wicked
+:Wicked rdf:type owl:NamedIndividual ,
+                 :Work ;
+        :externalRef "https://www.wikidata.org/wiki/Q616439" ;
+        rdfs:label "Wicked" .
+
+
+###  http://example.org/palimpsests#Wicked_Witch_as_Evil
+:Wicked_Witch_as_Evil rdf:type owl:NamedIndividual ,
+                               :CharacterFunction ;
+                      :elementOfWork :The_Wonderful_Wizard_of_Oz ;
+                      rdfs:label "Wicked_Witch_as_Evil" .
+
+
+###  http://example.org/palimpsests#Witches_of_Oz
+:Witches_of_Oz rdf:type owl:NamedIndividual ,
+                        :CharacterIdentity ;
+               :elementOfWork :The_Wonderful_Wizard_of_Oz ,
+                              :Wicked ;
+               rdfs:label "Witches_of_Oz" .
+
+
+###  http://example.org/palimpsests#Wu_Song_Kills_Sister_in_law_Episode
+:Wu_Song_Kills_Sister_in_law_Episode rdf:type owl:NamedIndividual ,
+                                              :EventSequence ;
+                                     :elementOfWork :Water_Margin ;
+                                     rdfs:label "Wu_Song_Kills_Sister_in_law_Episode" .
+
+
+###  http://example.org/palimpsests#Wuxia_Jianghu
+:Wuxia_Jianghu rdf:type owl:NamedIndividual ,
+                        :Chronotope ;
+               :elementOfWork :Jin_Yong_universe ;
+               rdfs:label "Wuxia_Jianghu" .
+
+
+###  http://example.org/palimpsests#Xuanzang_Pilgrimage_Route_and_Era
+:Xuanzang_Pilgrimage_Route_and_Era rdf:type owl:NamedIndividual ,
+                                            :Chronotope ;
+                                   :elementOfWork :Journey_to_the_West ,
+                                                  :Record_of_the_Western_Regions ;
+                                   rdfs:label "Xuanzang_Pilgrimage_Route_and_Era" .
+
+
+###  http://example.org/palimpsests#Yun_Tianming_Blank_Storyline
+:Yun_Tianming_Blank_Storyline rdf:type owl:NamedIndividual ,
+                                       :EventSequence ;
+                              :elementOfWork :The_Three_Body_Problem ;
+                              rdfs:label "Yun_Tianming_Blank_Storyline" .
+
+
+###  http://example.org/palimpsests#Zombie_Slaying_Bennet_Family
+:Zombie_Slaying_Bennet_Family rdf:type owl:NamedIndividual ,
+                                       :CharacterIdentity ;
+                              :elementOfWork :Pride_and_Prejudice_and_Zombies ;
+                              rdfs:label "Zombie_Slaying_Bennet_Family" .
+
+
+###  http://example.org/palimpsests#n_1950s_New_York_Gang_Conflict
+:n_1950s_New_York_Gang_Conflict rdf:type owl:NamedIndividual ,
+                                         :Chronotope ;
+                                :elementOfWork :West_Side_Story ;
+                                rdfs:label "n_1950s_New_York_Gang_Conflict" .
+
+
+###  http://example.org/palimpsests#n_1990s_Beverly_Hills_High_School
+:n_1990s_Beverly_Hills_High_School rdf:type owl:NamedIndividual ,
+                                            :Chronotope ;
+                                   :elementOfWork :Clueless ;
+                                   rdfs:label "n_1990s_Beverly_Hills_High_School" .
+
+
+###  Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi
