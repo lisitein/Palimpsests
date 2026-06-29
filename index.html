@@ -45,13 +45,13 @@ section:last-child{border-bottom:none}
 .section-inner{max-width:var(--max);margin:0 auto}
 .section-eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:500;margin-bottom:.6rem}
 .section-title{font-family:var(--serif);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:400;color:var(--ink);line-height:1.25;margin-bottom:.75rem}
-.section-lead{font-size:15.5px;color:var(--ink-muted);max-width:640px;line-height:1.8;margin-bottom:2.5rem}
+.section-lead{font-size:15.5px;color:var(--ink-muted);max-width:640px;line-height:1.8;margin-bottom:2.5rem;text-align:justify;hyphens:auto}
 section.alt-bg{background:var(--parchment-deep)}
 /* TWO COL */
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
 @media(max-width:720px){.two-col{grid-template-columns:1fr;gap:2rem}}
 /* PROSE */
-.prose p{color:var(--ink-muted);line-height:1.85;margin-bottom:1rem;font-size:15.5px}
+.prose p{color:var(--ink-muted);line-height:1.85;margin-bottom:1rem;font-size:15.5px;text-align:justify;hyphens:auto}
 .prose h3{font-family:var(--serif);font-size:1.25rem;font-weight:400;color:var(--ink);margin:2rem 0 .6rem}
 code{font-family:'Courier New',monospace;font-size:12.5px;background:var(--parchment-deep);padding:2px 6px;border-radius:3px;color:var(--accent);border:0.5px solid var(--parchment-border)}
 blockquote{border-left:3px solid var(--accent);padding:.75rem 1.25rem;margin:1.5rem 0;background:var(--accent-faint);border-radius:0 4px 4px 0}
@@ -66,6 +66,7 @@ blockquote cite{display:block;font-size:12px;font-style:normal;color:var(--ink-f
 .row-key{font-family:'Courier New',monospace;font-size:12.5px;color:var(--accent);background:var(--accent-faint);padding:1px 6px;border-radius:3px;border:0.5px solid rgba(139,46,46,.15);white-space:nowrap;flex-shrink:0}
 .row-key.teal{color:var(--teal);background:var(--teal-faint);border-color:rgba(42,92,92,.15)}
 .row-key.plain{background:none;border:none;color:var(--ink-faint);font-size:11px}
+.ne-chip{display:inline-block;font-family:'Courier New',monospace;font-size:11.5px;padding:2px 7px;border-radius:3px;border:0.5px solid rgba(95,75,40,.2);background:#f3ede0;color:#7a5c2e;margin:1px 2px 1px 0;white-space:nowrap}
 .row-val{font-size:13.5px;color:var(--ink-muted);line-height:1.5}
 /* STRATEGY BARS */
 .strategy-bars{margin-top:1.25rem}
@@ -80,7 +81,7 @@ blockquote cite{display:block;font-size:12px;font-style:normal;color:var(--ink-f
 .theory-card{background:#fff;border:0.5px solid var(--parchment-border);border-radius:8px;padding:1.2rem}
 .theory-card .icon{font-family:var(--serif);font-size:1.4rem;margin-bottom:.6rem;display:block}
 .theory-card h4{font-family:var(--serif);font-size:1.05rem;font-weight:400;color:var(--ink);margin-bottom:.4rem}
-.theory-card p{font-size:13.5px;color:var(--ink-muted);line-height:1.65}
+.theory-card p{font-size:13.5px;color:var(--ink-muted);line-height:1.65;text-align:justify;hyphens:auto}
 /* CQ SECTION */
 .cq-tabs{display:flex;gap:.5rem;margin-bottom:1.5rem;flex-wrap:wrap}
 .cq-tab{padding:7px 16px;border-radius:4px;border:0.5px solid var(--parchment-border);font-size:12.5px;cursor:pointer;background:#fff;color:var(--ink-muted);font-family:var(--sans);font-weight:500;transition:all .12s}
@@ -108,7 +109,27 @@ table.result-table tr:last-child td{border-bottom:none}
 .tag-Transformation{background:var(--accent-faint);color:var(--accent)}
 .tag-Inheritance{background:var(--teal-faint);color:var(--teal)}
 .tag-Imitation{background:var(--gold-faint);color:var(--gold)}
-/* PAIRS GRID */
+/* CASE STUDIES */
+.case-study{margin-bottom:4rem}
+.case-study:last-child{margin-bottom:0}
+.case-hero{display:grid;grid-template-columns:1fr 1fr;gap:0;border:0.5px solid var(--parchment-border);border-radius:10px;overflow:hidden;margin-bottom:1.75rem;min-height:320px}
+.case-img-pair{display:grid;grid-template-columns:1fr 1fr;min-height:100%}
+.case-img-side{position:relative;overflow:hidden;background:var(--ink);min-height:220px}
+.case-img-side img{width:100%;height:100%;object-fit:cover;opacity:.82;transition:opacity .3s;display:block;min-height:220px}
+.case-img-side:hover img{opacity:.95}
+.case-img-label{position:absolute;bottom:0;left:0;right:0;padding:.5rem .75rem;background:linear-gradient(transparent,rgba(26,22,18,.75));font-size:11px;color:rgba(255,255,255,.85);letter-spacing:.06em;font-weight:500;text-transform:uppercase}
+.case-img-arrow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:22px;color:rgba(255,255,255,.5);pointer-events:none;z-index:2}
+.case-body{background:#fff;padding:1.5rem 1.75rem;display:flex;flex-direction:column;justify-content:center}
+.case-title{font-family:var(--serif);font-size:1.4rem;font-weight:400;color:var(--ink);margin-bottom:.25rem;line-height:1.2}
+.case-subtitle{font-size:12px;color:var(--ink-faint);letter-spacing:.06em;text-transform:uppercase;margin-bottom:1rem}
+.case-body p{font-size:14px;color:var(--ink-muted);line-height:1.8;margin-bottom:.75rem;text-align:justify;hyphens:auto}
+.case-body p:last-child{margin-bottom:0}
+.ops-inline{margin-top:1.25rem;display:flex;flex-direction:column;gap:.5rem}
+.op-inline-row{display:flex;align-items:baseline;gap:.6rem;padding:.4rem 0;border-bottom:0.5px solid var(--parchment-border)}
+.op-inline-row:last-child{border-bottom:none}
+.op-inline-ne{font-family:'Courier New',monospace;font-size:10.5px;color:var(--ink-faint);background:var(--parchment-deep);padding:1px 6px;border-radius:2px;border:0.5px solid var(--parchment-border);white-space:nowrap;flex-shrink:0;min-width:120px}
+.op-inline-text{font-size:13px;color:var(--ink-muted);line-height:1.55;font-family:var(--serif);font-style:italic}
+@media(max-width:720px){.case-hero{grid-template-columns:1fr}.case-img-pair{min-height:160px}}
 .pairs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
 .pair-card{background:#fff;border:0.5px solid var(--parchment-border);border-radius:8px;overflow:hidden;transition:border-color .15s;cursor:pointer}
 .pair-card:hover{border-color:var(--ink-faint)}
@@ -157,7 +178,7 @@ footer{background:var(--parchment-deep);border-top:0.5px solid var(--parchment-b
 .footer-meta{font-size:12.5px;color:var(--ink-faint);line-height:2}
 .footer-meta a{color:var(--accent);text-decoration:none}
 /* SCROLL OFFSET */
-#overview,#framework,#ontology,#corpus,#operations,#cq,#methodology{scroll-margin-top:60px}
+#overview,#framework,#ontology,#cases,#corpus,#operations,#cq,#methodology{scroll-margin-top:60px}
 </style>
 </head>
 <body>
@@ -169,9 +190,10 @@ footer{background:var(--parchment-deep);border-top:0.5px solid var(--parchment-b
       <li><a href="#overview">Overview</a></li>
       <li><a href="#framework">Framework</a></li>
       <li><a href="#ontology">Ontology</a></li>
+      <li><a href="#cases">Case Studies</a></li>
       <li><a href="#corpus">Corpus</a></li>
       <li><a href="#operations">Operations</a></li>
-      <li><a href="#cq">Competency Questions</a></li>
+      <li><a href="#cq">SPARQL</a></li>
       <li><a href="#methodology">Methodology</a></li>
     </ul>
   </div>
@@ -266,11 +288,7 @@ footer{background:var(--parchment-deep);border-top:0.5px solid var(--parchment-b
         <h4>CreOn (Gangemi)</h4>
         <p>CreOn is an ontology of creativity grounded in DOLCE. It models creative acts as operations that consume and produce artefacts. Our project extends CreOn to the domain of literary derivation, specialising its <code>CreativeStrategy</code> class into Transformation, Inheritance, and Imitation — and its artefact-component model into our <code>NarrativeElement</code> hierarchy.</p>
       </div>
-      <div class="theory-card">
-        <span class="icon" style="color:var(--ink-muted)">N</span>
-        <h4>Narrative elements</h4>
-        <p>A key contribution of our model is specifying <em>what</em> is borrowed or changed. We define 11 narrative element types — from <code>CharacterIdentity</code> and <code>Chronotope</code> to <code>WorldRules</code> and <code>Focalization</code> — with a two-level hierarchy: abstract types (e.g. <code>Character</code>, <code>StoryStructure</code>) and specific subtypes. This allows element-level provenance tracking across works.</p>
-      </div>
+
     </div>
   </div>
 </section>
@@ -297,12 +315,32 @@ footer{background:var(--parchment-deep);border-top:0.5px solid var(--parchment-b
         <div class="panel">
           <div class="panel-head">NarrativeElement hierarchy</div>
           <div class="panel-body">
-            <div class="row-item"><span class="row-key teal">Character</span><span class="row-val">CharacterIdentity · CharacterFunction · CharacterArc</span></div>
-            <div class="row-item"><span class="row-key teal">BackgroundSetting</span><span class="row-val">Chronotope · WorldRules</span></div>
-            <div class="row-item"><span class="row-key teal">StoryStructure</span><span class="row-val">EventSequence · Focalization · Outcome · Causality</span></div>
-            <div class="row-item"><span class="row-key teal">Relation</span><span class="row-val">RelationType · RelationTopology</span></div>
-            <div class="row-item"><span class="row-key teal">MediumType</span><span class="row-val">Novel · Film · TV Series · Manga · Musical…</span></div>
-            <div class="row-item"><span class="row-key teal">ContentDomain</span><span class="row-val">The thematic world and genre of the work</span></div>
+            <div class="row-item"><span class="row-key teal">Character</span>
+              <div style="flex:1">
+                <div style="margin-bottom:4px"><span class="ne-chip">CharacterIdentity</span><span class="ne-chip">CharacterFunction</span><span class="ne-chip">CharacterArc</span></div>
+                <div style="font-size:12px;color:var(--ink-faint);line-height:1.55"><strong>Identity</strong>: changes or continuations of a character's occupation, social position, species, or baseline persona. <strong>Function</strong>: the character's narrative role — protagonist, helper, antagonist. <strong>Arc</strong>: the trajectory of growth, decline, or transformation, and key psychological turning points.</div>
+              </div>
+            </div>
+            <div class="row-item"><span class="row-key teal">BackgroundSetting</span>
+              <div style="flex:1">
+                <div style="margin-bottom:4px"><span class="ne-chip">Chronotope</span><span class="ne-chip">WorldRules</span></div>
+                <div style="font-size:12px;color:var(--ink-faint);line-height:1.55"><strong>Chronotope</strong>: the unified spatio-temporal context (era, geography, AU). <strong>WorldRules</strong>: the operative logic of the fictional world — magic systems, technology, social institutions, legal structures.</div>
+              </div>
+            </div>
+            <div class="row-item"><span class="row-key teal">StoryStructure</span>
+              <div style="flex:1">
+                <div style="margin-bottom:4px"><span class="ne-chip">EventSequence</span><span class="ne-chip">Focalization</span><span class="ne-chip">Outcome</span><span class="ne-chip">Causality</span></div>
+                <div style="font-size:12px;color:var(--ink-faint);line-height:1.55"><strong>EventSequence</strong>: the ordering of key events and their correspondences (homology, reshuffling, substitution). <strong>Focalization</strong>: who sees / whose cognitive filter governs information access. <strong>Outcome</strong>: the type of ending and value orientation. <strong>Causality</strong>: the causal logic linking events.</div>
+              </div>
+            </div>
+            <div class="row-item"><span class="row-key teal">Relation</span>
+              <div style="flex:1">
+                <div style="margin-bottom:4px"><span class="ne-chip">RelationType</span><span class="ne-chip">RelationTopology</span></div>
+                <div style="font-size:12px;color:var(--ink-faint);line-height:1.55"><strong>RelationType</strong>: the category of bond between characters — kinship, romance, enmity, alliance, mentorship. <strong>RelationTopology</strong>: who forms the core group, the position of central nodes, and shifts in the network's centre of gravity.</div>
+              </div>
+            </div>
+            <div class="row-item"><span class="row-key teal">MediumType</span><span class="row-val"><span class="ne-chip">MediumType</span> The format and medium of the work: Novel · Film · TV Series · Manga · Musical · Poem…</span></div>
+            <div class="row-item"><span class="row-key teal">ContentDomain</span><span class="row-val"><span class="ne-chip">ContentDomain</span> The thematic world and dominant genre of the work — the kind of events, conflicts, and values it foregrounds.</span></div>
           </div>
         </div>
         <div class="panel">
@@ -423,10 +461,110 @@ footer{background:var(--parchment-deep);border-top:0.5px solid var(--parchment-b
   </div>
 </section>
 
+<!-- CASE STUDIES -->
+<section id="cases">
+  <div class="section-inner">
+    <div class="section-eyebrow">4. Case studies</div>
+    <h2 class="section-title">Two pairs in depth</h2>
+    <p class="section-lead">Before surveying the full corpus, we examine two pairs in detail — one from the Chinese literary tradition, one from the Western — to show how the ontology captures concrete creative decisions.</p>
+
+    <!-- CASE 1: Water Margin → Jin Ping Mei -->
+    <div class="case-study">
+      <div class="case-hero">
+        <div class="case-img-pair">
+          <div class="case-img-side" id="img-water-margin" style="background-image:url('water_margin.jpg');background-size:cover;background-position:center">
+            <div class="case-img-label">WATER MARGIN 水浒传 · C. 14TH C.</div>
+          </div>
+          <div class="case-img-side" style="position:relative;background-image:url('jingpingmei.jpg');background-size:cover;background-position:center">
+            <div class="case-img-arrow">→</div>
+            <div class="case-img-label">JIN PING MEI 金瓶梅 · C. 1610</div>
+          </div>
+        </div>
+        <div class="case-body">
+          <div class="case-title">Water Margin → Jin Ping Mei</div>
+          <div class="case-subtitle">China · 14th – early 17th century</div>
+          <p><em>Water Margin</em> (<em>Shuihu Zhuan</em>) is a sprawling epic of 108 outlaw heroes pledged to a brotherhood of righteous resistance. Its content domain is chivalric heroism, its narrative focus a rotating ensemble of larger-than-life rebels.</p>
+          <p><em>Jin Ping Mei</em> is written directly on top of that text. Its author takes a single marginal episode — Wu Song's killing of his adulterous sister-in-law Pan Jin Lian, told in a handful of chapters — and uses it as a seed from which to grow an entirely new novel. Where <em>Water Margin</em> looks outward at the jianghu, <em>Jin Ping Mei</em> turns inward to the merchant household of Xi Men Qing: desire, money, and social maneuvering replace outlaw violence. The flat villainess Pan Jin Lian is given psychological depth; Wu Song, a protagonist of the source, is radically marginalized. The result is simultaneously a close hypertextual derivative and the founding text of the Chinese novel of manners.</p>
+        </div>
+      </div>
+      <div class="ops-inline">
+        <div class="op-inline-row">
+          <span class="op-inline-ne tag-Imitation tag" style="font-size:10px">Imitation</span>
+          <span style="font-family:'Courier New',monospace;font-size:10.5px;color:var(--ink-faint);flex-shrink:0;min-width:120px;padding:1px 6px">EventSequence</span>
+          <span class="op-inline-text">A single marginal episode — Wu Song's killing of his adulterous sister-in-law, in places quoted almost verbatim — is extracted and reused as the seed plot from which the entire new novel grows.</span>
+        </div>
+        <div class="op-inline-row">
+          <span class="op-inline-ne tag-Transformation tag" style="font-size:10px">Transformation</span>
+          <span style="font-family:'Courier New',monospace;font-size:10.5px;color:var(--ink-faint);flex-shrink:0;min-width:120px;padding:1px 6px">ContentDomain</span>
+          <span class="op-inline-text">The content domain shifts from chivalric heroism and outlaw violence into the everyday domestic world of desire, money, and social maneuvering — the founding move of the Chinese novel of manners.</span>
+        </div>
+        <div class="op-inline-row">
+          <span class="op-inline-ne tag-Transformation tag" style="font-size:10px">Transformation</span>
+          <span style="font-family:'Courier New',monospace;font-size:10.5px;color:var(--ink-faint);flex-shrink:0;min-width:120px;padding:1px 6px">Focalization</span>
+          <span class="op-inline-text">Narrative focus shifts from a rotating ensemble of outlaw heroes to the enclosed interior of a single merchant household.</span>
+        </div>
+        <div class="op-inline-row">
+          <span class="op-inline-ne tag-Transformation tag" style="font-size:10px">Transformation</span>
+          <span style="font-family:'Courier New',monospace;font-size:10.5px;color:var(--ink-faint);flex-shrink:0;min-width:120px;padding:1px 6px">CharacterFunction</span>
+          <span class="op-inline-text">The flat villainess Pan Jin Lian is given psychological depth; her moral condemnation is suspended, transforming her function from object of judgment to ambiguous subject.</span>
+        </div>
+        <div class="op-inline-row">
+          <span class="op-inline-ne tag-Inheritance tag" style="font-size:10px">Inheritance</span>
+          <span style="font-family:'Courier New',monospace;font-size:10.5px;color:var(--ink-faint);flex-shrink:0;min-width:120px;padding:1px 6px">CharacterIdentity</span>
+          <span class="op-inline-text">The core cast — Xi Men Qing, Pan Jin Lian, Wu Song — is inherited directly from the source. Wu Song, a protagonist there, is radically marginalized here.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CASE 2: Canon of Sherlock Holmes → Sherlock -->
+    <div class="case-study">
+      <div class="case-hero">
+        <div class="case-img-pair">
+          <div class="case-img-side" style="background-image:url('canon_of_Sherlock_Holmes.jpg');background-size:cover;background-position:center">
+            <div class="case-img-label">CONAN DOYLE'S HOLMES · 1887–1927</div>
+          </div>
+          <div class="case-img-side" style="position:relative;background-image:url('sherlock.jpg');background-size:cover;background-position:center">
+            <div class="case-img-arrow">→</div>
+            <div class="case-img-label">BBC SHERLOCK · 2010–2017</div>
+          </div>
+        </div>
+        <div class="case-body">
+          <div class="case-title">Canon of Sherlock Holmes → Sherlock</div>
+          <div class="case-subtitle">United Kingdom · 1887 – 2017</div>
+          <p>Arthur Conan Doyle's four novels and fifty-six short stories, published between 1887 and 1927, established one of fiction's most recognisable narrative templates: a brilliant, eccentric consulting detective and his loyal companion, working at the margins of official police procedure in Victorian London.</p>
+          <p>The BBC series <em>Sherlock</em> (2010–2017), created by Steven Moffat and Mark Gatiss, is a systematic hypertextual rewriting. Its central formal move is chronotopic: Victorian London becomes contemporary London. With this single transformation, the entire sign-system of the original is updated — nicotine patches replace a pipe, texts replace telegrams, a blog replaces Watson's published diaries. The characters are inherited directly, including their relational dynamic, but Holmes's eccentric rationalism is reframed through a clinical idiom as "high-functioning sociopathy". The medium shifts from short-story collection to serialised television, expanding episodic cases into season-long arcs with overarching antagonists.</p>
+        </div>
+      </div>
+      <div class="ops-inline">
+        <div class="op-inline-row">
+          <span class="op-inline-ne tag-Transformation tag" style="font-size:10px">Transformation</span>
+          <span style="font-family:'Courier New',monospace;font-size:10.5px;color:var(--ink-faint);flex-shrink:0;min-width:120px;padding:1px 6px">Chronotope</span>
+          <span class="op-inline-text">The historical era is replaced — Victorian becomes contemporary London — while the geographical setting is preserved. The update propagates through every sign in the text.</span>
+        </div>
+        <div class="op-inline-row">
+          <span class="op-inline-ne tag-Transformation tag" style="font-size:10px">Transformation</span>
+          <span style="font-family:'Courier New',monospace;font-size:10.5px;color:var(--ink-faint);flex-shrink:0;min-width:120px;padding:1px 6px">MediumType</span>
+          <span class="op-inline-text">The short-story collection is recast as serialised television, expanding episodic cases into season-long arcs with overarching antagonists.</span>
+        </div>
+        <div class="op-inline-row">
+          <span class="op-inline-ne tag-Imitation tag" style="font-size:10px">Imitation</span>
+          <span style="font-family:'Courier New',monospace;font-size:10.5px;color:var(--ink-faint);flex-shrink:0;min-width:120px;padding:1px 6px">CharacterArc</span>
+          <span class="op-inline-text">Holmes's baseline characterisation is reused but intensified: eccentric rationalism is reframed through a modern clinical idiom as "high-functioning sociopathy".</span>
+        </div>
+        <div class="op-inline-row">
+          <span class="op-inline-ne tag-Inheritance tag" style="font-size:10px">Inheritance</span>
+          <span style="font-family:'Courier New',monospace;font-size:10.5px;color:var(--ink-faint);flex-shrink:0;min-width:120px;padding:1px 6px">RelationType</span>
+          <span class="op-inline-text">The Holmes–Watson friendship and cohabitation at 221B Baker Street is inherited intact — the point of contrast with Elementary's reconfiguration of the same relationship.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- CORPUS -->
 <section id="corpus" class="alt-bg">
   <div class="section-inner">
-    <div class="section-eyebrow">4. Corpus</div>
+    <div class="section-eyebrow">5. Corpus</div>
     <h2 class="section-title">18 hypotext–hypertext pairs</h2>
     <p class="section-lead">Each pair is a work whose creative debt to an earlier text is deep and demonstrable. Click any card to expand its modelled operations. The stacked bar shows the strategy mix for that pair.</p>
     <div class="pairs-grid" id="pairs-grid"></div>
