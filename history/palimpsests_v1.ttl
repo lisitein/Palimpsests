@@ -27,6 +27,12 @@
 #    Object Properties
 #################################################################
 
+###  http://example.org/palimpsests#actsOnElement
+:actsOnElement rdf:type owl:ObjectProperty ;
+               rdfs:domain :CreativeStrategy ;
+               rdfs:range :NarrativeElement .
+
+
 ###  http://example.org/palimpsests#elementOfWork
 :elementOfWork rdf:type owl:ObjectProperty ;
                owl:inverseOf :hasNarrativeElement ;
@@ -447,6 +453,10 @@ creon:CreativeProduct rdf:type owl:Class .
                            :MediumType ;
                   :elementOfWork :Dracula ;
                   rdfs:label "Epistolary_Novel" .
+
+
+###  http://example.org/palimpsests#EventSequence
+:EventSequence rdf:type owl:NamedIndividual .
 
 
 ###  http://example.org/palimpsests#Everyman_Leopold_Bloom
@@ -933,6 +943,7 @@ creon:CreativeProduct rdf:type owl:Class .
 ###  http://example.org/palimpsests#Op_Dracula_to_Nosferatu_PlotInheritance
 :Op_Dracula_to_Nosferatu_PlotInheritance rdf:type owl:NamedIndividual ,
                                                   :Inheritance ;
+                                         :actsOnElement :EventSequence ;
                                          :hasOriginalWork :Dracula ;
                                          :hasTransformativeWork :Nosferatu ;
                                          :sourceElement :Vampire_Relocation_and_Plague ;
@@ -966,6 +977,7 @@ creon:CreativeProduct rdf:type owl:Class .
 ###  http://example.org/palimpsests#Op_Emma_to_Clueless_PlotInheritance
 :Op_Emma_to_Clueless_PlotInheritance rdf:type owl:NamedIndividual ,
                                               :Inheritance ;
+                                     :actsOnElement :EventSequence ;
                                      :hasOriginalWork :Emma ;
                                      :hasTransformativeWork :Clueless ;
                                      :sourceElement :Matchmaker_Plot_and_Dynamics ;
@@ -1164,6 +1176,7 @@ creon:CreativeProduct rdf:type owl:Class .
 ###  http://example.org/palimpsests#Op_Journey_to_the_West_to_A_Chinese_Odyssey_PilgrimageFrameImitation
 :Op_Journey_to_the_West_to_A_Chinese_Odyssey_PilgrimageFrameImitation rdf:type owl:NamedIndividual ,
                                                                                :Imitation ;
+                                                                      :actsOnElement :EventSequence ;
                                                                       :hasOriginalWork :Journey_to_the_West ;
                                                                       :hasTransformativeWork :A_Chinese_Odyssey ;
                                                                       :sourceElement :Westward_Pilgrimage_Frame ;
@@ -1197,6 +1210,7 @@ creon:CreativeProduct rdf:type owl:Class .
 ###  http://example.org/palimpsests#Op_Li_Bai_Poem_to_Jin_Yong_Novel_PlotDeviceReuse
 :Op_Li_Bai_Poem_to_Jin_Yong_Novel_PlotDeviceReuse rdf:type owl:NamedIndividual ,
                                                            :Imitation ;
+                                                  :actsOnElement :EventSequence ;
                                                   :hasOriginalWork :Li_Bai_Poem_Xiake_Xing ;
                                                   :hasTransformativeWork :Jin_Yong_Novel_Xiake_Xing ;
                                                   :sourceElement :Poem_Text ;
@@ -1252,6 +1266,7 @@ creon:CreativeProduct rdf:type owl:Class .
 ###  http://example.org/palimpsests#Op_Odyssey_to_Ulysses_StructuralInheritance
 :Op_Odyssey_to_Ulysses_StructuralInheritance rdf:type owl:NamedIndividual ,
                                                       :Inheritance ;
+                                             :actsOnElement :EventSequence ;
                                              :hasOriginalWork :Odyssey ;
                                              :hasTransformativeWork :Ulysses ;
                                              :sourceElement :Homeric_Episode_Structure ;
@@ -1285,6 +1300,7 @@ creon:CreativeProduct rdf:type owl:Class .
 ###  http://example.org/palimpsests#Op_Pride_and_Prejudice_to_Pride_and_Prejudice_and_Zombies_PlotAndProseInheritance
 :Op_Pride_and_Prejudice_to_Pride_and_Prejudice_and_Zombies_PlotAndProseInheritance rdf:type owl:NamedIndividual ,
                                                                                             :Inheritance ;
+                                                                                   :actsOnElement :EventSequence ;
                                                                                    :hasOriginalWork :Pride_and_Prejudice ;
                                                                                    :hasTransformativeWork :Pride_and_Prejudice_and_Zombies ;
                                                                                    :sourceElement :Marriage_Plot_and_Original_Prose ;
@@ -1384,6 +1400,7 @@ creon:CreativeProduct rdf:type owl:Class .
 ###  http://example.org/palimpsests#Op_The_Three_Body_Problem_to_ThreeBodyX_NarrativeGapExpansion
 :Op_The_Three_Body_Problem_to_ThreeBodyX_NarrativeGapExpansion rdf:type owl:NamedIndividual ,
                                                                         :Transformation ;
+                                                               :actsOnElement :EventSequence ;
                                                                :hasOriginalWork :The_Three_Body_Problem ;
                                                                :hasTransformativeWork :ThreeBodyX ;
                                                                :sourceElement :Yun_Tianming_Blank_Storyline ;
@@ -1538,6 +1555,7 @@ creon:CreativeProduct rdf:type owl:Class .
 ###  http://example.org/palimpsests#Op_Water_Margin_to_Jin_Ping_Mei_PlotGrafting
 :Op_Water_Margin_to_Jin_Ping_Mei_PlotGrafting rdf:type owl:NamedIndividual ,
                                                        :Imitation ;
+                                              :actsOnElement :EventSequence ;
                                               :hasOriginalWork :Water_Margin ;
                                               :hasTransformativeWork :Jin_Ping_Mei ;
                                               :sourceElement :Wu_Song_Kills_Sister_in_law_Episode ;

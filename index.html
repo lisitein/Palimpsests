@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Palimpsests: Modeling Hypertextual Relations from Classics to Fanfiction</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#1a1612;--ink-muted:#5a5248;--ink-faint:#9a9086;--parchment:#f7f4ee;--parchment-deep:#ede9e0;--parchment-border:#d8d0c2;--accent:#8b2e2e;--accent-light:#c0524a;--accent-faint:#f2e8e8;--teal:#2a5c5c;--teal-faint:#e4efef;--gold:#a07830;--gold-faint:#f5eed8;--serif:'EB Garamond',Georgia,serif;--sans:'Inter',system-ui,sans-serif;--max:1100px;--col:700px}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;overflow-x:clip}
+body{font-family:var(--sans);font-size:16px;line-height:1.75;color:var(--ink);background:var(--parchment)}
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(247,244,238,0.96);backdrop-filter:blur(6px);border-bottom:0.5px solid var(--parchment-border);padding:0 2rem}
+.nav-inner{max-width:var(--max);margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:52px}
+.nav-logo{font-family:var(--serif);font-size:17px;color:var(--ink);text-decoration:none;letter-spacing:.01em}
+.nav-logo span{color:var(--accent)}
+.nav-links{display:flex;gap:1.6rem;list-style:none}
+.nav-links a{font-size:12.5px;color:var(--ink-muted);text-decoration:none;letter-spacing:.03em;transition:color .15s}
+.nav-links a:hover{color:var(--ink)}
+/* HERO */
+.hero{padding:6rem 2rem 5rem;text-align:center;border-bottom:0.5px solid var(--parchment-border);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 29px,var(--parchment-border) 29px,var(--parchment-border) 30px);opacity:.15;pointer-events:none}
+.hero-inner{max-width:720px;margin:0 auto;position:relative}
+.hero-eyebrow{font-size:11.5px;letter-spacing:.12em;color:var(--ink-faint);font-weight:500;text-transform:uppercase;margin-bottom:1.5rem}
+.hero h1{font-family:var(--serif);font-size:clamp(2.2rem,5vw,3.4rem);line-height:1.15;font-weight:400;color:var(--ink);margin-bottom:1rem}
+.hero h1 em{color:var(--accent);font-style:italic}
+.hero-sub{font-size:16.5px;color:var(--ink-muted);line-height:1.75;margin-bottom:2.5rem;font-family:var(--serif);font-style:italic;max-width:580px;margin-left:auto;margin-right:auto}
+.hero-meta{display:flex;gap:1.8rem;justify-content:center;font-size:12.5px;color:var(--ink-faint);flex-wrap:wrap}
+.hero-meta span::before{content:'— '}
+.hero-ctas{display:flex;gap:1rem;justify-content:center;margin-top:2.5rem;flex-wrap:wrap}
+.btn-primary{display:inline-block;padding:10px 22px;background:var(--accent);color:#fff;font-size:13px;font-weight:500;border-radius:4px;text-decoration:none;letter-spacing:.02em;transition:background .15s}
+.btn-primary:hover{background:var(--accent-light)}
+.btn-secondary{display:inline-block;padding:10px 22px;border:0.5px solid var(--parchment-border);color:var(--ink-muted);font-size:13px;border-radius:4px;text-decoration:none;letter-spacing:.02em;background:transparent;transition:background .15s}
+.btn-secondary:hover{background:var(--parchment-deep)}
+/* STATS */
+.stats-bar{background:var(--parchment-deep);border-bottom:0.5px solid var(--parchment-border);padding:1.5rem 2rem}
+.stats-bar-inner{max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1rem;text-align:center}
+.stat-item strong{display:block;font-family:var(--serif);font-size:2rem;font-weight:400;color:var(--accent);line-height:1;margin-bottom:.25rem}
+.stat-item span{font-size:11.5px;color:var(--ink-muted);letter-spacing:.04em;text-transform:uppercase}
+/* SECTIONS */
+section{padding:5rem 2rem;border-bottom:0.5px solid var(--parchment-border)}
+section:last-child{border-bottom:none}
+.section-inner{max-width:var(--max);margin:0 auto}
+.section-eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:500;margin-bottom:.6rem}
+.section-title{font-family:var(--serif);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:400;color:var(--ink);line-height:1.25;margin-bottom:.75rem}
+.section-lead{font-size:15.5px;color:var(--ink-muted);max-width:640px;line-height:1.8;margin-bottom:2.5rem;text-align:justify;hyphens:auto}
+section.alt-bg{background:var(--parchment-deep)}
+/* TWO COL */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+@media(max-width:720px){.two-col{grid-template-columns:1fr;gap:2rem}}
+/* PROSE */
+.prose p{color:var(--ink-muted);line-height:1.85;margin-bottom:1rem;font-size:15.5px;text-align:justify;hyphens:auto}
+.prose h3{font-family:var(--serif);font-size:1.25rem;font-weight:400;color:var(--ink);margin:2rem 0 .6rem}
+code{font-family:'Courier New',monospace;font-size:12.5px;background:var(--parchment-deep);padding:2px 6px;border-radius:3px;color:var(--accent);border:0.5px solid var(--parchment-border)}
+blockquote{border-left:3px solid var(--accent);padding:.75rem 1.25rem;margin:1.5rem 0;background:var(--accent-faint);border-radius:0 4px 4px 0}
+blockquote p{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--ink-muted);margin:0}
+blockquote cite{display:block;font-size:12px;font-style:normal;color:var(--ink-faint);margin-top:.5rem;letter-spacing:.03em}
+/* PANELS */
+.panel{background:#fff;border:0.5px solid var(--parchment-border);border-radius:8px;overflow:hidden;margin-bottom:1.25rem}
+.panel-head{background:var(--parchment-deep);padding:.6rem 1.2rem;border-bottom:0.5px solid var(--parchment-border);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);font-weight:500}
+.panel-body{padding:1rem 1.2rem}
+.row-item{padding:.55rem 0;border-bottom:0.5px solid var(--parchment-border);display:flex;align-items:baseline;gap:.75rem}
+.row-item:last-child{border-bottom:none}
+.row-key{font-family:'Courier New',monospace;font-size:12.5px;color:var(--accent);background:var(--accent-faint);padding:1px 6px;border-radius:3px;border:0.5px solid rgba(139,46,46,.15);white-space:nowrap;flex-shrink:0}
+.row-key.teal{color:var(--teal);background:var(--teal-faint);border-color:rgba(42,92,92,.15)}
+.row-key.plain{background:none;border:none;color:var(--ink-faint);font-size:11px}
+.ne-chip{display:inline-block;font-family:'Courier New',monospace;font-size:11.5px;padding:2px 7px;border-radius:3px;border:0.5px solid rgba(95,75,40,.2);background:#f3ede0;color:#7a5c2e;margin:1px 2px 1px 0;white-space:nowrap}
+.row-val{font-size:13.5px;color:var(--ink-muted);line-height:1.5}
+/* STRATEGY BARS */
+.strategy-bars{margin-top:1.25rem}
+.s-row{display:flex;align-items:center;gap:.75rem;margin-bottom:.8rem}
+.s-label{font-size:13px;color:var(--ink-muted);width:115px;flex-shrink:0;font-weight:500}
+.s-wrap{flex:1;background:var(--parchment-deep);border-radius:2px;height:7px;overflow:hidden}
+.s-bar{height:100%;border-radius:2px}
+.bar-T{background:var(--accent)}.bar-I{background:var(--teal)}.bar-Im{background:var(--gold)}
+.s-count{font-size:12.5px;color:var(--ink-faint);width:55px;text-align:right}
+/* CORRELATION STACKED BARS */
+.corr-bars{margin-top:1.1rem}
+.corr-row{display:flex;align-items:center;gap:.75rem;margin-bottom:1rem}
+.corr-label{font-size:13px;color:var(--ink-muted);width:115px;flex-shrink:0;font-weight:500}
+.corr-track{flex:1;height:15px;display:flex;align-items:center}
+.corr-fill{display:flex;height:100%;border-radius:3px;min-width:2px}
+.corr-seg{height:100%;position:relative;transition:filter .15s}
+.corr-seg:first-child{border-radius:3px 0 0 3px}
+.corr-seg:last-child{border-radius:0 3px 3px 0}
+.corr-seg + .corr-seg{border-left:1px solid rgba(247,244,238,.92)}
+.corr-seg:hover{filter:brightness(.9)}
+.corr-seg:hover::after{content:attr(data-label);position:absolute;bottom:calc(100% + 7px);left:50%;transform:translateX(-50%);background:var(--ink);color:#f7f4ee;font-size:10.5px;padding:3px 8px;border-radius:4px;white-space:nowrap;z-index:30;pointer-events:none;letter-spacing:.02em}
+.corr-seg:hover::before{content:'';position:absolute;bottom:calc(100% + 2px);left:50%;transform:translateX(-50%);border:4px solid transparent;border-top-color:var(--ink);z-index:30;pointer-events:none}
+.corr-count{font-size:12.5px;color:var(--ink-faint);width:55px;text-align:right}
+/* THEORY GRID */
+.theory-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1.25rem;margin-top:2rem}
+.theory-card{background:#fff;border:0.5px solid var(--parchment-border);border-radius:8px;padding:1.2rem}
+.theory-card .icon{font-family:var(--serif);font-size:1.4rem;margin-bottom:.6rem;display:block}
+.theory-card h4{font-family:var(--serif);font-size:1.05rem;font-weight:400;color:var(--ink);margin-bottom:.4rem}
+.theory-card p{font-size:13.5px;color:var(--ink-muted);line-height:1.65;text-align:justify;hyphens:auto}
+/* CQ SECTION */
+.cq-tabs{display:flex;gap:.5rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.cq-tab{padding:7px 16px;border-radius:4px;border:0.5px solid var(--parchment-border);font-size:12.5px;cursor:pointer;background:#fff;color:var(--ink-muted);font-family:var(--sans);font-weight:500;transition:all .12s}
+.cq-tab.active,.cq-tab:hover{background:var(--ink);color:var(--parchment);border-color:var(--ink)}
+.cq-panel{display:none}
+.cq-panel.active{display:block}
+.cq-block{background:#fff;border:0.5px solid var(--parchment-border);border-radius:8px;overflow:hidden;margin-bottom:1.25rem}
+.cq-block-head{background:var(--parchment-deep);padding:.75rem 1.25rem;border-bottom:0.5px solid var(--parchment-border)}
+.cq-question{font-family:var(--serif);font-style:italic;font-size:15.5px;color:var(--ink);margin-bottom:.2rem}
+.cq-note{font-size:12px;color:var(--ink-faint)}
+.cq-body{padding:0}
+pre{margin:0;background:#1a1612;color:#e8dfc8;font-family:'Courier New',monospace;font-size:12.5px;line-height:1.7;padding:1.25rem;overflow-x:auto;border-radius:0}
+.cq-results{padding:1rem 1.25rem;border-top:0.5px solid var(--parchment-border)}
+.cq-results p{font-size:13px;color:var(--ink-muted);margin-bottom:.5rem;font-style:italic}
+table.result-table{width:100%;border-collapse:collapse;font-size:12.5px}
+table.result-table th{text-align:left;padding:5px 8px;background:var(--parchment-deep);color:var(--ink-faint);font-weight:500;letter-spacing:.04em;font-size:11px;text-transform:uppercase;border-bottom:0.5px solid var(--parchment-border)}
+table.result-table td{padding:5px 8px;border-bottom:0.5px solid var(--parchment-border);color:var(--ink-muted);vertical-align:top;line-height:1.5}
+table.result-table tr:last-child td{border-bottom:none}
+/* ELEMENT PILLS */
+.pill-grid{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.75rem}
+.pill{display:inline-flex;align-items:center;gap:.3rem;background:#fff;border:0.5px solid var(--parchment-border);border-radius:4px;padding:3px 9px;font-size:12px;color:var(--ink-muted)}
+.pill-n{background:var(--parchment-deep);color:var(--ink-faint);font-size:10.5px;font-weight:500;padding:1px 5px;border-radius:2px}
+/* TAGS */
+.tag{display:inline-block;font-size:11px;padding:2px 7px;border-radius:3px;font-weight:500;letter-spacing:.02em}
+.tag-Transformation{background:var(--accent-faint);color:var(--accent)}
+.tag-Inheritance{background:var(--teal-faint);color:var(--teal)}
+.tag-Imitation{background:var(--gold-faint);color:var(--gold)}
+/* CASE STUDIES */
+.case-study{margin-bottom:4rem}
+.case-study:last-child{margin-bottom:0}
+.case-hero{display:grid;grid-template-columns:1fr 1fr;gap:0;border:0.5px solid var(--parchment-border);border-radius:10px;overflow:hidden;margin-bottom:1.75rem;min-height:320px}
+.case-img-pair{display:grid;grid-template-columns:1fr 1fr;min-height:100%}
+.case-img-side{position:relative;overflow:hidden;background:var(--ink);min-height:220px}
+.case-img-side img{width:100%;height:100%;object-fit:cover;opacity:.82;transition:opacity .3s;display:block;min-height:220px}
+.case-img-side:hover img{opacity:.95}
+.case-img-label{position:absolute;bottom:0;left:0;right:0;padding:.5rem .75rem;background:linear-gradient(transparent,rgba(26,22,18,.75));font-size:11px;color:rgba(255,255,255,.85);letter-spacing:.06em;font-weight:500;text-transform:uppercase}
+.case-img-arrow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:22px;color:rgba(255,255,255,.5);pointer-events:none;z-index:2}
+.case-body{background:#fff;padding:1.5rem 1.75rem;display:flex;flex-direction:column;justify-content:center}
+.case-title{font-family:var(--serif);font-size:1.4rem;font-weight:400;color:var(--ink);margin-bottom:.25rem;line-height:1.2}
+.case-subtitle{font-size:12px;color:var(--ink-faint);letter-spacing:.06em;text-transform:uppercase;margin-bottom:1rem}
+.case-body p{font-size:14px;color:var(--ink-muted);line-height:1.8;margin-bottom:.75rem;text-align:justify;hyphens:auto}
+.case-body p:last-child{margin-bottom:0}
+.ops-inline{margin-top:1.25rem;display:flex;flex-direction:column;gap:.5rem}
+.op-inline-row{display:flex;align-items:baseline;gap:.6rem;padding:.4rem 0;border-bottom:0.5px solid var(--parchment-border)}
+.op-inline-row:last-child{border-bottom:none}
+.op-inline-ne{font-family:'Courier New',monospace;font-size:10.5px;color:var(--ink-faint);background:var(--parchment-deep);padding:1px 6px;border-radius:2px;border:0.5px solid var(--parchment-border);white-space:nowrap;flex-shrink:0;min-width:120px}
+.op-inline-text{font-size:13px;color:var(--ink-muted);line-height:1.55;font-family:var(--serif);font-style:italic}
+@media(max-width:720px){.case-hero{grid-template-columns:1fr}.case-img-pair{min-height:160px}}
+.pairs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
+.pair-card{background:#fff;border:0.5px solid var(--parchment-border);border-radius:8px;overflow:hidden;transition:border-color .15s;cursor:pointer}
+.pair-card:hover{border-color:var(--ink-faint)}
+.pair-card.open{border-color:var(--accent)}
+.pair-card-top{padding:1rem 1.1rem .85rem}
+.pair-n{font-family:var(--serif);font-size:18px;color:var(--parchment-border);line-height:1;min-width:26px;font-weight:400}
+.pair-header{display:flex;align-items:flex-start;gap:.6rem;margin-bottom:.7rem}
+.pair-orig{font-size:13px;color:var(--ink-muted);line-height:1.3;margin-bottom:2px}
+.pair-arrow{font-size:10px;color:var(--accent);margin:1px 0}
+.pair-trans{font-size:13.5px;font-weight:500;color:var(--ink);line-height:1.3}
+.pair-bar-wrap{height:6px;background:var(--parchment-deep);border-radius:3px;overflow:hidden;display:flex;margin-bottom:.5rem}
+.pair-bar-seg{height:100%;transition:width .3s}
+.pair-footer{display:flex;justify-content:space-between;align-items:center}
+.pair-ops{font-size:11px;color:var(--ink-faint)}
+.pair-toggle{font-size:10.5px;color:var(--ink-faint);letter-spacing:.04em}
+.pair-ops-drawer{display:none;border-top:0.5px solid var(--parchment-border);background:var(--parchment-deep)}
+.pair-card.open .pair-ops-drawer{display:block}
+.drawer-op{padding:.65rem 1.1rem;border-bottom:0.5px solid var(--parchment-border);display:grid;grid-template-columns:auto 1fr auto;gap:.6rem;align-items:start}
+.drawer-op:last-child{border-bottom:none}
+.drawer-rationale{font-size:12.5px;color:var(--ink-muted);line-height:1.6;font-family:var(--serif);font-style:italic}
+.drawer-ne{font-family:'Courier New',monospace;font-size:10px;color:var(--ink-faint);background:#fff;padding:1px 5px;border-radius:2px;border:0.5px solid var(--parchment-border);white-space:nowrap;margin-top:1px}
+/* OPS */
+.ops-filter{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.25rem}
+.filter-btn{padding:5px 13px;border-radius:3px;border:0.5px solid var(--parchment-border);font-size:12px;cursor:pointer;background:#fff;color:var(--ink-muted);font-family:var(--sans);font-weight:500;transition:all .12s}
+.filter-btn.active,.filter-btn:hover{background:var(--ink);color:var(--parchment);border-color:var(--ink)}
+.ops-list{display:flex;flex-direction:column;gap:.7rem}
+.op-row{background:#fff;border:0.5px solid var(--parchment-border);border-radius:6px;padding:.9rem 1.1rem;display:grid;grid-template-columns:auto 1fr auto;gap:.9rem;align-items:start;transition:border-color .12s}
+.op-row:hover{border-color:var(--ink-faint)}
+.op-works{font-size:11.5px;color:var(--ink-faint);margin-bottom:3px}
+.op-rationale{font-size:13.5px;color:var(--ink-muted);line-height:1.65;font-family:var(--serif);font-style:italic}
+.op-ne{font-family:'Courier New',monospace;font-size:10.5px;color:var(--ink-faint);background:var(--parchment-deep);padding:2px 6px;border-radius:3px;border:0.5px solid var(--parchment-border);white-space:nowrap;margin-top:2px}
+/* ONTO DIAGRAM */
+.onto-box{background:#fff;border:0.5px solid var(--parchment-border);border-radius:8px;padding:1.5rem;overflow-x:auto}
+.onto-box svg{display:block;margin:0 auto}
+/* METHOD STEPS */
+.method-steps{border:0.5px solid var(--parchment-border);border-radius:8px;overflow:hidden;background:#fff;margin-top:2rem}
+.m-step{padding:1.1rem 1.4rem;border-bottom:0.5px solid var(--parchment-border);display:grid;grid-template-columns:42px 1fr;gap:1rem;align-items:start}
+.m-step:last-child{border-bottom:none}
+.m-num{font-family:var(--serif);font-size:1.35rem;color:var(--accent);font-weight:400;line-height:1;padding-top:2px}
+.m-body h4{font-weight:500;font-size:13.5px;color:var(--ink);margin-bottom:3px}
+.m-body p{font-size:13px;color:var(--ink-muted);line-height:1.65}
+/* FOOTER */
+footer{background:var(--parchment-deep);border-top:0.5px solid var(--parchment-border);padding:3rem 2rem;text-align:center}
+.footer-logo{font-family:var(--serif);font-size:1.35rem;color:var(--ink);margin-bottom:.65rem}
+.footer-logo span{color:var(--accent)}
+.footer-meta{font-size:12.5px;color:var(--ink-faint);line-height:2}
+.footer-meta a{color:var(--accent);text-decoration:none}
+/* SCROLL OFFSET */
+#overview,#framework,#ontology,#cases,#corpus,#operations,#cq,#methodology{scroll-margin-top:60px}
+/* ==== LEFT SIDE NAV (hover left edge) ==== */
+#side-nav{position:fixed;top:0;left:0;height:100vh;width:20px;z-index:300}
+#side-nav::before{content:'';position:absolute;top:50%;left:0;transform:translateY(-50%);width:4px;height:56px;border-radius:0 3px 3px 0;background:var(--accent);opacity:.4;transition:opacity .25s}
+#side-nav:hover::before{opacity:0}
+.side-nav-panel{position:absolute;top:0;left:0;height:100vh;width:214px;transform:translateX(-100%);transition:transform .3s ease;background:rgba(247,244,238,0.98);backdrop-filter:blur(8px);border-right:0.5px solid var(--parchment-border);box-shadow:2px 0 18px rgba(26,22,18,0.07);padding:1.4rem 1.25rem;display:flex;flex-direction:column;gap:.1rem;overflow-y:auto}
+#side-nav:hover .side-nav-panel{transform:translateX(0)}
+.side-nav-title{font-family:var(--serif);font-size:15.5px;color:var(--ink);margin-bottom:1rem;letter-spacing:.01em}
+.side-nav-title em{color:var(--accent);font-style:italic}
+.side-nav-title span{color:var(--ink-faint)}
+.side-nav-panel a{font-size:13px;color:var(--ink-muted);text-decoration:none;padding:.42rem .5rem;border-radius:4px;letter-spacing:.02em;transition:background .15s,color .15s}
+.side-nav-panel a:hover{background:var(--parchment-deep);color:var(--ink)}
+.side-nav-panel a.side-csv{color:var(--accent);margin-top:.35rem;border-top:0.5px solid var(--parchment-border);padding-top:.7rem}
+.side-nav-hint{margin-top:auto;font-size:10.5px;color:var(--ink-faint);letter-spacing:.03em;padding-top:1rem;line-height:1.5}
+/* ==== OVERVIEW FIGURE ==== */
+.overview-figure{margin:1.6rem 0 0}
+.overview-figure img{width:100%;height:auto;display:block;border:0.5px solid var(--parchment-border);border-radius:6px;background:#fff}
+.overview-figure figcaption{font-size:11px;color:var(--ink-faint);margin-top:.5rem;line-height:1.5}
+/* ==== CASE CAROUSEL + GRAPH VIEWER ==== */
+.case-carousel{position:relative;min-height:320px;overflow:hidden;background:var(--parchment-deep)}
+.carousel-slide{position:absolute;inset:0;opacity:0;pointer-events:none;transition:opacity .5s ease}
+.carousel-slide.active{opacity:1;pointer-events:auto}
+.carousel-slide .case-img-pair{position:absolute;inset:0}
+.carousel-dots{position:absolute;top:11px;left:50%;transform:translateX(-50%);display:flex;gap:7px;z-index:6}
+.carousel-dot{width:8px;height:8px;border-radius:50%;border:none;padding:0;cursor:pointer;background:rgba(255,255,255,0.5);box-shadow:0 0 0 1px rgba(0,0,0,0.28);transition:background .2s}
+.carousel-dot.active{background:#fff}
+.graf-window{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--parchment)}
+.graf-toolbar{display:flex;align-items:center;justify-content:space-between;gap:.5rem;padding:.5rem .7rem;border-bottom:0.5px solid var(--parchment-border);background:rgba(247,244,238,0.95)}
+.graf-title{font-size:11px;color:var(--ink-muted);letter-spacing:.02em}
+.graf-tools{display:flex;gap:.3rem;flex-shrink:0}
+.graf-tools button{width:24px;height:24px;border:0.5px solid var(--parchment-border);background:#fff;color:var(--ink-muted);border-radius:4px;cursor:pointer;font-size:14px;line-height:1;display:flex;align-items:center;justify-content:center;padding:0;transition:background .15s}
+.graf-tools button:hover{background:var(--parchment-deep);color:var(--ink)}
+.graf-svg{flex:1;width:100%;min-height:0;display:block;cursor:grab;touch-action:none;background:radial-gradient(circle at 50% 40%,#fff,var(--parchment) 92%)}
+.graf-svg.grabbing{cursor:grabbing}
+.graf-hint{font-size:10px;color:var(--ink-faint);text-align:center;padding:.3rem;border-top:0.5px solid var(--parchment-border);background:rgba(247,244,238,0.95)}
+.gnode{cursor:grab}
+.gbox{stroke-width:1}
+.gnode:hover .gbox{stroke-width:1.75}
+.gbox-label{font-family:var(--sans);font-size:10px;fill:#2b2620;pointer-events:none;font-weight:400}
+.gedge{stroke-width:1;fill:none}
+.gedge-label{font-family:var(--sans);font-size:6.5px;pointer-events:none;paint-order:stroke;stroke:#fbf9f4;stroke-width:2.2px;stroke-linejoin:round;opacity:.88}
+@media(max-width:720px){.case-carousel{min-height:320px}}
+/* ==== CSV DATA TABLES ==== */
+.csv-toggle{display:flex;gap:.5rem;margin-bottom:1.25rem;flex-wrap:wrap}
+.csv-tab{padding:8px 18px;border:0.5px solid var(--parchment-border);background:transparent;color:var(--ink-muted);font-size:13px;font-family:var(--sans);border-radius:4px;cursor:pointer;letter-spacing:.02em;transition:background .15s,color .15s,border-color .15s}
+.csv-tab:hover{background:var(--parchment-deep)}
+.csv-tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.csv-count{font-size:12px;color:var(--ink-faint);margin-bottom:1rem;letter-spacing:.02em}
+.csv-table-wrap{overflow-x:auto;border:0.5px solid var(--parchment-border);border-radius:6px;background:#fff;max-height:80vh}
+table.csv-table{border-collapse:collapse;width:100%;font-size:12px;min-width:1080px}
+table.csv-table th{background:var(--parchment-deep);color:var(--ink);font-weight:500;text-align:left;padding:.6rem .7rem;border-bottom:0.5px solid var(--parchment-border);white-space:nowrap;position:sticky;top:0;font-size:11px;letter-spacing:.02em;z-index:2}
+table.csv-table td{padding:.55rem .7rem;border-bottom:0.5px solid var(--parchment-border);color:var(--ink-muted);vertical-align:top;line-height:1.55}
+table.csv-table tbody tr:last-child td{border-bottom:none}
+table.csv-table tbody tr:hover{background:var(--parchment)}
+.csv-cell-op{font-family:'Courier New',monospace;font-size:11px;color:var(--accent);white-space:nowrap}
+.csv-cell-num{text-align:center;color:var(--ink-faint);font-variant-numeric:tabular-nums}
+.csv-cell-rationale{min-width:300px;font-size:11.5px}
+.csv-table a{color:var(--teal);text-decoration:none}
+.csv-table a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo"><em>Palimpsests</em> <span>·</span> Hypertextual Relations</a>
+    <ul class="nav-links">
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#framework">Framework</a></li>
+      <li><a href="#ontology">Ontology</a></li>
+      <li><a href="#cases">Case Studies</a></li>
+      <li><a href="#corpus">Corpus</a></li>
+      <li><a href="#operations">Operations</a></li>
+      <li><a href="#cq">SPARQL</a></li>
+      <li><a href="#methodology">Methodology</a></li>
+      <li><a href="#csvdata">View CSV</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div id="side-nav" aria-hidden="true">
+  <div class="side-nav-panel">
+    <div class="side-nav-title"><em>Palimpsests</em> <span>&middot;</span> menu</div>
+    <a href="#overview">Overview</a>
+    <a href="#framework">Framework</a>
+    <a href="#ontology">Ontology</a>
+    <a href="#cases">Case Studies</a>
+    <a href="#corpus">Corpus</a>
+    <a href="#operations">Operations</a>
+    <a href="#cq">SPARQL</a>
+    <a href="#methodology">Methodology</a>
+    <a href="#csvdata" class="side-csv">View CSV file</a>
+    <div class="side-nav-hint">Hover the left edge<br>to open this menu</div>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="hero-inner">
+    <p class="hero-eyebrow">KRKE · University of Bologna · DHDK 2024–25</p>
+    <h1>Palimpsests: Modeling<br><em>Hypertextual Relations</em><br>from Classics to Fanfiction</h1>
+    <p class="hero-sub">A knowledge representation project tracing how literary and media works are transformed, inherited, and imitated across texts, times, and cultures — from Homer to Joyce, from Austen to fan fiction.</p>
+    <div class="hero-meta">
+      <span>Knowledge Representation &amp; Extraction</span>
+      <span>Prof. Aldo Gangemi</span>
+      <span>Grounded in CreOn</span>
+    </div>
+    <div class="hero-ctas">
+      <a href="#corpus" class="btn-primary">Explore the corpus</a>
+      <a href="#cq" class="btn-secondary">View SPARQL queries</a>
+      <a href="#csvdata" class="btn-secondary">View CSV file</a>
+    </div>
+  </div>
+</header>
+
+<div class="stats-bar">
+  <div class="stats-bar-inner">
+    <div class="stat-item"><strong>34</strong><span>Works</span></div>
+    <div class="stat-item"><strong>67</strong><span>Operations modelled</span></div>
+    <div class="stat-item"><strong>3</strong><span>Creative strategies</span></div>
+    <div class="stat-item"><strong>13</strong><span>Narrative elements</span></div>
+  </div>
+</div>
+
+<!-- OVERVIEW -->
+<section id="overview">
+  <div class="section-inner">
+    <div class="two-col">
+      <div>
+        <div class="section-eyebrow">1. Overview</div>
+        <h2 class="section-title">Writing on writing</h2>
+        <div class="prose">
+          <p>A <em>palimpsest</em> is a manuscript whose original text has been scraped away and rewritten over — yet traces of what came before persist beneath the surface. As a metaphor for literary creation, it names every work that is written <em>on top of</em> another: not mere copying, but a structured creative dialogue between an earlier text and a later one.</p>
+          <p>This project applies that metaphor formally. Across 18 work pairs spanning antiquity to the present, we ask: when a new work derives from an earlier one, exactly what has been taken, what transformed, and what invented? The answer is encoded in an OWL ontology grounded in Prof. Aldo Gangemi's CreOn framework, producing a machine-queryable knowledge graph of literary derivation.</p>
+          <blockquote>
+            <p>"Any text is the absorption and transformation of another. Intertextuality replaces intersubjectivity."</p>
+            <cite>— Julia Kristeva, <em>Word, Dialogue and Novel</em>, 1966</cite>
+          </blockquote>
+          <p>Our corpus is deliberately broad — from epic poetry and classical Chinese novels to cross-media adaptations, authorized continuations, and fan-derived fiction. This breadth is principled: hypertextual creativity operates across all genres and media, and a formal model should be able to capture it uniformly.</p>
+        </div>
+      </div>
+      <div>
+        <p style="font-size:12px;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.08em;font-weight:500;margin:0 0 .7rem">Strategy &times; narrative element (67 operations)</p>
+        <div class="corr-bars" id="corr-bars"></div>
+        <figure class="overview-figure">
+          <img src="material/graf1.png" alt="Overview graph of the palimpsests knowledge base" loading="lazy">
+          <figcaption>Knowledge-base overview — works, operations, and strategies at a glance.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FRAMEWORK -->
+<section id="framework" class="alt-bg">
+  <div class="section-inner">
+    <div class="section-eyebrow">2. Theoretical framework</div>
+    <h2 class="section-title">From palimpsest to ontology</h2>
+    <p class="section-lead">Our model draws on three intellectual traditions — Genette's hypertextuality, Kristeva's intertextuality, and Gangemi's CreOn — and operationalises them through a shared formal vocabulary.</p>
+    <div class="theory-grid">
+      <div class="theory-card">
+        <span class="icon" style="color:var(--accent)">G</span>
+        <h4>Hypertextuality (Genette)</h4>
+        <p>Genette's <em>Palimpsestes</em> (1982) classifies the relations between a source text (hypotext) and its derivative (hypertext). The hypertext does not simply quote — it transforms, imitates, or continues. Our three creative strategies map directly onto Genette's taxonomy, and our corpus is selected precisely as hypotext–hypertext pairs.</p>
+      </div>
+      <div class="theory-card">
+        <span class="icon" style="color:var(--teal)">K</span>
+        <h4>Intertextuality (Kristeva)</h4>
+        <p>Kristeva's intertextuality names the condition that every text is a mosaic of absorbed and transformed prior texts. Our project operationalises this insight at the level of individual narrative elements: rather than asserting originality or derivativeness in the abstract, we track the specific mechanisms by which one text works through another.</p>
+      </div>
+      <div class="theory-card">
+        <span class="icon" style="color:var(--gold)">C</span>
+        <h4>CreOn (Gangemi)</h4>
+        <p>CreOn is an ontology of creativity grounded in DOLCE. It models creative acts as operations that consume and produce artefacts. Our project extends CreOn to the domain of literary derivation, specialising its <code>CreativeStrategy</code> class into Transformation, Inheritance, and Imitation — and its artefact-component model into our <code>NarrativeElement</code> hierarchy.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ONTOLOGY -->
+<section id="ontology">
+  <div class="section-inner">
+    <div class="section-eyebrow">3. Knowledge representation</div>
+    <h2 class="section-title">The ontology</h2>
+    <p class="section-lead">Our OWL 2 ontology (<code>http://example.org/palimpsests#</code>) extends CreOn with classes and properties for the palimpsest domain. Each creative operation is an individual that links a source work to a target work via a strategy, consuming one narrative element and producing another.</p>
+    <div class="two-col">
+      <div>
+        <div class="panel">
+          <div class="panel-head">Classes</div>
+          <div class="panel-body">
+            <div class="row-item"><span class="row-key">Work</span><span class="row-val">Any textual or media artefact — linked to Wikidata URIs via <code>externalRef</code></span></div>
+            <div class="row-item"><span class="row-key">CreativeStrategy</span><span class="row-val">Superclass; subclassed as Transformation, Inheritance, Imitation</span></div>
+            <div class="row-item"><span class="row-key">Transformation</span><span class="row-val">A source element is altered in form, medium, or meaning</span></div>
+            <div class="row-item"><span class="row-key">Inheritance</span><span class="row-val">A source element is reproduced without significant alteration</span></div>
+            <div class="row-item"><span class="row-key">Imitation</span><span class="row-val">A new element is modelled on a source prototype</span></div>
+            <div class="row-item"><span class="row-key">NarrativeElement</span><span class="row-val">Any component of a work: character, setting, structure, medium…</span></div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head">NarrativeElement hierarchy</div>
+          <div class="panel-body">
+            <div class="row-item"><span class="row-key teal">Character</span>
+              <div style="flex:1">
+                <div style="margin-bottom:4px"><span class="ne-chip">CharacterIdentity</span><span class="ne-chip">CharacterFunction</span><span class="ne-chip">CharacterArc</span></div>
+                <div style="font-size:12px;color:var(--ink-faint);line-height:1.55"><strong>Identity</strong>: changes or continuations of a character's occupation, social position, species, or baseline persona. <strong>Function</strong>: the character's narrative role — protagonist, helper, antagonist. <strong>Arc</strong>: the trajectory of growth, decline, or transformation, and key psychological turning points.</div>
+              </div>
+            </div>
+            <div class="row-item"><span class="row-key teal">BackgroundSetting</span>
+              <div style="flex:1">
+                <div style="margin-bottom:4px"><span class="ne-chip">Chronotope</span><span class="ne-chip">WorldRules</span></div>
+                <div style="font-size:12px;color:var(--ink-faint);line-height:1.55"><strong>Chronotope</strong>: the unified spatio-temporal context (era, geography, AU). <strong>WorldRules</strong>: the operative logic of the fictional world — magic systems, technology, social institutions, legal structures.</div>
+              </div>
+            </div>
+            <div class="row-item"><span class="row-key teal">StoryStructure</span>
+              <div style="flex:1">
+                <div style="margin-bottom:4px"><span class="ne-chip">EventSequence</span><span class="ne-chip">Focalization</span><span class="ne-chip">Outcome</span><span class="ne-chip">Causality</span></div>
+                <div style="font-size:12px;color:var(--ink-faint);line-height:1.55"><strong>EventSequence</strong>: the ordering of key events and their correspondences (homology, reshuffling, substitution). <strong>Focalization</strong>: who sees / whose cognitive filter governs information access. <strong>Outcome</strong>: the type of ending and value orientation. <strong>Causality</strong>: the causal logic linking events.</div>
+              </div>
+            </div>
+            <div class="row-item"><span class="row-key teal">Relation</span>
+              <div style="flex:1">
+                <div style="margin-bottom:4px"><span class="ne-chip">RelationType</span><span class="ne-chip">RelationTopology</span></div>
+                <div style="font-size:12px;color:var(--ink-faint);line-height:1.55"><strong>RelationType</strong>: the category of bond between characters — kinship, romance, enmity, alliance, mentorship. <strong>RelationTopology</strong>: who forms the core group, the position of central nodes, and shifts in the network's centre of gravity.</div>
+              </div>
+            </div>
+            <div class="row-item"><span class="row-key teal">MediumType</span><span class="row-val"><span class="ne-chip">MediumType</span> The format and medium of the work: Novel · Film · TV Series · Manga · Musical · Poem…</span></div>
+            <div class="row-item"><span class="row-key teal">ContentDomain</span><span class="row-val"><span class="ne-chip">ContentDomain</span> The thematic world and dominant genre of the work — the kind of events, conflicts, and values it foregrounds.</span></div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head">Object properties</div>
+          <div class="panel-body">
+            <div class="row-item"><span class="row-key">hasOriginalWork</span><span class="row-val">CreativeStrategy → Work (the hypotext)</span></div>
+            <div class="row-item"><span class="row-key">hasTransformativeWork</span><span class="row-val">CreativeStrategy → Work (the hypertext)</span></div>
+            <div class="row-item"><span class="row-key">sourceElement</span><span class="row-val">CreativeStrategy → NarrativeElement (consumed)</span></div>
+            <div class="row-item"><span class="row-key">targetElement</span><span class="row-val">CreativeStrategy → NarrativeElement (produced)</span></div>
+            <div class="row-item"><span class="row-key">actsOnElement</span><span class="row-val">CreativeStrategy → NarrativeElement (general scope)</span></div>
+            <div class="row-item"><span class="row-key">hasNarrativeElement</span><span class="row-val">Work → NarrativeElement</span></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <!-- VIZ 1: Core pattern SVG — redrawn larger and cleaner -->
+        <div class="panel" style="margin-bottom:1.25rem">
+          <div class="panel-head">Core ontology pattern</div>
+          <div style="padding:1.25rem;overflow-x:auto">
+            <img src="material/ex2.drawio.svg" alt="Core ontology pattern" style="width:100%;height:auto;display:block"/>
+          </div>
+        </div>
+
+        <!-- VIZ 2: Strategy distribution donut (SVG) -->
+        <div class="panel" style="margin-bottom:1.25rem">
+          <div class="panel-head">Strategy distribution — 67 operations</div>
+          <div style="padding:1.1rem 1.25rem;display:flex;align-items:center;gap:1.5rem">
+            <svg viewBox="0 0 110 110" width="110" height="110" style="flex-shrink:0">
+              <!-- Transformation: 31/67 = 166° -->
+              <circle cx="55" cy="55" r="38" fill="none" stroke="#e8d5d5" stroke-width="18"/>
+              <!-- circumference = 2*pi*38 = 238.76; segments scaled to 67 ops -->
+              <!-- Transformation arc: 31/67 -->
+              <circle cx="55" cy="55" r="38" fill="none" stroke="#8b2e2e" stroke-width="18"
+                stroke-dasharray="110.48 238.76" transform="rotate(-90 55 55)"/>
+              <!-- Inheritance arc: 18/67 (offset after Transformation) -->
+              <circle cx="55" cy="55" r="38" fill="none" stroke="#2a5c5c" stroke-width="18"
+                stroke-dasharray="0 110.48 64.14 238.76" transform="rotate(-90 55 55)"/>
+              <!-- Imitation arc: 18/67 (offset after Transformation + Inheritance) -->
+              <circle cx="55" cy="55" r="38" fill="none" stroke="#a07830" stroke-width="18"
+                stroke-dasharray="0 174.62 64.14 238.76" transform="rotate(-90 55 55)"/>
+              <text x="55" y="51" text-anchor="middle" font-size="14" font-family="EB Garamond,Georgia,serif" fill="#1a1612" font-weight="400">67</text>
+              <text x="55" y="63" text-anchor="middle" font-size="7" font-family="sans-serif" fill="#9a9086">operations</text>
+            </svg>
+            <div style="flex:1">
+              <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.55rem">
+                <span style="width:11px;height:11px;border-radius:2px;background:#8b2e2e;flex-shrink:0"></span>
+                <span style="font-size:12.5px;color:var(--ink-muted);flex:1">Transformation</span>
+                <span style="font-size:13px;font-family:var(--serif);color:var(--accent)">31</span>
+                <span style="font-size:11px;color:var(--ink-faint);width:34px;text-align:right">46%</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.55rem">
+                <span style="width:11px;height:11px;border-radius:2px;background:#2a5c5c;flex-shrink:0"></span>
+                <span style="font-size:12.5px;color:var(--ink-muted);flex:1">Inheritance</span>
+                <span style="font-size:13px;font-family:var(--serif);color:var(--teal)">18</span>
+                <span style="font-size:11px;color:var(--ink-faint);width:34px;text-align:right">27%</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:.5rem">
+                <span style="width:11px;height:11px;border-radius:2px;background:#a07830;flex-shrink:0"></span>
+                <span style="font-size:12.5px;color:var(--ink-muted);flex:1">Imitation</span>
+                <span style="font-size:13px;font-family:var(--serif);color:var(--gold)">18</span>
+                <span style="font-size:11px;color:var(--ink-faint);width:34px;text-align:right">27%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- VIZ 3: NarrativeElement frequency chart -->
+        <div class="panel">
+          <div class="panel-head">The Frequency of Narrative Elements</div>
+          <div style="padding:1rem 1.25rem" id="ne-chart"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CASE STUDIES -->
+<section id="cases">
+  <div class="section-inner">
+    <div class="section-eyebrow">4. Case studies</div>
+    <h2 class="section-title">Two pairs in depth</h2>
+    <p class="section-lead">Before surveying the full corpus, we examine two pairs in detail — one from the Chinese literary tradition, one from the Western — to show how the ontology captures concrete creative decisions.</p>
+
+    <!-- CASE 1: Water Margin → Jin Ping Mei -->
+    <div class="case-study">
+      <div class="case-hero">
+        <div class="case-carousel" data-carousel>
+          <div class="carousel-slide active">
+            <div class="case-img-pair">
+              <div class="case-img-side" id="img-water-margin" style="background-image:url('material/water_margin.jpg');background-size:cover;background-position:center">
+                <div class="case-img-label">WATER MARGIN 水浒传 · C. 14TH C.</div>
+              </div>
+              <div class="case-img-side" style="position:relative;background-image:url('material/jingpingmei.jpg');background-size:cover;background-position:center">
+                <div class="case-img-arrow">→</div>
+                <div class="case-img-label">JIN PING MEI 金瓶梅 · C. 1610</div>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-slide">
+            <div class="graf-window" data-graph="jpm">
+              <div class="graf-toolbar">
+                <span class="graf-title">Ontology graph · Water Margin → Jin Ping Mei</span>
+                <span class="graf-tools">
+                  <button type="button" data-act="out" title="Zoom out">&minus;</button>
+                  <button type="button" data-act="in" title="Zoom in">+</button>
+                  <button type="button" data-act="reset" title="Reset view">&#8635;</button>
+                </span>
+              </div>
+              <svg class="graf-svg"><g class="graf-view"></g></svg>
+              <div class="graf-hint">Drag to pan · scroll to zoom · drag a node to move it</div>
+            </div>
+          </div>
+          <div class="carousel-dots">
+            <button type="button" class="carousel-dot active" aria-label="Show photographs"></button>
+            <button type="button" class="carousel-dot" aria-label="Show ontology graph"></button>
+          </div>
+        </div>
+        <div class="case-body">
+          <div class="case-title"><em>Water Margin</em> → <em>Jin Ping Mei</em></div>
+          <div class="case-subtitle">China · 14th – early 17th century</div>
+          <p><em>Water Margin</em> (<em>Shuihu Zhuan</em>) is a sprawling epic of 108 outlaw heroes pledged to a brotherhood of righteous resistance. Its content domain is chivalric heroism, its narrative focus a rotating ensemble of larger-than-life rebels.</p>
+          <p><em>Jin Ping Mei</em> is written directly on top of that text. Its author takes a single marginal episode — Wu Song's killing of his adulterous sister-in-law Pan Jin Lian, told in a handful of chapters — and uses it as a seed from which to grow an entirely new novel. Where <em>Water Margin</em> looks outward at the jianghu, <em>Jin Ping Mei</em> turns inward to the merchant household of Xi Men Qing: desire, money, and social maneuvering replace outlaw violence. The flat villainess Pan Jin Lian is given psychological depth; Wu Song, a protagonist of the source, is radically marginalized. The result is simultaneously a close hypertextual derivative and the founding text of the Chinese novel of manners.</p>
+        </div>
+      </div>
+      <div class="ops-inline">
+        <div class="op-inline-row">
+          <span class="op-inline-ne tag-Imitation tag" style="font-size:10px">Imitation</span>
+          <span style="font-family:'Courier New',monospace;font-size:10.5px;color:var(--ink-faint);flex-shrink:0;min-width:120px;padding:1px 6px">EventSequence</span>
+          <span class="op-inline-text">A single marginal episode — Wu Song's killing of his adulterous sister-in-law, in places quoted almost verbatim — is extracted and reused as the seed plot from which the entire new novel grows.</span>
+        </div>
+        <div class="op-inline-row">
+          <span class="op-inline-ne tag-Transformation tag" style="font-size:10px">Transformation</span>
+          <span style="font-family:'Courier New',monospace;font-size:10.5px;color:var(--ink-faint);flex-shrink:0;min-width:120px;padding:1px 6px">ContentDomain</span>
+          <span class="op-inline-text">The content domain shifts from chivalric heroism and outlaw violence into the everyday domestic world of desire, money, and social maneuvering — the founding move of the Chinese novel of manners.</span>
+        </div>
+        <div class="op-inline-row">
+          <span class="op-inline-ne tag-Transformation tag" style="font-size:10px">Transformation</span>
+          <span style="font-family:'Courier New',monospace;font-size:10.5px;color:var(--ink-faint);flex-shrink:0;min-width:120px;padding:1px 6px">Focalization</span>
+          <span class="op-inline-text">Narrative focus shifts from a rotating ensemble of outlaw heroes to the enclosed interior of a single merchant household.</span>
+        </div>
+        <div class="op-inline-row">
+          <span class="op-inline-ne tag-Transformation tag" style="font-size:10px">Transformation</span>
+          <span style="font-family:'Courier New',monospace;font-size:10.5px;color:var(--ink-faint);flex-shrink:0;min-width:120px;padding:1px 6px">CharacterFunction</span>
+          <span class="op-inline-text">The flat villainess Pan Jin Lian is given psychological depth; her moral condemnation is suspended, transforming her function from object of judgment to ambiguous subject.</span>
+        </div>
+        <div class="op-inline-row">
+          <span class="op-inline-ne tag-Inheritance tag" style="font-size:10px">Inheritance</span>
+          <span style="font-family:'Courier New',monospace;font-size:10.5px;color:var(--ink-faint);flex-shrink:0;min-width:120px;padding:1px 6px">CharacterIdentity</span>
+          <span class="op-inline-text">The core cast — Xi Men Qing, Pan Jin Lian, Wu Song — is inherited directly from the source. Wu Song, a protagonist there, is radically marginalized here.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CASE 2: Canon of Sherlock Holmes → Sherlock -->
+    <div class="case-study">
+      <div class="case-hero">
+        <div class="case-carousel" data-carousel>
+          <div class="carousel-slide active">
+            <div class="case-img-pair">
+              <div class="case-img-side" style="background-image:url('material/canon_of_Sherlock_Holmes.jpg');background-size:cover;background-position:center">
+                <div class="case-img-label">CONAN DOYLE'S HOLMES · 1887–1927</div>
+              </div>
+              <div class="case-img-side" style="position:relative;background-image:url('material/sherlock.jpg');background-size:cover;background-position:center">
+                <div class="case-img-arrow">→</div>
+                <div class="case-img-label">BBC SHERLOCK · 2010–2017</div>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-slide">
+            <div class="graf-window" data-graph="sherlock">
+              <div class="graf-toolbar">
+                <span class="graf-title">Ontology graph · Canon of Sherlock Holmes → Sherlock</span>
+                <span class="graf-tools">
+                  <button type="button" data-act="out" title="Zoom out">&minus;</button>
+                  <button type="button" data-act="in" title="Zoom in">+</button>
+                  <button type="button" data-act="reset" title="Reset view">&#8635;</button>
+                </span>
+              </div>
+              <svg class="graf-svg"><g class="graf-view"></g></svg>
+              <div class="graf-hint">Drag to pan · scroll to zoom · drag a node to move it</div>
+            </div>
+          </div>
+          <div class="carousel-dots">
+            <button type="button" class="carousel-dot active" aria-label="Show photographs"></button>
+            <button type="button" class="carousel-dot" aria-label="Show ontology graph"></button>
+          </div>
+        </div>
+        <div class="case-body">
+          <div class="case-title"><em>Canon of Sherlock Holmes</em> → <em>Sherlock</em></div>
+          <div class="case-subtitle">United Kingdom · 1887 – 2017</div>
+          <p>Arthur Conan Doyle's four novels and fifty-six short stories, published between 1887 and 1927, established one of fiction's most recognisable narrative templates: a brilliant, eccentric consulting detective and his loyal companion, working at the margins of official police procedure in Victorian London.</p>
+          <p>The BBC series <em>Sherlock</em> (2010–2017), created by Steven Moffat and Mark Gatiss, is a systematic hypertextual rewriting. Its central formal move is chronotopic: Victorian London becomes contemporary London. With this single transformation, the entire sign-system of the original is updated — nicotine patches replace a pipe, texts replace telegrams, a blog replaces Watson's published diaries. The characters are inherited directly, including their relational dynamic, but Holmes's eccentric rationalism is reframed through a clinical idiom as "high-functioning sociopathy". The medium shifts from short-story collection to serialised television, expanding episodic cases into season-long arcs with overarching antagonists.</p>
+        </div>
+      </div>
+      <div class="ops-inline">
+        <div class="op-inline-row">
+          <span class="op-inline-ne tag-Transformation tag" style="font-size:10px">Transformation</span>
+          <span style="font-family:'Courier New',monospace;font-size:10.5px;color:var(--ink-faint);flex-shrink:0;min-width:120px;padding:1px 6px">Chronotope</span>
+          <span class="op-inline-text">The historical era is replaced — Victorian becomes contemporary London — while the geographical setting is preserved. The update propagates through every sign in the text.</span>
+        </div>
+        <div class="op-inline-row">
+          <span class="op-inline-ne tag-Transformation tag" style="font-size:10px">Transformation</span>
+          <span style="font-family:'Courier New',monospace;font-size:10.5px;color:var(--ink-faint);flex-shrink:0;min-width:120px;padding:1px 6px">MediumType</span>
+          <span class="op-inline-text">The short-story collection is recast as serialised television, expanding episodic cases into season-long arcs with overarching antagonists.</span>
+        </div>
+        <div class="op-inline-row">
+          <span class="op-inline-ne tag-Imitation tag" style="font-size:10px">Imitation</span>
+          <span style="font-family:'Courier New',monospace;font-size:10.5px;color:var(--ink-faint);flex-shrink:0;min-width:120px;padding:1px 6px">CharacterArc</span>
+          <span class="op-inline-text">Holmes's baseline characterisation is reused but intensified: eccentric rationalism is reframed through a modern clinical idiom as "high-functioning sociopathy".</span>
+        </div>
+        <div class="op-inline-row">
+          <span class="op-inline-ne tag-Inheritance tag" style="font-size:10px">Inheritance</span>
+          <span style="font-family:'Courier New',monospace;font-size:10.5px;color:var(--ink-faint);flex-shrink:0;min-width:120px;padding:1px 6px">RelationType</span>
+          <span class="op-inline-text">The Holmes–Watson friendship and cohabitation at 221B Baker Street is inherited intact — the point of contrast with Elementary's reconfiguration of the same relationship.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CORPUS -->
+<section id="corpus" class="alt-bg">
+  <div class="section-inner">
+    <div class="section-eyebrow">5. Corpus</div>
+    <h2 class="section-title">18 hypotext–hypertext pairs</h2>
+    <p class="section-lead">Each pair is a work whose creative debt to an earlier text is deep and demonstrable. Click any card to expand its modelled operations. The stacked bar shows the strategy mix for that pair.</p>
+    <div class="pairs-grid" id="pairs-grid"></div>
+  </div>
+</section>
+
+<!-- OPERATIONS -->
+<section id="operations">
+  <div class="section-inner">
+    <div class="section-eyebrow">5. Operations database</div>
+    <h2 class="section-title">67 modelled creative operations</h2>
+    <p class="section-lead">Each operation links a source narrative element to a target element via a creative strategy, with a rationale annotation. Filter by strategy or narrative element type.</p>
+    <div class="ops-filter" id="ops-filter">
+      <button class="filter-btn active" data-filter="all">All (67)</button>
+      <button class="filter-btn" data-filter="Transformation">Transformation (31)</button>
+      <button class="filter-btn" data-filter="Inheritance">Inheritance (18)</button>
+      <button class="filter-btn" data-filter="Imitation">Imitation (18)</button>
+    </div>
+    <div class="ops-list" id="ops-list"></div>
+  </div>
+</section>
+
+<!-- COMPETENCY QUESTIONS -->
+<section id="cq" class="alt-bg">
+  <div class="section-inner">
+    <div class="section-eyebrow">6. Competency questions</div>
+    <h2 class="section-title">SPARQL queries</h2>
+    <p class="section-lead">The ontology is designed to answer three core competency questions via SPARQL 1.1. Each query is shown with an example result drawn from the knowledge base.</p>
+
+    <div class="cq-tabs">
+      <button class="cq-tab active" data-cq="cq1">CQ1 — Source derivation</button>
+      <button class="cq-tab" data-cq="cq2">CQ2 — Creative strategies</button>
+      <button class="cq-tab" data-cq="cq3">CQ3 — Preserved &amp; reconstructed elements</button>
+    </div>
+
+    <!-- CQ1 -->
+    <div class="cq-panel active" id="cq1">
+      <div class="cq-block">
+        <div class="cq-block-head">
+          <div class="cq-question">Which original work does a given derivative derive from?</div>
+          <div class="cq-note">General query — returns all hypotext → hypertext pairs with operation count</div>
+        </div>
+        <div class="cq-body">
+<pre>PREFIX :    &lt;http://example.org/palimpsests#&gt;
+PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+
+SELECT ?derivativeWork ?originalWork (COUNT(?op) AS ?numOps)
+WHERE {
+  ?op a :CreativeStrategy ;
+      :hasTransformativeWork ?derivativeWork ;
+      :hasOriginalWork ?originalWork .
+}
+GROUP BY ?derivativeWork ?originalWork
+ORDER BY DESC(?numOps)</pre>
+          <div class="cq-results">
+            <p>Example results (excerpt):</p>
+            <table class="result-table">
+              <tr><th>derivativeWork</th><th>originalWork</th><th>numOps</th></tr>
+              <tr><td>:Ulysses</td><td>:Odyssey</td><td>5</td></tr>
+              <tr><td>:Wicked</td><td>:The_Wonderful_Wizard_of_Oz</td><td>5</td></tr>
+              <tr><td>:Jin_Ping_Mei</td><td>:Water_Margin</td><td>5</td></tr>
+              <tr><td>:Elementary</td><td>:Canon_of_Sherlock_Holmes</td><td>5</td></tr>
+              <tr><td>:West_Side_Story</td><td>:Romeo_and_Juliet</td><td>4</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="cq-block">
+        <div class="cq-block-head">
+          <div class="cq-question">Parameterised: which source does <em>Ulysses</em> derive from?</div>
+          <div class="cq-note">Replace :Ulysses with any work individual</div>
+        </div>
+        <div class="cq-body">
+<pre>SELECT ?originalWork ?externalRef
+WHERE {
+  ?op a :CreativeStrategy ;
+      :hasTransformativeWork :Ulysses ;
+      :hasOriginalWork ?originalWork .
+  OPTIONAL { ?originalWork :externalRef ?externalRef . }
+}</pre>
+          <div class="cq-results">
+            <table class="result-table">
+              <tr><th>originalWork</th><th>externalRef</th></tr>
+              <tr><td>:Odyssey</td><td>https://www.wikidata.org/wiki/Q35160</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CQ2 -->
+    <div class="cq-panel" id="cq2">
+      <div class="cq-block">
+        <div class="cq-block-head">
+          <div class="cq-question">Which creative strategies does a derivative work employ?</div>
+          <div class="cq-note">General query — returns strategy breakdown for every derivative work</div>
+        </div>
+        <div class="cq-body">
+<pre>SELECT ?derivativeWork ?strategyClass (COUNT(?op) AS ?count)
+WHERE {
+  ?op a :CreativeStrategy ;
+      :hasTransformativeWork ?derivativeWork .
+  ?op a ?strategyClass .
+  FILTER(?strategyClass IN (:Transformation, :Inheritance, :Imitation))
+}
+GROUP BY ?derivativeWork ?strategyClass
+ORDER BY ?derivativeWork DESC(?count)</pre>
+          <div class="cq-results">
+            <p>Example results for <em>Wicked</em>:</p>
+            <table class="result-table">
+              <tr><th>derivativeWork</th><th>strategyClass</th><th>count</th></tr>
+              <tr><td>:Wicked</td><td>:Transformation</td><td>3</td></tr>
+              <tr><td>:Wicked</td><td>:Imitation</td><td>1</td></tr>
+              <tr><td>:Wicked</td><td>:Inheritance</td><td>1</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="cq-block">
+        <div class="cq-block-head">
+          <div class="cq-question">Parameterised: strategy profile of <em>Ulysses</em></div>
+          <div class="cq-note">Double-typing pattern enables direct class membership query</div>
+        </div>
+        <div class="cq-body">
+<pre>SELECT ?strategyClass (COUNT(?op) AS ?count)
+WHERE {
+  ?op a :CreativeStrategy, ?strategyClass ;
+      :hasTransformativeWork :Ulysses .
+  FILTER(?strategyClass IN (:Transformation, :Inheritance, :Imitation))
+}
+GROUP BY ?strategyClass
+ORDER BY DESC(?count)</pre>
+          <div class="cq-results">
+            <table class="result-table">
+              <tr><th>strategyClass</th><th>count</th></tr>
+              <tr><td>:Transformation</td><td>3</td></tr>
+              <tr><td>:Imitation</td><td>1</td></tr>
+              <tr><td>:Inheritance</td><td>1</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CQ3 -->
+    <div class="cq-panel" id="cq3">
+      <div class="cq-block">
+        <div class="cq-block-head">
+          <div class="cq-question">Which parts of the source were preserved or reconstructed in the derivative?</div>
+          <div class="cq-note">General query — full element-level provenance across all pairs</div>
+        </div>
+        <div class="cq-body">
+<pre>SELECT ?originalWork ?derivativeWork ?strategyClass
+       ?srcElement ?tgtElement ?neType ?rationale
+WHERE {
+  ?op a :CreativeStrategy, ?strategyClass ;
+      :hasOriginalWork ?originalWork ;
+      :hasTransformativeWork ?derivativeWork ;
+      :sourceElement ?srcElement ;
+      :targetElement ?tgtElement .
+  FILTER(?strategyClass IN (:Transformation, :Inheritance, :Imitation))
+  ?srcElement a ?neType .
+  ?neType rdfs:subClassOf* :NarrativeElement .
+  OPTIONAL { ?op :rationale ?rationale . }
+}
+ORDER BY ?originalWork ?derivativeWork ?strategyClass</pre>
+          <div class="cq-results">
+            <p>Example results for <em>Odyssey</em> → <em>Ulysses</em>:</p>
+            <table class="result-table">
+              <tr><th>strategy</th><th>neType</th><th>source element</th><th>target element</th></tr>
+              <tr><td>:Transformation</td><td>:Chronotope</td><td>:Ancient_Mediterranean_Decade</td><td>:Single_Day_Modern_Dublin</td></tr>
+              <tr><td>:Transformation</td><td>:Focalization</td><td>:External_Heroic_Narration</td><td>:Interior_Stream_of_Consciousness</td></tr>
+              <tr><td>:Transformation</td><td>:MediumType</td><td>:Epic_Poem</td><td>:Modernist_Novel</td></tr>
+              <tr><td>:Inheritance</td><td>:EventSequence</td><td>:Homeric_Episode_Structure</td><td>:Homeric_Episode_Structure</td></tr>
+              <tr><td>:Imitation</td><td>:CharacterIdentity</td><td>:Hero_Odysseus</td><td>:Everyman_Leopold_Bloom</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="cq-block">
+        <div class="cq-block-head">
+          <div class="cq-question">Parameterised: what was <em>preserved</em> (Inheritance) in a specific pair?</div>
+          <div class="cq-note">Filter by :Inheritance to isolate unchanged elements; swap for :Transformation to get reconstructed ones</div>
+        </div>
+        <div class="cq-body">
+<pre>SELECT ?srcElement ?tgtElement ?neType ?rationale
+WHERE {
+  ?op a :CreativeStrategy, :Inheritance ;
+      :hasOriginalWork :Odyssey ;
+      :hasTransformativeWork :Ulysses ;
+      :sourceElement ?srcElement ;
+      :targetElement ?tgtElement .
+  ?srcElement a ?neType .
+  OPTIONAL { ?op :rationale ?rationale . }
+}</pre>
+          <div class="cq-results">
+            <table class="result-table">
+              <tr><th>neType</th><th>srcElement</th><th>rationale</th></tr>
+              <tr><td>:EventSequence</td><td>:Homeric_Episode_Structure</td><td>The episodic skeleton of the Homeric source is inherited as a metaphorical scaffold mapping each chapter to an episode.</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METHODOLOGY -->
+<section id="methodology">
+  <div class="section-inner">
+    <div class="section-eyebrow">7. Methodology</div>
+    <h2 class="section-title">How the model was built</h2>
+    <p class="section-lead">The project followed an ontology engineering pipeline combining theoretical grounding, corpus curation, formal modelling, and SPARQL evaluation.</p>
+    <div class="two-col">
+      <div>
+        <div class="method-steps">
+          <div class="m-step"><span class="m-num">I</span><div class="m-body"><h4>Corpus selection</h4><p>18 work pairs were identified based on documented, demonstrable hypertextual relations. Selection criteria: depth of creative debt (without the hypotext the hypertext is inconceivable), diversity of strategy type, media, culture, and period — from classical antiquity to the 2020s.</p></div></div>
+          <div class="m-step"><span class="m-num">II</span><div class="m-body"><h4>Ontology design</h4><p>Starting from CreOn and Genette's theoretical vocabulary, we defined our class hierarchy and property set in OWL 2. The <code>NarrativeElement</code> type hierarchy was developed iteratively through corpus annotation. Works are grounded via Wikidata external references.</p></div></div>
+          <div class="m-step"><span class="m-num">III</span><div class="m-body"><h4>Operation annotation</h4><p>Each pair was analysed to identify its discrete creative operations. For each operation we assigned a strategy class, source and target narrative element individuals, and a natural-language rationale. The result is 67 annotated operations stored in Turtle and the source CSV.</p></div></div>
+          <div class="m-step"><span class="m-num">IV</span><div class="m-body"><h4>SPARQL evaluation</h4><p>Three competency questions were formulated and verified: the ontology and dataset together are sufficient to answer each one via standard SPARQL 1.1, including parameterised variants that filter by specific work individuals.</p></div></div>
+          <div class="m-step"><span class="m-num">V</span><div class="m-body"><h4>Documentation</h4><p>The ontology (<code>palimpsests.ttl</code>), SPARQL queries, and this documentation website form the project deliverables, modelled in Protégé following OWL 2 DL semantics.</p></div></div>
+        </div>
+      </div>
+      <div>
+        <div class="panel">
+          <div class="panel-head">Bibliography</div>
+          <div class="panel-body">
+            <div class="row-item"><span class="row-key plain">Genette 1982</span><span class="row-val">Palimpsestes: La littérature au second degré. Seuil, Paris.</span></div>
+            <div class="row-item"><span class="row-key plain">Kristeva 1966</span><span class="row-val">Word, Dialogue and Novel. In <em>The Kristeva Reader</em> (Moi ed.), 1986.</span></div>
+            <div class="row-item"><span class="row-key plain">Gangemi 2024</span><span class="row-val">CreOn: Creative Ontology. <a href="https://github.com/aldogangemi/CreOn" target="_blank">github.com/aldogangemi/CreOn</a></span></div>
+            <div class="row-item"><span class="row-key plain">Gangemi 2005</span><span class="row-val">Ontology Design Patterns for Semantic Web Content. ISWC 2005.</span></div>
+            <div class="row-item"><span class="row-key plain">Gangemi &amp; Presutti 2010</span><span class="row-val">Towards a Knowledge Pattern Science. <em>Semantic Web Journal</em>.</span></div>
+          </div>
+        </div>
+        <div class="panel" style="margin-top:1.25rem">
+          <div class="panel-head">Tools &amp; resources</div>
+          <div class="panel-body">
+            <div class="row-item"><span class="row-key">Protégé 5.5</span><span class="row-val">OWL 2 ontology modelling and HermiT reasoning</span></div>
+            <div class="row-item"><span class="row-key">Turtle / OWL 2</span><span class="row-val">Serialisation format; namespace <code>http://example.org/palimpsests#</code></span></div>
+            <div class="row-item"><span class="row-key">SPARQL 1.1</span><span class="row-val">Competency question querying</span></div>
+            <div class="row-item"><span class="row-key">Wikidata</span><span class="row-val">External URI grounding for Work individuals</span></div>
+            <div class="row-item"><span class="row-key">CreOn</span><span class="row-val">Foundational creativity ontology — extended here</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CSV DATA TABLES -->
+<section id="csvdata">
+  <div class="section-inner">
+    <div class="section-eyebrow">Appendix &middot; Source data</div>
+    <h2 class="section-title">Operation tables</h2>
+    <p class="section-lead">The full operation datasets underlying the knowledge base, shown as raw tables. Toggle between the original hand-authored operations and the audited, normalised set used to generate <code>palimpsests.ttl</code>.</p>
+    <div class="csv-toggle">
+      <button class="csv-tab active" data-csv="orig">Operation Original</button>
+      <button class="csv-tab" data-csv="aud">Operation Audited</button>
+    </div>
+    <div class="csv-count" id="csv-count"></div>
+    <div class="csv-table-wrap"><table class="csv-table" id="csv-table"></table></div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo"><em>Palimpsests</em> <span>·</span> Modeling Hypertextual Relations from Classics to Fanfiction</div>
+    <p class="footer-meta">
+      Knowledge Representation &amp; Extraction · DHDK Master's Programme<br>
+      Università di Bologna · A.Y. 2024–25 · Prof. Aldo Gangemi<br>
+      Grounded in <a href="https://github.com/aldogangemi/CreOn" target="_blank">CreOn</a> · Wikidata-linked corpus · OWL 2 DL
+    </p>
+  </div>
+</footer>
+
+<script>
+const PAIRS = [{"n": 1, "orig": "Water Margin", "trans": "Jin Ping Mei", "orig_uri": "https://www.wikidata.org/wiki/Q70827", "trans_uri": "https://www.wikidata.org/wiki/Q753535", "strategies": ["Imitation", "Inheritance", "Transformation"], "op_count": 5}, {"n": 2, "orig": "The Twilight Saga", "trans": "Fifty Shades of Grey", "orig_uri": "https://www.wikidata.org/wiki/Q652599", "trans_uri": "https://www.wikidata.org/wiki/Q557867", "strategies": ["Imitation", "Inheritance", "Transformation"], "op_count": 3}, {"n": 3, "orig": "Canon of Sherlock Holmes", "trans": "Sherlock", "orig_uri": "https://www.wikidata.org/wiki/Q2316684", "trans_uri": "https://www.wikidata.org/wiki/Q192837", "strategies": ["Imitation", "Inheritance", "Transformation"], "op_count": 4}, {"n": 4, "orig": "Canon of Sherlock Holmes", "trans": "Elementary", "orig_uri": "https://www.wikidata.org/wiki/Q2316684", "trans_uri": "https://www.wikidata.org/wiki/Q247643", "strategies": ["Imitation", "Inheritance", "Transformation"], "op_count": 5}, {"n": 5, "orig": "Journey to the West", "trans": "A Chinese Odyssey", "orig_uri": "https://www.wikidata.org/wiki/Q70784", "trans_uri": "https://www.wikidata.org/wiki/Q868483", "strategies": ["Imitation", "Inheritance", "Transformation"], "op_count": 3}, {"n": 6, "orig": "Record of the Western Regions", "trans": "Journey to the West", "orig_uri": "https://www.wikidata.org/wiki/Q1146069", "trans_uri": "https://www.wikidata.org/wiki/Q70784", "strategies": ["Imitation", "Inheritance", "Transformation"], "op_count": 3}, {"n": 7, "orig": "Ghost Blows Out the Light", "trans": "Daomu Biji", "orig_uri": "https://www.wikidata.org/wiki/Q5557059", "trans_uri": "https://www.wikidata.org/wiki/Q4861172", "strategies": ["Imitation", "Inheritance", "Transformation"], "op_count": 3}, {"n": 8, "orig": "Harry Potter", "trans": "The Mortal Instruments", "orig_uri": "https://www.wikidata.org/wiki/Q8337", "trans_uri": "https://www.wikidata.org/wiki/Q478151", "strategies": ["Imitation", "Inheritance", "Transformation"], "op_count": 3}, {"n": 9, "orig": "The Wonderful Wizard of Oz", "trans": "Wicked", "orig_uri": "https://www.wikidata.org/wiki/Q130295", "trans_uri": "https://www.wikidata.org/wiki/Q616439", "strategies": ["Imitation", "Inheritance", "Transformation"], "op_count": 5}, {"n": 10, "orig": "Pride and Prejudice", "trans": "Pride and Prejudice and Zombies", "orig_uri": "https://www.wikidata.org/wiki/Q170583", "trans_uri": "https://www.wikidata.org/wiki/Q2659311", "strategies": ["Imitation", "Inheritance", "Transformation"], "op_count": 3}, {"n": 11, "orig": "The Three-Body Problem", "trans": "ThreeBodyX", "orig_uri": "https://www.wikidata.org/wiki/Q607112", "trans_uri": "https://baike.baidu.com/item/三体X·观想之宙/7656426", "strategies": ["Imitation", "Inheritance", "Transformation"], "op_count": 3}, {"n": 12, "orig": "Odyssey", "trans": "Ulysses", "orig_uri": "https://www.wikidata.org/wiki/Q35160", "trans_uri": "https://www.wikidata.org/wiki/Q6511", "strategies": ["Imitation", "Inheritance", "Transformation"], "op_count": 5}, {"n": 13, "orig": "Romeo and Juliet", "trans": "West Side Story", "orig_uri": "https://www.wikidata.org/wiki/Q83186", "trans_uri": "https://www.wikidata.org/wiki/Q669010", "strategies": ["Imitation", "Inheritance", "Transformation"], "op_count": 4}, {"n": 14, "orig": "Emma", "trans": "Clueless", "orig_uri": "https://www.wikidata.org/wiki/Q223880", "trans_uri": "https://www.wikidata.org/wiki/Q931165", "strategies": ["Imitation", "Inheritance", "Transformation"], "op_count": 4}, {"n": 15, "orig": "Dracula", "trans": "Nosferatu", "orig_uri": "https://www.wikidata.org/wiki/Q41542", "trans_uri": "https://www.wikidata.org/wiki/Q151895", "strategies": ["Imitation", "Inheritance", "Transformation"], "op_count": 3}, {"n": 16, "orig": "Jin Yong universe", "trans": "The Here and Now Youth", "orig_uri": "https://www.wikidata.org/wiki/Q180626", "trans_uri": "https://zh.wikipedia.org/wiki/此间的少年", "strategies": ["Imitation", "Inheritance", "Transformation"], "op_count": 4}, {"n": 17, "orig": "Investiture of the Gods", "trans": "KamigamiNoJonin", "orig_uri": "https://www.wikidata.org/wiki/Q1336310", "trans_uri": "https://ja.wikipedia.org/wiki/封神演義_(漫画)", "strategies": ["Imitation", "Inheritance", "Transformation"], "op_count": 4}, {"n": 18, "orig": "Li Bai Poem Xiake Xing", "trans": "Jin Yong Novel Xiake Xing", "orig_uri": "https://zh.wikipedia.org/wiki/侠客行_(诗)", "trans_uri": "https://www.wikidata.org/wiki/Q835716", "strategies": ["Imitation", "Inheritance", "Transformation"], "op_count": 3}];
+const OPS = [{"strategy": "Imitation", "orig": "Water Margin", "trans": "Jin Ping Mei", "ne": "EventSequence", "src": "Wu_Song_Kills_Sister_in_law_Episode", "tgt": "Seed_Plot_of_Jin_Ping_Mei", "rationale": "A single marginal episode of the source -- Wu Song's killing of his adulterous sister-in-law, in places quoted almost verbatim -- is extracted and reused as the seed plot from which the entire new novel is grown."}, {"strategy": "Transformation", "orig": "Water Margin", "trans": "Jin Ping Mei", "ne": "ContentDomain", "src": "Chivalric_Heroism", "tgt": "Domestic_Desire_and_Manners", "rationale": "The content domain is transformed from chivalric heroism and outlaw violence into the everyday domestic world of desire, money, and social maneuvering -- the founding move of the Chinese novel of manners."}, {"strategy": "Transformation", "orig": "Water Margin", "trans": "Jin Ping Mei", "ne": "Focalization", "src": "Outlaw_Hero_Ensemble_Focal", "tgt": "Merchant_Household_Focal", "rationale": "The narrative focus shifts from a rotating ensemble of outlaw heroes to the enclosed interior of a single merchant household."}, {"strategy": "Transformation", "orig": "Water Margin", "trans": "Jin Ping Mei", "ne": "CharacterFunction", "src": "Monotonic_Villain_Pan_Jin_Lian", "tgt": "Complex_Pan_Jin_Lian", "rationale": "The flat villainess of the source is given psychological depth and her moral condemnation is suspended, transforming her narrative function from object of judgment to ambiguous subject."}, {"strategy": "Inheritance", "orig": "Water Margin", "trans": "Jin Ping Mei", "ne": "CharacterIdentity", "src": "Core_Cast_Ximen_Pan_Wu", "tgt": "Core_Cast_Ximen_Pan_Wu", "rationale": "The core cast (Xi Men Qing, Pan Jin Lian, Wu Song) is inherited directly from the source; note that Wu Song, a protagonist there, is radically marginalized here."}, {"strategy": "Imitation", "orig": "The Twilight Saga", "trans": "Fifty Shades of Grey", "ne": "CharacterFunction", "src": "PowerfulDangerousHero_Vampire", "tgt": "PowerfulDangerousHero_Tycoon", "rationale": "The dangerous-male-lead archetype is reused, but the source of danger is relocated from the supernatural (vampirism) to the psychological (childhood trauma); the 'darkness' is retained while its explanatory frame becomes realist."}, {"strategy": "Transformation", "orig": "The Twilight Saga", "trans": "Fifty Shades of Grey", "ne": "ContentDomain", "src": "Abstinent_Supernatural_Romance", "tgt": "Explicit_Eroticism", "rationale": "The content domain is inverted: the source's abstinence theme becomes explicit eroticism as the central narrative material."}, {"strategy": "Inheritance", "orig": "The Twilight Saga", "trans": "Fifty Shades of Grey", "ne": "RelationType", "src": "Dominant_Male_Submissive_Female", "tgt": "Dominant_Male_Submissive_Female", "rationale": "The asymmetric dominant-male / submissive-female relational dynamic, together with the heroine's redeem-him-through-love arc, is inherited from the source."}, {"strategy": "Transformation", "orig": "Canon of Sherlock Holmes", "trans": "Sherlock", "ne": "Chronotope", "src": "Victorian_London", "tgt": "Contemporary_London", "rationale": "The historical era is replaced (Victorian becomes contemporary London) while the geographical setting is preserved."}, {"strategy": "Transformation", "orig": "Canon of Sherlock Holmes", "trans": "Sherlock", "ne": "MediumType", "src": "ShortStoryCollection", "tgt": "TV_Series", "rationale": "The short-story collection is recast as serialized television, expanding episodic cases into season-long arcs."}, {"strategy": "Imitation", "orig": "Canon of Sherlock Holmes", "trans": "Sherlock", "ne": "CharacterArc", "src": "Eccentric_Rationalist_Holmes", "tgt": "High_Functioning_Sociopath_Holmes", "rationale": "Holmes's baseline characterization is reused but intensified, reframing eccentric rationalism through a modern clinical idiom."}, {"strategy": "Inheritance", "orig": "Canon of Sherlock Holmes", "trans": "Sherlock", "ne": "RelationType", "src": "Holmes_Watson_Bromance", "tgt": "Holmes_Watson_Bromance", "rationale": "The Holmes-Watson friendship and cohabitation is inherited intact -- the point of contrast with Elementary's reconfiguration."}, {"strategy": "Transformation", "orig": "Canon of Sherlock Holmes", "trans": "Elementary", "ne": "CharacterFunction", "src": "Male_Narrator_John_Watson", "tgt": "Female_Sober_Companion_Joan_Watson", "rationale": "Elementary's central creative move: Watson is reconceived as Joan Watson, changing both gender and narrative function from male chronicler to sober companion."}, {"strategy": "Transformation", "orig": "Canon of Sherlock Holmes", "trans": "Elementary", "ne": "CharacterArc", "src": "Occasional_Drug_Use_Detail", "tgt": "Recovering_Addict_Arc", "rationale": "A minor canonical detail (Holmes's drug use) is amplified into the protagonist's defining arc as a recovering addict."}, {"strategy": "Transformation", "orig": "Canon of Sherlock Holmes", "trans": "Elementary", "ne": "Chronotope", "src": "Victorian_London", "tgt": "Contemporary_New_York", "rationale": "Both era and place are replaced: Victorian London becomes contemporary New York City."}, {"strategy": "Imitation", "orig": "Canon of Sherlock Holmes", "trans": "Elementary", "ne": "CharacterFunction", "src": "Observation_and_Deduction", "tgt": "Observation_and_Deduction", "rationale": "Holmes's signature method of observation and deduction is reused as the recognizable prototype of the protagonist's function."}, {"strategy": "Inheritance", "orig": "Canon of Sherlock Holmes", "trans": "Elementary", "ne": "RelationType", "src": "Consulting_Detective_Assists_Police", "tgt": "Consulting_Detective_Assists_Police", "rationale": "The structural relationship of the consulting detective assisting the official police is inherited from the source."}, {"strategy": "Transformation", "orig": "Journey to the West", "trans": "A Chinese Odyssey", "ne": "CharacterArc", "src": "Ascetic_Pilgrim_Destiny", "tgt": "Romantic_Mortal_Tragicomedy", "rationale": "The Monkey King's ascetic, predestined divinity is subverted into secular romantic love and a postmodern meditation on fate, recasting a religious pilgrimage as romantic tragicomedy."}, {"strategy": "Imitation", "orig": "Journey to the West", "trans": "A Chinese Odyssey", "ne": "EventSequence", "src": "Westward_Pilgrimage_Frame", "tgt": "Westward_Pilgrimage_Frame", "rationale": "The recognizable westward-pilgrimage premise is reused as the scaffold on which the new story is built."}, {"strategy": "Inheritance", "orig": "Journey to the West", "trans": "A Chinese Odyssey", "ne": "CharacterIdentity", "src": "Sun_Wukong_and_Companions", "tgt": "Sun_Wukong_and_Companions", "rationale": "The iconic pilgrims, led by Sun Wukong, are inherited from the source."}, {"strategy": "Transformation", "orig": "Record of the Western Regions", "trans": "Journey to the West", "ne": "WorldRules", "src": "Factual_Travelogue_World", "tgt": "Gods_and_Demons_Cosmos", "rationale": "A factual geographic travelogue is transformed into a supernatural cosmos of gods and demons fusing Confucian, Buddhist, and Daoist thought."}, {"strategy": "Inheritance", "orig": "Record of the Western Regions", "trans": "Journey to the West", "ne": "Chronotope", "src": "Xuanzang_Pilgrimage_Route_and_Era", "tgt": "Xuanzang_Pilgrimage_Route_and_Era", "rationale": "The historical journey of Xuanzang to obtain scriptures -- its route, destination, and Tang-era spatio-temporal frame -- is inherited from the record."}, {"strategy": "Imitation", "orig": "Record of the Western Regions", "trans": "Journey to the West", "ne": "CharacterIdentity", "src": "Historical_Monk_Xuanzang", "tgt": "Fictional_Pilgrim_Tang_Sanzang", "rationale": "The historical monk Xuanzang is reused as the prototype for the fictional pilgrim Tang Sanzang."}, {"strategy": "Imitation", "orig": "Ghost Blows Out the Light", "trans": "Daomu Biji", "ne": "CharacterFunction", "src": "Tomb_Raider_Protagonist_Archetype", "tgt": "Tomb_Raider_Protagonist_Archetype", "rationale": "Having begun as a derivative tribute to its predecessor, it reuses the tomb-raider protagonist archetype as the prototype for its own cast."}, {"strategy": "Inheritance", "orig": "Ghost Blows Out the Light", "trans": "Daomu Biji", "ne": "WorldRules", "src": "Tomb_Raiding_World_and_Hazards", "tgt": "Tomb_Raiding_World_and_Hazards", "rationale": "The grave-robbing world-building -- ancient tombs, supernatural hazards, and the lore governing them -- is inherited from the source."}, {"strategy": "Transformation", "orig": "Ghost Blows Out the Light", "trans": "Daomu Biji", "ne": "ContentDomain", "src": "Hardcore_Adventure_Folklore", "tgt": "Suspense_and_Emotional_Bonds", "rationale": "The dominant mode is transformed from the predecessor's hardcore exploration-and-folklore adventure toward serialized suspense centered on mystery and the emotional bonds between characters."}, {"strategy": "Imitation", "orig": "Harry Potter", "trans": "The Mortal Instruments", "ne": "CharacterFunction", "src": "Chosen_One_and_Pairings", "tgt": "Chosen_One_and_Pairings", "rationale": "Originating as Harry Potter fan fiction, it reuses the 'chosen one' archetype and specific character tensions established in the fan community as prototypes for its new cast."}, {"strategy": "Transformation", "orig": "Harry Potter", "trans": "The Mortal Instruments", "ne": "WorldRules", "src": "Hidden_Magic_Boarding_School", "tgt": "Urban_Fantasy_Shadow_World", "rationale": "The hidden-magic premise is relocated from a magical boarding school into an urban-fantasy shadow-world ontology, transforming the rules of the magic system."}, {"strategy": "Inheritance", "orig": "Harry Potter", "trans": "The Mortal Instruments", "ne": "RelationType", "src": "BadBoy_ResilientGirl_Pairing", "tgt": "BadBoy_ResilientGirl_Pairing", "rationale": "The central romantic pairing dynamic carried over from the fan community is inherited without transformation."}, {"strategy": "Transformation", "orig": "The Wonderful Wizard of Oz", "trans": "Wicked", "ne": "CharacterFunction", "src": "Wicked_Witch_as_Evil", "tgt": "Sympathetic_Elphaba", "rationale": "The fixed villain is elevated to protagonist and given a sympathetic backstory, deconstructing the good-versus-evil binary and adding reflection on propaganda and prejudice."}, {"strategy": "Transformation", "orig": "The Wonderful Wizard of Oz", "trans": "Wicked", "ne": "Focalization", "src": "Dorothy_Focal", "tgt": "Elphaba_Focal", "rationale": "The focal point shifts from the heroine Dorothy to the previously marginalized Wicked Witch of the West."}, {"strategy": "Transformation", "orig": "The Wonderful Wizard of Oz", "trans": "Wicked", "ne": "MediumType", "src": "Novel", "tgt": "Stage_Musical", "rationale": "The source novel is adapted into a stage musical."}, {"strategy": "Inheritance", "orig": "The Wonderful Wizard of Oz", "trans": "Wicked", "ne": "WorldRules", "src": "Land_of_Oz_and_Cast", "tgt": "Land_of_Oz_and_Cast", "rationale": "The Land of Oz, its inhabitants, and named characters are inherited from the source."}, {"strategy": "Imitation", "orig": "The Wonderful Wizard of Oz", "trans": "Wicked", "ne": "CharacterIdentity", "src": "Witches_of_Oz", "tgt": "Witches_of_Oz", "rationale": "The witches of Oz are reused as the retelling's central figures."}, {"strategy": "Transformation", "orig": "Pride and Prejudice", "trans": "Pride and Prejudice and Zombies", "ne": "ContentDomain", "src": "Regency_Comedy_of_Manners", "tgt": "Romance_Horror_Mashup", "rationale": "Zombie-apocalypse horror is injected into the comedy of manners, producing a parodic cross-genre mash-up."}, {"strategy": "Inheritance", "orig": "Pride and Prejudice", "trans": "Pride and Prejudice and Zombies", "ne": "EventSequence", "src": "Marriage_Plot_and_Original_Prose", "tgt": "Marriage_Plot_and_Original_Prose", "rationale": "The plot skeleton and large stretches of the original prose and dialogue are inherited near-verbatim."}, {"strategy": "Imitation", "orig": "Pride and Prejudice", "trans": "Pride and Prejudice and Zombies", "ne": "CharacterIdentity", "src": "Bennet_Family", "tgt": "Zombie_Slaying_Bennet_Family", "rationale": "The Bennet sisters and other named characters are reused, recast as trained zombie-slayers."}, {"strategy": "Transformation", "orig": "The Three-Body Problem", "trans": "ThreeBodyX", "ne": "EventSequence", "src": "Yun_Tianming_Blank_Storyline", "tgt": "Expanded_Cosmic_Sociology", "rationale": "As an authorized continuation, it fills a storyline the parent text left blank (Yun Tianming's fate), expanding the original's cosmic-sociology concepts into new territory."}, {"strategy": "Inheritance", "orig": "The Three-Body Problem", "trans": "ThreeBodyX", "ne": "WorldRules", "src": "Three_Body_Cosmology", "tgt": "Three_Body_Cosmology", "rationale": "The physics, cosmology, and world-building of the Three-Body universe are inherited directly from the source."}, {"strategy": "Imitation", "orig": "The Three-Body Problem", "trans": "ThreeBodyX", "ne": "CharacterIdentity", "src": "Canon_Characters_Yun_Tianming", "tgt": "Canon_Characters_Yun_Tianming", "rationale": "Canonical characters such as Yun Tianming are reused to suture the continuation to the parent text."}, {"strategy": "Transformation", "orig": "Odyssey", "trans": "Ulysses", "ne": "Chronotope", "src": "Ancient_Mediterranean_Decade", "tgt": "Single_Day_Modern_Dublin", "rationale": "A decade-spanning ancient epic is compressed onto a single ordinary day in modern Dublin."}, {"strategy": "Transformation", "orig": "Odyssey", "trans": "Ulysses", "ne": "Focalization", "src": "External_Heroic_Narration", "tgt": "Interior_Stream_of_Consciousness", "rationale": "Narration shifts from external heroic deeds to interior stream-of-consciousness."}, {"strategy": "Transformation", "orig": "Odyssey", "trans": "Ulysses", "ne": "MediumType", "src": "Epic_Poem", "tgt": "Modernist_Novel", "rationale": "The classical epic poem is transformed into a modernist prose novel."}, {"strategy": "Inheritance", "orig": "Odyssey", "trans": "Ulysses", "ne": "EventSequence", "src": "Homeric_Episode_Structure", "tgt": "Homeric_Episode_Structure", "rationale": "The episodic skeleton of the Homeric source is inherited as a metaphorical scaffold mapping each chapter to an episode."}, {"strategy": "Imitation", "orig": "Odyssey", "trans": "Ulysses", "ne": "CharacterIdentity", "src": "Hero_Odysseus", "tgt": "Everyman_Leopold_Bloom", "rationale": "The hero Odysseus is reimagined as the everyman Leopold Bloom, an imitative mapping of prototype onto modern figure."}, {"strategy": "Transformation", "orig": "Romeo and Juliet", "trans": "West Side Story", "ne": "Chronotope", "src": "Renaissance_Verona_Feud", "tgt": "1950s_New_York_Gang_Conflict", "rationale": "The setting is transposed from Renaissance Verona to 1950s New York, recasting aristocratic feud as urban racial and gang conflict."}, {"strategy": "Transformation", "orig": "Romeo and Juliet", "trans": "West Side Story", "ne": "MediumType", "src": "Verse_Tragedy", "tgt": "Musical", "rationale": "The verse tragedy is transformed into a song-and-dance musical."}, {"strategy": "Inheritance", "orig": "Romeo and Juliet", "trans": "West Side Story", "ne": "RelationTopology", "src": "Lovers_Between_Feuding_Factions", "tgt": "Lovers_Between_Feuding_Factions", "rationale": "The core relational topology -- two lovers caught between two feuding factions, ending in tragedy -- is inherited from the source."}, {"strategy": "Imitation", "orig": "Romeo and Juliet", "trans": "West Side Story", "ne": "CharacterIdentity", "src": "Romeo_and_Juliet", "tgt": "Tony_and_Maria", "rationale": "The lovers Romeo and Juliet are reused as prototypes for Tony and Maria."}, {"strategy": "Transformation", "orig": "Emma", "trans": "Clueless", "ne": "Chronotope", "src": "Regency_Gentry", "tgt": "1990s_Beverly_Hills_High_School", "rationale": "The Regency gentry's matchmaking and class hierarchy is mapped onto a 1990s Beverly Hills high school."}, {"strategy": "Transformation", "orig": "Emma", "trans": "Clueless", "ne": "MediumType", "src": "Novel", "tgt": "Film", "rationale": "The source novel is adapted into a feature film."}, {"strategy": "Inheritance", "orig": "Emma", "trans": "Clueless", "ne": "EventSequence", "src": "Matchmaker_Plot_and_Dynamics", "tgt": "Matchmaker_Plot_and_Dynamics", "rationale": "The matchmaking plot and its interpersonal power dynamics are inherited and shown to still operate in a modern microcosm."}, {"strategy": "Imitation", "orig": "Emma", "trans": "Clueless", "ne": "CharacterIdentity", "src": "Emma_Woodhouse", "tgt": "Cher_Horowitz", "rationale": "The heroine Emma Woodhouse is reused as the prototype for Cher Horowitz."}, {"strategy": "Transformation", "orig": "Dracula", "trans": "Nosferatu", "ne": "MediumType", "src": "Epistolary_Novel", "tgt": "Silent_Expressionist_Film", "rationale": "The epistolary novel is transformed into a silent expressionist film whose Gothic amplification shaped later vampire visual conventions."}, {"strategy": "Imitation", "orig": "Dracula", "trans": "Nosferatu", "ne": "CharacterIdentity", "src": "Count_Dracula", "tgt": "Count_Orlok", "rationale": "Lacking authorization, the film files off the source's names -- renaming Dracula as Count Orlok -- while reusing the underlying vampire prototype."}, {"strategy": "Inheritance", "orig": "Dracula", "trans": "Nosferatu", "ne": "EventSequence", "src": "Vampire_Relocation_and_Plague", "tgt": "Vampire_Relocation_and_Plague", "rationale": "The core plot -- a vampire's relocation and the predatory plague he spreads -- is inherited from the source."}, {"strategy": "Transformation", "orig": "Jin Yong universe", "trans": "The Here and Now Youth", "ne": "Chronotope", "src": "Wuxia_Jianghu", "tgt": "Modern_University_Campus", "rationale": "The famous wuxia characters are extracted from the jianghu and relocated into a modern university campus, pioneering the 'characters-in-a-new-context' fan fiction model."}, {"strategy": "Transformation", "orig": "Jin Yong universe", "trans": "The Here and Now Youth", "ne": "ContentDomain", "src": "Martial_Heroism", "tgt": "Campus_Youth_Life", "rationale": "The content domain shifts from martial heroism to everyday campus youth and friendship."}, {"strategy": "Imitation", "orig": "Jin Yong universe", "trans": "The Here and Now Youth", "ne": "CharacterIdentity", "src": "Jin_Yong_Hero_Roster", "tgt": "Campus_Student_Roster", "rationale": "Jin Yong's characters (Guo Jing, Huang Rong, Linghu Chong, and others) are reused as prototypes for the campus cast."}, {"strategy": "Inheritance", "orig": "Jin Yong universe", "trans": "The Here and Now Youth", "ne": "RelationTopology", "src": "Character_Relationship_Web", "tgt": "Character_Relationship_Web", "rationale": "The web of relationships among the original characters is transposed largely intact into the new setting."}, {"strategy": "Transformation", "orig": "Investiture of the Gods", "trans": "KamigamiNoJonin", "ne": "MediumType", "src": "Vernacular_Novel", "tgt": "Manga", "rationale": "The chapter-based mythological novel is reimagined as manga, a transformation influential enough to turn the classical Fengshen IP into a modern repository of fan-creative material."}, {"strategy": "Transformation", "orig": "Investiture of the Gods", "trans": "KamigamiNoJonin", "ne": "CharacterFunction", "src": "Fixed_Deity_Alignments", "tgt": "Reinterpreted_Roles_and_Motives", "rationale": "The fixed moral alignments of the deities are reinterpreted, recasting roles and motivations across the ensemble."}, {"strategy": "Inheritance", "orig": "Investiture of the Gods", "trans": "KamigamiNoJonin", "ne": "WorldRules", "src": "Fengshen_Mythos", "tgt": "Fengshen_Mythos", "rationale": "The mythological cosmology of the source is inherited as the world framework."}, {"strategy": "Imitation", "orig": "Investiture of the Gods", "trans": "KamigamiNoJonin", "ne": "CharacterIdentity", "src": "Fengshen_Deity_Roster", "tgt": "Fengshen_Deity_Roster", "rationale": "The deities and immortals of the source, led by Taigong Wang, are reused as the manga's cast."}, {"strategy": "Imitation", "orig": "Li Bai Poem Xiake Xing", "trans": "Jin Yong Novel Xiake Xing", "ne": "EventSequence", "src": "Poem_Text", "tgt": "Martial_Arts_Manual_Puzzle", "rationale": "The verses of Li Bai's poem are reused as the central plot device: martial masters study the text hoping to unlock a legendary skill, yet only an illiterate protagonist grasps its true essence."}, {"strategy": "Transformation", "orig": "Li Bai Poem Xiake Xing", "trans": "Jin Yong Novel Xiake Xing", "ne": "MediumType", "src": "Classical_Poem", "tgt": "Full_Length_Wuxia_Novel", "rationale": "A short classical poem is expanded across media into a full-length wuxia novel that interrogates what it means to be truly chivalrous."}, {"strategy": "Inheritance", "orig": "Li Bai Poem Xiake Xing", "trans": "Jin Yong Novel Xiake Xing", "ne": "ContentDomain", "src": "Chivalric_Ethos", "tgt": "Chivalric_Ethos", "rationale": "The chivalrous spirit and ethos defined by the source poem are inherited -- a relationship of spiritual continuity across literary forms."}];
+
+const NE_COUNTS = {"CharacterIdentity":12,"MediumType":8,"EventSequence":8,"CharacterFunction":8,"Chronotope":7,"WorldRules":6,"ContentDomain":6,"RelationType":4,"CharacterArc":3,"Focalization":3,"RelationTopology":2};
+
+// NE groups for the bar chart (Morandi palette; group base colours for the legend)
+const NE_GROUPS = [
+  {label:'Character',color:'#c9a495',items:['CharacterIdentity','CharacterFunction','CharacterArc']},
+  {label:'Story Structure',color:'#a1b8a4',items:['EventSequence','Focalization']},
+  {label:'Setting',color:'#cfbc93',items:['Chronotope','WorldRules']},
+  {label:'Relation',color:'#a2b1bf',items:['RelationType','RelationTopology']},
+  {label:'Medium / Domain',color:'#bba9b8',items:['MediumType','ContentDomain']},
+];
+// Per-narrative-element Morandi colours — distinct shades within each group's hue family.
+// Shared by the section-3 NE chart and the correlation stacked bars (one-to-one correspondence).
+const NE_COLORS = {
+  CharacterIdentity:'#bf9484', CharacterFunction:'#d0b0a2', CharacterArc:'#e0cabd',
+  EventSequence:'#8fa892', Focalization:'#b5c7b3',
+  Chronotope:'#c6b185', WorldRules:'#dccca6',
+  RelationType:'#93a6b6', RelationTopology:'#b7c3ce',
+  MediumType:'#ab98aa', ContentDomain:'#c9bac4'
+};
+// Strategy x narrative-element correlation (material/correlation.csv)
+const CORR = [
+  {s:'Imitation',ne:'CharacterIdentity',n:10},{s:'Imitation',ne:'CharacterArc',n:1},
+  {s:'Imitation',ne:'CharacterFunction',n:4},{s:'Imitation',ne:'EventSequence',n:3},
+  {s:'Transformation',ne:'CharacterArc',n:2},{s:'Transformation',ne:'CharacterFunction',n:4},
+  {s:'Transformation',ne:'Chronotope',n:6},{s:'Transformation',ne:'WorldRules',n:2},
+  {s:'Transformation',ne:'EventSequence',n:1},{s:'Transformation',ne:'Focalization',n:3},
+  {s:'Transformation',ne:'ContentDomain',n:5},{s:'Transformation',ne:'MediumType',n:8},
+  {s:'Inheritance',ne:'CharacterIdentity',n:2},{s:'Inheritance',ne:'Chronotope',n:1},
+  {s:'Inheritance',ne:'WorldRules',n:4},{s:'Inheritance',ne:'EventSequence',n:4},
+  {s:'Inheritance',ne:'RelationType',n:4},{s:'Inheritance',ne:'RelationTopology',n:2},
+  {s:'Inheritance',ne:'ContentDomain',n:1}
+];
+const NE_ORDER = ['CharacterIdentity','CharacterFunction','CharacterArc','EventSequence','Focalization','Chronotope','WorldRules','RelationType','RelationTopology','MediumType','ContentDomain'];
+function renderCorrelation(){
+  const host=document.getElementById('corr-bars'); if(!host) return;
+  const STRAT=['Transformation','Inheritance','Imitation'];
+  const m={}; STRAT.forEach(s=>m[s]={});
+  CORR.forEach(d=>{ m[d.s][d.ne]=(m[d.s][d.ne]||0)+d.n; });
+  const totals={}; STRAT.forEach(s=>totals[s]=Object.values(m[s]).reduce((a,b)=>a+b,0));
+  const maxTotal=Math.max.apply(null,Object.values(totals));
+  host.innerHTML = STRAT.map(function(s){
+    const total=totals[s];
+    const segs = NE_ORDER.filter(function(ne){return m[s][ne];}).map(function(ne){
+      const n=m[s][ne];
+      return '<div class="corr-seg" style="width:'+(n/total*100)+'%;background:'+(NE_COLORS[ne]||'#b3a89c')+'" data-label="'+ne+' · '+n+' op'+(n>1?'s':'')+'"></div>';
+    }).join('');
+    return '<div class="corr-row"><span class="corr-label">'+s+'</span>'+
+      '<div class="corr-track"><div class="corr-fill" style="width:'+(total/maxTotal*100)+'%">'+segs+'</div></div>'+
+      '<span class="corr-count">'+total+' ops</span></div>';
+  }).join('');
+}
+
+function renderNEChart(){
+  const c = document.getElementById('ne-chart');
+  if(!c) return;
+  const sorted = Object.entries(NE_COUNTS).sort((a,b)=>b[1]-a[1]);
+  const max = sorted[0][1];
+  // Assign color per NE type (Morandi per-NE palette, shared with the correlation bars)
+  const colorMap = Object.assign({}, NE_COLORS);
+
+  c.innerHTML = sorted.map(([ne,n]) => {
+    const pct = Math.round(n/67*100);
+    const w = Math.round(n/max*100);
+    const col = colorMap[ne] || '#9a9086';
+    return `<div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.45rem">
+      <span style="font-family:'Courier New',monospace;font-size:11px;color:var(--ink-muted);width:130px;flex-shrink:0">${ne}</span>
+      <div style="flex:1;background:var(--parchment-deep);border-radius:2px;height:9px;overflow:hidden">
+        <div style="width:${w}%;height:100%;background:${col};border-radius:2px;transition:width .4s"></div>
+      </div>
+      <span style="font-size:11px;color:var(--ink-faint);width:36px;text-align:right">${n} <span style="color:var(--parchment-border)">(${pct}%)</span></span>
+    </div>`;
+  }).join('');
+
+  // Legend
+  c.innerHTML += `<div style="display:flex;flex-wrap:wrap;gap:.4rem .9rem;margin-top:.75rem;padding-top:.65rem;border-top:0.5px solid var(--parchment-border)">
+    ${NE_GROUPS.map(g=>`<span style="display:flex;align-items:center;gap:.3rem;font-size:10.5px;color:var(--ink-faint)">
+      <span style="width:9px;height:9px;border-radius:1px;background:${g.color};flex-shrink:0"></span>${g.label}
+    </span>`).join('')}
+  </div>`;
+}
+
+function renderPairs(){
+  const g = document.getElementById('pairs-grid');
+
+  // Pre-build ops lookup keyed by "orig→trans"
+  const opsMap = {};
+  OPS.forEach(op => {
+    const key = op.orig + '→' + op.trans;
+    if(!opsMap[key]) opsMap[key] = [];
+    opsMap[key].push(op);
+  });
+
+  g.innerHTML = PAIRS.map(p => {
+    const key = p.orig + '→' + p.trans;
+    const pOps = opsMap[key] || [];
+    const T = pOps.filter(o=>o.strategy==='Transformation').length;
+    const I = pOps.filter(o=>o.strategy==='Inheritance').length;
+    const Im = pOps.filter(o=>o.strategy==='Imitation').length;
+    const total = pOps.length;
+    const barT = total ? Math.round(T/total*100) : 0;
+    const barI = total ? Math.round(I/total*100) : 0;
+    const barIm = 100 - barT - barI;
+
+    const drawerOps = pOps.map(op => `
+      <div class="drawer-op">
+        <span class="tag tag-${op.strategy}" style="font-size:10px;padding:1px 6px;margin-top:2px">${op.strategy[0]}</span>
+        <div class="drawer-rationale">${op.rationale}</div>
+        <span class="drawer-ne">${op.ne}</span>
+      </div>`).join('');
+
+    const legend = [
+      T ? `<span style="color:var(--accent);font-size:10.5px">${T} Transf.</span>` : '',
+      I ? `<span style="color:var(--teal);font-size:10.5px">${I} Inh.</span>` : '',
+      Im ? `<span style="color:var(--gold);font-size:10.5px">${Im} Imit.</span>` : '',
+    ].filter(Boolean).join('<span style="color:var(--parchment-border);padding:0 3px">·</span>');
+
+    return `<div class="pair-card" data-key="${key}">
+      <div class="pair-card-top">
+        <div class="pair-header">
+          <span class="pair-n">${String(p.n).padStart(2,'0')}</span>
+          <div style="flex:1">
+            <div class="pair-orig"><em>${p.orig}</em></div>
+            <div class="pair-arrow">↓</div>
+            <div class="pair-trans"><em>${p.trans}</em></div>
+          </div>
+        </div>
+        <div class="pair-bar-wrap">
+          <div class="pair-bar-seg" style="width:${barT}%;background:var(--accent)"></div>
+          <div class="pair-bar-seg" style="width:${barI}%;background:var(--teal)"></div>
+          <div class="pair-bar-seg" style="width:${barIm}%;background:var(--gold)"></div>
+        </div>
+        <div class="pair-footer">
+          <span style="display:flex;gap:.35rem;align-items:center">${legend}</span>
+          <span class="pair-toggle">${total} ops ↓</span>
+        </div>
+      </div>
+      <div class="pair-ops-drawer">${drawerOps}</div>
+    </div>`;
+  }).join('');
+
+  // Toggle on click
+  g.querySelectorAll('.pair-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const wasOpen = card.classList.contains('open');
+      g.querySelectorAll('.pair-card.open').forEach(c => {
+        c.classList.remove('open');
+        c.querySelector('.pair-toggle').textContent = c.querySelector('.pair-toggle').textContent.replace('↑','↓');
+      });
+      if(!wasOpen){
+        card.classList.add('open');
+        const tog = card.querySelector('.pair-toggle');
+        tog.textContent = tog.textContent.replace('↓','↑');
+      }
+    });
+  });
+}
+
+function renderOps(filter='all'){
+  const list=document.getElementById('ops-list');
+  const filtered=filter==='all'?OPS:OPS.filter(o=>o.strategy===filter);
+  list.innerHTML=filtered.map(op=>`<div class="op-row">
+    <span class="tag tag-${op.strategy}" style="margin-top:2px">${op.strategy}</span>
+    <div>
+      <div class="op-works"><em>${op.orig}</em> → <em>${op.trans}</em></div>
+      <div class="op-rationale">${op.rationale}</div>
+    </div>
+    <span class="op-ne">${op.ne}</span>
+  </div>`).join('');
+}
+
+document.querySelectorAll('.filter-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    renderOps(btn.dataset.filter);
+  });
+});
+
+document.querySelectorAll('.cq-tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.cq-tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.cq-panel').forEach(p=>p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.cq).classList.add('active');
+  });
+});
+
+renderNEChart();
+renderCorrelation();
+renderPairs();
+renderOps();
+/* ==== CSV DATA TABLES ==== */
+const CSV_DATA = {"orig":[["Operation","operation: instance","CreativeStrategy (Class)","Transformative_Work","Transformative_Work_URI","Original_Work","Original_Work_URI","SourceElement","TargetElement","NarrativeElement (Class)","Rationale_Annotation"],["1","Op_Water_Margin_to_Jin_Ping_Mei_PerspectiveShift","Transformation","Jin Ping Mei","https://www.wikidata.org/wiki/Q753535","Water Margin","https://www.wikidata.org/wiki/Q70827","Hero_Focal","MerchantHousehold_Focal","Focalization","Water Margin focuses primarily on the chivalric exploits of outlaw heroes, while Jin Ping Mei shifts the narrative lens to the interior domestic world of the merchant Xi Men Qing's household."],["1","Op_Water_Margin_to_Jin_Ping_Mei_EventTypeShift","Transformation","Jin Ping Mei","https://www.wikidata.org/wiki/Q753535","Water Margin","https://www.wikidata.org/wiki/Q70827","Chivalrous_Violence","Domestic_Desire","ContentDomain","The dominant event type shifts from chivalric romance and heroic violence toward the novel of manners, foregrounding everyday domestic life, desire, and social maneuvering."],["1","Op_Water_Margin_to_Jing_Ping_Mei_CharacterReinterpretation","Imitation","Jin Ping Mei","https://www.wikidata.org/wiki/Q753535","Water Margin","https://www.wikidata.org/wiki/Q70827","Monotonic_Villain_Pan_Jin_Lian","Complex_Pan_Jin_Lian","CharacterFunction","Jin Ping Mei grants Pan Jin Lian greater psychological depth and human complexity; the moral condemnation imposed on her by the source text is suspended, allowing a more ambiguous reading of her character."],["1","Op_Water_Margin_to_Jing_Ping_Mei_CharacterDerivation_1","Inheritance","Jin Ping Mei","https://www.wikidata.org/wiki/Q753535","Water Margin","https://www.wikidata.org/wiki/Q70827","Xi_Men_Qing","Xi_Men_Qing","CharacterIdentity","Uses the same character from Water Margin."],["1","Op_Water_Margin_to_Jing_Ping_Mei_CharacterDerivation_2","Inheritance","Jin Ping Mei","https://www.wikidata.org/wiki/Q753535","Water Margin","https://www.wikidata.org/wiki/Q70827","Wu_Song","Wu_Song","CharacterIdentity","Uses the same character from Water Margin."],["1","Op_Water_Margin_to_Jing_Ping_Mei_CharacterDerivation_3","Inheritance","Jin Ping Mei","https://www.wikidata.org/wiki/Q753535","Water Margin","https://www.wikidata.org/wiki/Q70827","Pan_Jin_Lian","Pan_Jin_Lian","CharacterIdentity","Uses the same character from Water Margin."],["2","Op_The_Twilight_Saga_to_Fifty_Shade_of_Gray_CharacterReinterpretation","Imitation","Fifty Shades of Grey","https://www.wikidata.org/wiki/Q557867","The Twilight Saga","https://www.wikidata.org/wiki/Q652599","PowerfulAndDangerousHero_Vampire","PowerfulAndDangerousHero_Boss","Character","The male protagonist archetype is preserved: both leads are powerful and dangerous figures. However, the source of danger shifts from a supernatural origin (vampirism) to a psychological one (childhood trauma and BDSM inclination). The 'darkness' of the archetype is retained, but its explanatory framework transitions from the supernatural to psychological realism."],["2","Op_The_Twilight_Saga_to_Fifty_Shade_of_Gray_EventTypeShift","Transformation","Fifty Shades of Grey","https://www.wikidata.org/wiki/Q557867","The Twilight Saga","https://www.wikidata.org/wiki/Q652599","SupernaturalRomance","ExplicitSexuality","ContentDomain",""],["2","Op_The_Twilight_Saga_to_Fifty_Shade_of_Gray_EmotionLogicReuse","Inheritance","Fifty Shades of Grey","https://www.wikidata.org/wiki/Q557867","The Twilight Saga","https://www.wikidata.org/wiki/Q652599","WhiteKnight_complex","WhiteKnight_complex","Character Arc","The heroine's core emotional arc — the desire to redeem a dangerous man through love — is directly inherited from the source text without transformation."],["2","Op_The_Twilight_Saga_to_Fifty_Shade_of_Gray_PowerStructureReuse","Inheritance","Fifty Shades of Grey","https://www.wikidata.org/wiki/Q557867","The Twilight Saga","https://www.wikidata.org/wiki/Q652599","Hero_lead_Heroine_obey","Hero_lead_Heroine_obey","Relationship Type","The novels use the same asymmetric power dynamic between the dominant male lead and the submissive female lead"],["3","Op_Canon_of_Sherloc_Holmes_to_Sherlock_SettingTransposition","Transformation","Sherlock","https://www.wikidata.org/wiki/Q192837","Canon of Sherlock Holmes","https://www.wikidata.org/wiki/Q2316684","Victorian_London","Modern_London","Chronotope","The historical era is entirely replaced (Victorian London → contemporary London), while the geographical setting is preserved."],["3","Op_Canon_of_Sherloc_Holmes_to_Sherlock_CrossMediaTransformation","Transformation","Sherlock","https://www.wikidata.org/wiki/Q192837","Canon of Sherlock Holmes","https://www.wikidata.org/wiki/Q2316684","Novel_ShortStoryCollection","TV_Series","MediumType","The source text's format as a short story collection is transformed into a serialized television drama, with individual episodic cases expanded into season-long narrative arcs."],["3","Op_Canon_of_Sherloc_Holmes_to_Sherlock_RelationshipContinuation","Inheritance","Sherlock","https://www.wikidata.org/wiki/Q192837","Canon of Sherlock Holmes","https://www.wikidata.org/wiki/Q2316684","RoomateAndFriends_Holmes_Watson","RoomateAndFriends_Holmes_Watson","Relation","The foundational social relationship between Holmes and Watson — cohabitation and close intellectual friendship — is directly inherited without transformation."],["3","Op_Canon_of_Sherloc_Holmes_to_Sherlock_PerspectiveShift","Transformation","Sherlock","https://www.wikidata.org/wiki/Q192837","Canon of Sherlock Holmes","https://www.wikidata.org/wiki/Q2316684","SingleFocalizer_Watson","DualFocalizer_Sherlock_Watson","Focalization","The source text's single first-person focalizer (Watson as narrator) is replaced by a dual-focalizer structure in the television adaptation, granting both Holmes and Watson equal narrative access."],["3","Op_Canon_of_Sherloc_Holmes_to_Sherlock_CharacterReinterpretation","Imitation","Sherlock","https://www.wikidata.org/wiki/Q192837","Canon of Sherlock Holmes","https://www.wikidata.org/wiki/Q2316684","DetachedRationalist","High-functioning_Sociopath","CharacterArc","The protagonist's baseline characterization is significantly intensified: the source text's detached, eccentric rationalism is reframed through a modern clinical lens as high-functioning sociopathy."]],"aud":[["Operation","operation: instance","CreativeStrategy (Class)","Transformative_Work","Transformative_Work_URI","Original_Work","Original_Work_URI","SourceElement","TargetElement","NarrativeElement (Class)","Rationale_Annotation"],["1","Op_Water_Margin_to_Jin_Ping_Mei_PlotGrafting","Imitation","Jin Ping Mei","https://www.wikidata.org/wiki/Q753535","Water Margin","https://www.wikidata.org/wiki/Q70827","Wu_Song_Kills_Sister_in_law_Episode","Seed_Plot_of_Jin_Ping_Mei","EventSequence","A single marginal episode of the source -- Wu Song's killing of his adulterous sister-in-law, in places quoted almost verbatim -- is extracted and reused as the seed plot from which the entire new novel is grown."],["1","Op_Water_Margin_to_Jin_Ping_Mei_ContentDomainShift","Transformation","Jin Ping Mei","https://www.wikidata.org/wiki/Q753535","Water Margin","https://www.wikidata.org/wiki/Q70827","Chivalric_Heroism","Domestic_Desire_and_Manners","ContentDomain","The content domain is transformed from chivalric heroism and outlaw violence into the everyday domestic world of desire, money, and social maneuvering -- the founding move of the Chinese novel of manners."],["1","Op_Water_Margin_to_Jin_Ping_Mei_FocalizationShift","Transformation","Jin Ping Mei","https://www.wikidata.org/wiki/Q753535","Water Margin","https://www.wikidata.org/wiki/Q70827","Outlaw_Hero_Ensemble_Focal","Merchant_Household_Focal","Focalization","The narrative focus shifts from a rotating ensemble of outlaw heroes to the enclosed interior of a single merchant household."],["1","Op_Water_Margin_to_Jin_Ping_Mei_PanJinLianReinterpretation","Transformation","Jin Ping Mei","https://www.wikidata.org/wiki/Q753535","Water Margin","https://www.wikidata.org/wiki/Q70827","Monotonic_Villain_Pan_Jin_Lian","Complex_Pan_Jin_Lian","CharacterFunction","The flat villainess of the source is given psychological depth and her moral condemnation is suspended, transforming her narrative function from object of judgment to ambiguous subject."],["1","Op_Water_Margin_to_Jin_Ping_Mei_CharacterInheritance","Inheritance","Jin Ping Mei","https://www.wikidata.org/wiki/Q753535","Water Margin","https://www.wikidata.org/wiki/Q70827","Core_Cast_Ximen_Pan_Wu","Core_Cast_Ximen_Pan_Wu","CharacterIdentity","The core cast (Xi Men Qing, Pan Jin Lian, Wu Song) is inherited directly from the source; note that Wu Song, a protagonist there, is radically marginalized here."],["2","Op_The_Twilight_Saga_to_Fifty_Shades_of_Grey_HeroArchetypeImitation","Imitation","Fifty Shades of Grey","https://www.wikidata.org/wiki/Q557867","The Twilight Saga","https://www.wikidata.org/wiki/Q652599","PowerfulDangerousHero_Vampire","PowerfulDangerousHero_Tycoon","CharacterFunction","The dangerous-male-lead archetype is reused, but the source of danger is relocated from the supernatural (vampirism) to the psychological (childhood trauma); the 'darkness' is retained while its explanatory frame becomes realist."],["2","Op_The_Twilight_Saga_to_Fifty_Shades_of_Grey_ContentDomainShift","Transformation","Fifty Shades of Grey","https://www.wikidata.org/wiki/Q557867","The Twilight Saga","https://www.wikidata.org/wiki/Q652599","Abstinent_Supernatural_Romance","Explicit_Eroticism","ContentDomain","The content domain is inverted: the source's abstinence theme becomes explicit eroticism as the central narrative material."],["2","Op_The_Twilight_Saga_to_Fifty_Shades_of_Grey_PowerStructureInheritance","Inheritance","Fifty Shades of Grey","https://www.wikidata.org/wiki/Q557867","The Twilight Saga","https://www.wikidata.org/wiki/Q652599","Dominant_Male_Submissive_Female","Dominant_Male_Submissive_Female","RelationType","The asymmetric dominant-male / submissive-female relational dynamic, together with the heroine's redeem-him-through-love arc, is inherited from the source."],["3","Op_Canon_of_Sherlock_Holmes_to_Sherlock_SettingTransposition","Transformation","Sherlock","https://www.wikidata.org/wiki/Q192837","Canon of Sherlock Holmes","https://www.wikidata.org/wiki/Q2316684","Victorian_London","Contemporary_London","Chronotope","The historical era is replaced (Victorian becomes contemporary London) while the geographical setting is preserved."],["3","Op_Canon_of_Sherlock_Holmes_to_Sherlock_CrossMediaTransformation","Transformation","Sherlock","https://www.wikidata.org/wiki/Q192837","Canon of Sherlock Holmes","https://www.wikidata.org/wiki/Q2316684","ShortStoryCollection","TV_Series","MediumType","The short-story collection is recast as serialized television, expanding episodic cases into season-long arcs."],["3","Op_Canon_of_Sherlock_Holmes_to_Sherlock_CharacterIntensification","Imitation","Sherlock","https://www.wikidata.org/wiki/Q192837","Canon of Sherlock Holmes","https://www.wikidata.org/wiki/Q2316684","Eccentric_Rationalist_Holmes","High_Functioning_Sociopath_Holmes","CharacterArc","Holmes's baseline characterization is reused but intensified, reframing eccentric rationalism through a modern clinical idiom."],["3","Op_Canon_of_Sherlock_Holmes_to_Sherlock_RelationshipInheritance","Inheritance","Sherlock","https://www.wikidata.org/wiki/Q192837","Canon of Sherlock Holmes","https://www.wikidata.org/wiki/Q2316684","Holmes_Watson_Bromance","Holmes_Watson_Bromance","RelationType","The Holmes-Watson friendship and cohabitation is inherited intact -- the point of contrast with Elementary's reconfiguration."],["4","Op_Canon_of_Sherlock_Holmes_to_Elementary_WatsonReconception","Transformation","Elementary","https://www.wikidata.org/wiki/Q247643","Canon of Sherlock Holmes","https://www.wikidata.org/wiki/Q2316684","Male_Narrator_John_Watson","Female_Sober_Companion_Joan_Watson","CharacterFunction","Elementary's central creative move: Watson is reconceived as Joan Watson, changing both gender and narrative function from male chronicler to sober companion."],["4","Op_Canon_of_Sherlock_Holmes_to_Elementary_HolmesAddictionArc","Transformation","Elementary","https://www.wikidata.org/wiki/Q247643","Canon of Sherlock Holmes","https://www.wikidata.org/wiki/Q2316684","Occasional_Drug_Use_Detail","Recovering_Addict_Arc","CharacterArc","A minor canonical detail (Holmes's drug use) is amplified into the protagonist's defining arc as a recovering addict."],["4","Op_Canon_of_Sherlock_Holmes_to_Elementary_SettingTransposition","Transformation","Elementary","https://www.wikidata.org/wiki/Q247643","Canon of Sherlock Holmes","https://www.wikidata.org/wiki/Q2316684","Victorian_London","Contemporary_New_York","Chronotope","Both era and place are replaced: Victorian London becomes contemporary New York City."],["4","Op_Canon_of_Sherlock_Holmes_to_Elementary_DeductiveMethodImitation","Imitation","Elementary","https://www.wikidata.org/wiki/Q247643","Canon of Sherlock Holmes","https://www.wikidata.org/wiki/Q2316684","Observation_and_Deduction","Observation_and_Deduction","CharacterFunction","Holmes's signature method of observation and deduction is reused as the recognizable prototype of the protagonist's function."],["4","Op_Canon_of_Sherlock_Holmes_to_Elementary_ConsultingRoleInheritance","Inheritance","Elementary","https://www.wikidata.org/wiki/Q247643","Canon of Sherlock Holmes","https://www.wikidata.org/wiki/Q2316684","Consulting_Detective_Assists_Police","Consulting_Detective_Assists_Police","RelationType","The structural relationship of the consulting detective assisting the official police is inherited from the source."],["5","Op_Journey_to_the_West_to_A_Chinese_Odyssey_DestinySubversion","Transformation","A Chinese Odyssey","https://www.wikidata.org/wiki/Q868483","Journey to the West","https://www.wikidata.org/wiki/Q70784","Ascetic_Pilgrim_Destiny","Romantic_Mortal_Tragicomedy","CharacterArc","The Monkey King's ascetic, predestined divinity is subverted into secular romantic love and a postmodern meditation on fate, recasting a religious pilgrimage as romantic tragicomedy."],["5","Op_Journey_to_the_West_to_A_Chinese_Odyssey_PilgrimageFrameImitation","Imitation","A Chinese Odyssey","https://www.wikidata.org/wiki/Q868483","Journey to the West","https://www.wikidata.org/wiki/Q70784","Westward_Pilgrimage_Frame","Westward_Pilgrimage_Frame","EventSequence","The recognizable westward-pilgrimage premise is reused as the scaffold on which the new story is built."],["5","Op_Journey_to_the_West_to_A_Chinese_Odyssey_CharacterInheritance","Inheritance","A Chinese Odyssey","https://www.wikidata.org/wiki/Q868483","Journey to the West","https://www.wikidata.org/wiki/Q70784","Sun_Wukong_and_Companions","Sun_Wukong_and_Companions","CharacterIdentity","The iconic pilgrims, led by Sun Wukong, are inherited from the source."],["6","Op_Record_of_the_Western_Regions_to_Journey_to_the_West_WorldRulesTransformation","Transformation","Journey to the West","https://www.wikidata.org/wiki/Q70784","Record of the Western Regions","https://www.wikidata.org/wiki/Q1146069","Factual_Travelogue_World","Gods_and_Demons_Cosmos","WorldRules","A factual geographic travelogue is transformed into a supernatural cosmos of gods and demons fusing Confucian, Buddhist, and Daoist thought."],["6","Op_Record_of_the_Western_Regions_to_Journey_to_the_West_HistoricalSettingInheritance","Inheritance","Journey to the West","https://www.wikidata.org/wiki/Q70784","Record of the Western Regions","https://www.wikidata.org/wiki/Q1146069","Xuanzang_Pilgrimage_Route_and_Era","Xuanzang_Pilgrimage_Route_and_Era","Chronotope","The historical journey of Xuanzang to obtain scriptures -- its route, destination, and Tang-era spatio-temporal frame -- is inherited from the record."],["6","Op_Record_of_the_Western_Regions_to_Journey_to_the_West_MonkImitation","Imitation","Journey to the West","https://www.wikidata.org/wiki/Q70784","Record of the Western Regions","https://www.wikidata.org/wiki/Q1146069","Historical_Monk_Xuanzang","Fictional_Pilgrim_Tang_Sanzang","CharacterIdentity","The historical monk Xuanzang is reused as the prototype for the fictional pilgrim Tang Sanzang."],["7","Op_Ghost_Blows_Out_the_Light_to_Daomu_Biji_TombRaiderImitation","Imitation","Daomu Biji","https://www.wikidata.org/wiki/Q4861172","Ghost Blows Out the Light","https://www.wikidata.org/wiki/Q5557059","Tomb_Raider_Protagonist_Archetype","Tomb_Raider_Protagonist_Archetype","CharacterFunction","Having begun as a derivative tribute to its predecessor, it reuses the tomb-raider protagonist archetype as the prototype for its own cast."],["7","Op_Ghost_Blows_Out_the_Light_to_Daomu_Biji_WorldRulesInheritance","Inheritance","Daomu Biji","https://www.wikidata.org/wiki/Q4861172","Ghost Blows Out the Light","https://www.wikidata.org/wiki/Q5557059","Tomb_Raiding_World_and_Hazards","Tomb_Raiding_World_and_Hazards","WorldRules","The grave-robbing world-building -- ancient tombs, supernatural hazards, and the lore governing them -- is inherited from the source."],["7","Op_Ghost_Blows_Out_the_Light_to_Daomu_Biji_AffectiveModeShift","Transformation","Daomu Biji","https://www.wikidata.org/wiki/Q4861172","Ghost Blows Out the Light","https://www.wikidata.org/wiki/Q5557059","Hardcore_Adventure_Folklore","Suspense_and_Emotional_Bonds","ContentDomain","The dominant mode is transformed from the predecessor's hardcore exploration-and-folklore adventure toward serialized suspense centered on mystery and the emotional bonds between characters."],["8","Op_Harry_Potter_to_The_Mortal_Instruments_CharacterArchetypeImitation","Imitation","The Mortal Instruments","https://www.wikidata.org/wiki/Q478151","Harry Potter","https://www.wikidata.org/wiki/Q8337","Chosen_One_and_Pairings","Chosen_One_and_Pairings","CharacterFunction","Originating as Harry Potter fan fiction, it reuses the 'chosen one' archetype and specific character tensions established in the fan community as prototypes for its new cast."],["8","Op_Harry_Potter_to_The_Mortal_Instruments_WorldRulesTransformation","Transformation","The Mortal Instruments","https://www.wikidata.org/wiki/Q478151","Harry Potter","https://www.wikidata.org/wiki/Q8337","Hidden_Magic_Boarding_School","Urban_Fantasy_Shadow_World","WorldRules","The hidden-magic premise is relocated from a magical boarding school into an urban-fantasy shadow-world ontology, transforming the rules of the magic system."],["8","Op_Harry_Potter_to_The_Mortal_Instruments_PairingInheritance","Inheritance","The Mortal Instruments","https://www.wikidata.org/wiki/Q478151","Harry Potter","https://www.wikidata.org/wiki/Q8337","BadBoy_ResilientGirl_Pairing","BadBoy_ResilientGirl_Pairing","RelationType","The central romantic pairing dynamic carried over from the fan community is inherited without transformation."],["9","Op_The_Wonderful_Wizard_of_Oz_to_Wicked_VillainSubversion","Transformation","Wicked","https://www.wikidata.org/wiki/Q616439","The Wonderful Wizard of Oz","https://www.wikidata.org/wiki/Q130295","Wicked_Witch_as_Evil","Sympathetic_Elphaba","CharacterFunction","The fixed villain is elevated to protagonist and given a sympathetic backstory, deconstructing the good-versus-evil binary and adding reflection on propaganda and prejudice."],["9","Op_The_Wonderful_Wizard_of_Oz_to_Wicked_PerspectiveShift","Transformation","Wicked","https://www.wikidata.org/wiki/Q616439","The Wonderful Wizard of Oz","https://www.wikidata.org/wiki/Q130295","Dorothy_Focal","Elphaba_Focal","Focalization","The focal point shifts from the heroine Dorothy to the previously marginalized Wicked Witch of the West."],["9","Op_The_Wonderful_Wizard_of_Oz_to_Wicked_CrossMediaTransformation","Transformation","Wicked","https://www.wikidata.org/wiki/Q616439","The Wonderful Wizard of Oz","https://www.wikidata.org/wiki/Q130295","Novel","Stage_Musical","MediumType","The source novel is adapted into a stage musical."],["9","Op_The_Wonderful_Wizard_of_Oz_to_Wicked_WorldInheritance","Inheritance","Wicked","https://www.wikidata.org/wiki/Q616439","The Wonderful Wizard of Oz","https://www.wikidata.org/wiki/Q130295","Land_of_Oz_and_Cast","Land_of_Oz_and_Cast","WorldRules","The Land of Oz, its inhabitants, and named characters are inherited from the source."],["9","Op_The_Wonderful_Wizard_of_Oz_to_Wicked_CharacterImitation","Imitation","Wicked","https://www.wikidata.org/wiki/Q616439","The Wonderful Wizard of Oz","https://www.wikidata.org/wiki/Q130295","Witches_of_Oz","Witches_of_Oz","CharacterIdentity","The witches of Oz are reused as the retelling's central figures."],["10","Op_Pride_and_Prejudice_to_Pride_and_Prejudice_and_Zombies_GenreHybridization","Transformation","Pride and Prejudice and Zombies","https://www.wikidata.org/wiki/Q2659311","Pride and Prejudice","https://www.wikidata.org/wiki/Q170583","Regency_Comedy_of_Manners","Romance_Horror_Mashup","ContentDomain","Zombie-apocalypse horror is injected into the comedy of manners, producing a parodic cross-genre mash-up."],["10","Op_Pride_and_Prejudice_to_Pride_and_Prejudice_and_Zombies_PlotAndProseInheritance","Inheritance","Pride and Prejudice and Zombies","https://www.wikidata.org/wiki/Q2659311","Pride and Prejudice","https://www.wikidata.org/wiki/Q170583","Marriage_Plot_and_Original_Prose","Marriage_Plot_and_Original_Prose","EventSequence","The plot skeleton and large stretches of the original prose and dialogue are inherited near-verbatim."],["10","Op_Pride_and_Prejudice_to_Pride_and_Prejudice_and_Zombies_CharacterImitation","Imitation","Pride and Prejudice and Zombies","https://www.wikidata.org/wiki/Q2659311","Pride and Prejudice","https://www.wikidata.org/wiki/Q170583","Bennet_Family","Zombie_Slaying_Bennet_Family","CharacterIdentity","The Bennet sisters and other named characters are reused, recast as trained zombie-slayers."],["11","Op_The_Three_Body_Problem_to_ThreeBodyX_NarrativeGapExpansion","Transformation","ThreeBodyX","https://baike.baidu.com/item/三体X·观想之宙/7656426","The Three-Body Problem","https://www.wikidata.org/wiki/Q607112","Yun_Tianming_Blank_Storyline","Expanded_Cosmic_Sociology","EventSequence","As an authorized continuation, it fills a storyline the parent text left blank (Yun Tianming's fate), expanding the original's cosmic-sociology concepts into new territory."],["11","Op_The_Three_Body_Problem_to_ThreeBodyX_WorldInheritance","Inheritance","ThreeBodyX","https://baike.baidu.com/item/三体X·观想之宙/7656426","The Three-Body Problem","https://www.wikidata.org/wiki/Q607112","Three_Body_Cosmology","Three_Body_Cosmology","WorldRules","The physics, cosmology, and world-building of the Three-Body universe are inherited directly from the source."],["11","Op_The_Three_Body_Problem_to_ThreeBodyX_CharacterImitation","Imitation","ThreeBodyX","https://baike.baidu.com/item/三体X·观想之宙/7656426","The Three-Body Problem","https://www.wikidata.org/wiki/Q607112","Canon_Characters_Yun_Tianming","Canon_Characters_Yun_Tianming","CharacterIdentity","Canonical characters such as Yun Tianming are reused to suture the continuation to the parent text."],["12","Op_Odyssey_to_Ulysses_SettingTransposition","Transformation","Ulysses","https://www.wikidata.org/wiki/Q6511","Odyssey","https://www.wikidata.org/wiki/Q35160","Ancient_Mediterranean_Decade","Single_Day_Modern_Dublin","Chronotope","A decade-spanning ancient epic is compressed onto a single ordinary day in modern Dublin."],["12","Op_Odyssey_to_Ulysses_FocalizationShift","Transformation","Ulysses","https://www.wikidata.org/wiki/Q6511","Odyssey","https://www.wikidata.org/wiki/Q35160","External_Heroic_Narration","Interior_Stream_of_Consciousness","Focalization","Narration shifts from external heroic deeds to interior stream-of-consciousness."],["12","Op_Odyssey_to_Ulysses_CrossMediaTransformation","Transformation","Ulysses","https://www.wikidata.org/wiki/Q6511","Odyssey","https://www.wikidata.org/wiki/Q35160","Epic_Poem","Modernist_Novel","MediumType","The classical epic poem is transformed into a modernist prose novel."],["12","Op_Odyssey_to_Ulysses_StructuralInheritance","Inheritance","Ulysses","https://www.wikidata.org/wiki/Q6511","Odyssey","https://www.wikidata.org/wiki/Q35160","Homeric_Episode_Structure","Homeric_Episode_Structure","EventSequence","The episodic skeleton of the Homeric source is inherited as a metaphorical scaffold mapping each chapter to an episode."],["12","Op_Odyssey_to_Ulysses_HeroImitation","Imitation","Ulysses","https://www.wikidata.org/wiki/Q6511","Odyssey","https://www.wikidata.org/wiki/Q35160","Hero_Odysseus","Everyman_Leopold_Bloom","CharacterIdentity","The hero Odysseus is reimagined as the everyman Leopold Bloom, an imitative mapping of prototype onto modern figure."],["13","Op_Romeo_and_Juliet_to_West_Side_Story_SettingTransposition","Transformation","West Side Story","https://www.wikidata.org/wiki/Q669010","Romeo and Juliet","https://www.wikidata.org/wiki/Q83186","Renaissance_Verona_Feud","1950s_New_York_Gang_Conflict","Chronotope","The setting is transposed from Renaissance Verona to 1950s New York, recasting aristocratic feud as urban racial and gang conflict."],["13","Op_Romeo_and_Juliet_to_West_Side_Story_CrossMediaTransformation","Transformation","West Side Story","https://www.wikidata.org/wiki/Q669010","Romeo and Juliet","https://www.wikidata.org/wiki/Q83186","Verse_Tragedy","Musical","MediumType","The verse tragedy is transformed into a song-and-dance musical."],["13","Op_Romeo_and_Juliet_to_West_Side_Story_RelationTopologyInheritance","Inheritance","West Side Story","https://www.wikidata.org/wiki/Q669010","Romeo and Juliet","https://www.wikidata.org/wiki/Q83186","Lovers_Between_Feuding_Factions","Lovers_Between_Feuding_Factions","RelationTopology","The core relational topology -- two lovers caught between two feuding factions, ending in tragedy -- is inherited from the source."],["13","Op_Romeo_and_Juliet_to_West_Side_Story_LoversImitation","Imitation","West Side Story","https://www.wikidata.org/wiki/Q669010","Romeo and Juliet","https://www.wikidata.org/wiki/Q83186","Romeo_and_Juliet","Tony_and_Maria","CharacterIdentity","The lovers Romeo and Juliet are reused as prototypes for Tony and Maria."],["14","Op_Emma_to_Clueless_SettingTransposition","Transformation","Clueless","https://www.wikidata.org/wiki/Q931165","Emma","https://www.wikidata.org/wiki/Q223880","Regency_Gentry","1990s_Beverly_Hills_High_School","Chronotope","The Regency gentry's matchmaking and class hierarchy is mapped onto a 1990s Beverly Hills high school."],["14","Op_Emma_to_Clueless_CrossMediaTransformation","Transformation","Clueless","https://www.wikidata.org/wiki/Q931165","Emma","https://www.wikidata.org/wiki/Q223880","Novel","Film","MediumType","The source novel is adapted into a feature film."],["14","Op_Emma_to_Clueless_PlotInheritance","Inheritance","Clueless","https://www.wikidata.org/wiki/Q931165","Emma","https://www.wikidata.org/wiki/Q223880","Matchmaker_Plot_and_Dynamics","Matchmaker_Plot_and_Dynamics","EventSequence","The matchmaking plot and its interpersonal power dynamics are inherited and shown to still operate in a modern microcosm."],["14","Op_Emma_to_Clueless_HeroineImitation","Imitation","Clueless","https://www.wikidata.org/wiki/Q931165","Emma","https://www.wikidata.org/wiki/Q223880","Emma_Woodhouse","Cher_Horowitz","CharacterIdentity","The heroine Emma Woodhouse is reused as the prototype for Cher Horowitz."],["15","Op_Dracula_to_Nosferatu_CrossMediaTransformation","Transformation","Nosferatu","https://www.wikidata.org/wiki/Q151895","Dracula","https://www.wikidata.org/wiki/Q41542","Epistolary_Novel","Silent_Expressionist_Film","MediumType","The epistolary novel is transformed into a silent expressionist film whose Gothic amplification shaped later vampire visual conventions."],["15","Op_Dracula_to_Nosferatu_CharacterImitation","Imitation","Nosferatu","https://www.wikidata.org/wiki/Q151895","Dracula","https://www.wikidata.org/wiki/Q41542","Count_Dracula","Count_Orlok","CharacterIdentity","Lacking authorization, the film files off the source's names -- renaming Dracula as Count Orlok -- while reusing the underlying vampire prototype."],["15","Op_Dracula_to_Nosferatu_PlotInheritance","Inheritance","Nosferatu","https://www.wikidata.org/wiki/Q151895","Dracula","https://www.wikidata.org/wiki/Q41542","Vampire_Relocation_and_Plague","Vampire_Relocation_and_Plague","EventSequence","The core plot -- a vampire's relocation and the predatory plague he spreads -- is inherited from the source."],["16","Op_Jin_Yong_Universe_to_The_Here_and_Now_Youth_SettingTransposition","Transformation","The Here and Now Youth","https://zh.wikipedia.org/wiki/此间的少年","Jin Yong universe","https://www.wikidata.org/wiki/Q180626","Wuxia_Jianghu","Modern_University_Campus","Chronotope","The famous wuxia characters are extracted from the jianghu and relocated into a modern university campus, pioneering the 'characters-in-a-new-context' fan fiction model."],["16","Op_Jin_Yong_Universe_to_The_Here_and_Now_Youth_ContentDomainShift","Transformation","The Here and Now Youth","https://zh.wikipedia.org/wiki/此间的少年","Jin Yong universe","https://www.wikidata.org/wiki/Q180626","Martial_Heroism","Campus_Youth_Life","ContentDomain","The content domain shifts from martial heroism to everyday campus youth and friendship."],["16","Op_Jin_Yong_Universe_to_The_Here_and_Now_Youth_CharacterImitation","Imitation","The Here and Now Youth","https://zh.wikipedia.org/wiki/此间的少年","Jin Yong universe","https://www.wikidata.org/wiki/Q180626","Jin_Yong_Hero_Roster","Campus_Student_Roster","CharacterIdentity","Jin Yong's characters (Guo Jing, Huang Rong, Linghu Chong, and others) are reused as prototypes for the campus cast."],["16","Op_Jin_Yong_Universe_to_The_Here_and_Now_Youth_RelationInheritance","Inheritance","The Here and Now Youth","https://zh.wikipedia.org/wiki/此间的少年","Jin Yong universe","https://www.wikidata.org/wiki/Q180626","Character_Relationship_Web","Character_Relationship_Web","RelationTopology","The web of relationships among the original characters is transposed largely intact into the new setting."],["17","Op_Investiture_of_the_Gods_to_KamigamiNoJonin_CrossMediaTransformation","Transformation","KamigamiNoJonin","https://ja.wikipedia.org/wiki/封神演義_(漫画)","Investiture of the Gods","https://www.wikidata.org/wiki/Q1336310","Vernacular_Novel","Manga","MediumType","The chapter-based mythological novel is reimagined as manga, a transformation influential enough to turn the classical Fengshen IP into a modern repository of fan-creative material."],["17","Op_Investiture_of_the_Gods_to_KamigamiNoJonin_AlignmentReinterpretation","Transformation","KamigamiNoJonin","https://ja.wikipedia.org/wiki/封神演義_(漫画)","Investiture of the Gods","https://www.wikidata.org/wiki/Q1336310","Fixed_Deity_Alignments","Reinterpreted_Roles_and_Motives","CharacterFunction","The fixed moral alignments of the deities are reinterpreted, recasting roles and motivations across the ensemble."],["17","Op_Investiture_of_the_Gods_to_KamigamiNoJonin_WorldInheritance","Inheritance","KamigamiNoJonin","https://ja.wikipedia.org/wiki/封神演義_(漫画)","Investiture of the Gods","https://www.wikidata.org/wiki/Q1336310","Fengshen_Mythos","Fengshen_Mythos","WorldRules","The mythological cosmology of the source is inherited as the world framework."],["17","Op_Investiture_of_the_Gods_to_KamigamiNoJonin_DeityImitation","Imitation","KamigamiNoJonin","https://ja.wikipedia.org/wiki/封神演義_(漫画)","Investiture of the Gods","https://www.wikidata.org/wiki/Q1336310","Fengshen_Deity_Roster","Fengshen_Deity_Roster","CharacterIdentity","The deities and immortals of the source, led by Taigong Wang, are reused as the manga's cast."],["18","Op_Li_Bai_Poem_to_Jin_Yong_Novel_PlotDeviceReuse","Imitation","Jin Yong Novel Xiake Xing","https://www.wikidata.org/wiki/Q835716","Li Bai Poem Xiake Xing","https://zh.wikipedia.org/wiki/侠客行_(诗)","Poem_Text","Martial_Arts_Manual_Puzzle","EventSequence","The verses of Li Bai's poem are reused as the central plot device: martial masters study the text hoping to unlock a legendary skill, yet only an illiterate protagonist grasps its true essence."],["18","Op_Li_Bai_Poem_to_Jin_Yong_Novel_CrossMediaExpansion","Transformation","Jin Yong Novel Xiake Xing","https://www.wikidata.org/wiki/Q835716","Li Bai Poem Xiake Xing","https://zh.wikipedia.org/wiki/侠客行_(诗)","Classical_Poem","Full_Length_Wuxia_Novel","MediumType","A short classical poem is expanded across media into a full-length wuxia novel that interrogates what it means to be truly chivalrous."],["18","Op_Li_Bai_Poem_to_Jin_Yong_Novel_ChivalricSpiritInheritance","Inheritance","Jin Yong Novel Xiake Xing","https://www.wikidata.org/wiki/Q835716","Li Bai Poem Xiake Xing","https://zh.wikipedia.org/wiki/侠客行_(诗)","Chivalric_Ethos","Chivalric_Ethos","ContentDomain","The chivalrous spirit and ethos defined by the source poem are inherited -- a relationship of spiritual continuity across literary forms."]]};
+(function(){
+  const URI_COLS = new Set([4,6]);
+  const WORK_COLS = new Set([3,5]); // Transformative_Work, Original_Work — italicise titles
+  const esc = s => (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  function renderCSV(which){
+    const rows = CSV_DATA[which]; if(!rows) return;
+    const header = rows[0], body = rows.slice(1);
+    const thead = '<thead><tr>'+header.map(h=>'<th>'+esc(h)+'</th>').join('')+'</tr></thead>';
+    const tbody = '<tbody>'+body.map(function(r){
+      return '<tr>'+r.map(function(c,i){
+        let cls = i===0 ? 'csv-cell-num' : i===1 ? 'csv-cell-op' : i===10 ? 'csv-cell-rationale' : '';
+        let val;
+        if(URI_COLS.has(i) && c){ val = '<a href="'+esc(c)+'" target="_blank" rel="noopener">'+esc(c.replace(/^https?:\/\//,''))+'</a>'; }
+        else if(WORK_COLS.has(i) && c){ val = '<em>'+esc(c)+'</em>'; }
+        else { val = esc(c); }
+        return '<td class="'+cls+'">'+val+'</td>';
+      }).join('')+'</tr>';
+    }).join('')+'</tbody>';
+    document.getElementById('csv-table').innerHTML = thead + tbody;
+    document.getElementById('csv-count').textContent = body.length + ' operations \u00b7 ' + (which==='orig' ? 'Items CSV \u2014 Origin.Operation' : 'Operations_Audited');
+  }
+  document.querySelectorAll('.csv-tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.csv-tab').forEach(t=>t.classList.remove('active'));
+      tab.classList.add('active');
+      renderCSV(tab.dataset.csv);
+    });
+  });
+  renderCSV('orig');
+})();
+/* ==== CASE CAROUSELS ==== */
+(function(){
+  document.querySelectorAll('[data-carousel]').forEach(function(car){
+    var slides=[].slice.call(car.querySelectorAll('.carousel-slide'));
+    var dots=[].slice.call(car.querySelectorAll('.carousel-dot'));
+    if(slides.length<2) return;
+    var i=0, timer=null;
+    function show(n){ i=(n+slides.length)%slides.length; slides.forEach(function(s,k){s.classList.toggle('active',k===i);}); dots.forEach(function(d,k){d.classList.toggle('active',k===i);}); }
+    function start(){ stop(); timer=setInterval(function(){show(i+1);},4800); }
+    function stop(){ if(timer){clearInterval(timer);timer=null;} }
+    car.addEventListener('mouseenter',stop);
+    car.addEventListener('mouseleave',start);
+    dots.forEach(function(d,k){ d.addEventListener('click',function(){ show(k); stop(); }); });
+    show(0); start();
+  });
+})();
+
+/* ==== ONTOLOGY GRAPH VIEWER ==== */
+const GRAPHS = {"jpm":{"nodes":[{"id":"Jin_Ping_Mei","x":-73.86,"y":209.81},{"id":"Op_Water_Margin_to_Jin_Ping_Mei_PlotGrafting","x":260.14,"y":273.86},{"id":"Outlaw_Hero_Ensemble_Focal","x":391.72,"y":-87.13},{"id":"Wu_Song_Kills_Sister_in_law_Episode","x":436.93,"y":344.25},{"id":"Imitation","x":81.16,"y":271.06},{"id":"Op_Water_Margin_to_Jin_Ping_Mei_FocalizationShift","x":124.51,"y":-90.28},{"id":"Inheritance","x":57.64,"y":61.81},{"id":"Transformation","x":78.29,"y":143.75},{"id":"Op_Water_Margin_to_Jin_Ping_Mei_CharacterInheritance","x":213.71,"y":30.16},{"id":"Water_Margin","x":736.56,"y":208.66},{"id":"Op_Water_Margin_to_Jin_Ping_Mei_ContentDomainShift","x":168.47,"y":332.77},{"id":"Chivalric_Heroism","x":389.86,"y":409.14},{"id":"Seed_Plot_of_Jin_Ping_Mei","x":378.58,"y":205.41},{"id":"Merchant_Household_Focal","x":341.28,"y":-137.53},{"id":"Domestic_Desire_and_Manners","x":172.21,"y":403.75},{"id":"Monotonic_Villain_Pan_Jin_Lian","x":645.94,"y":47.59},{"id":"Op_Water_Margin_to_Jin_Ping_Mei_PanJinLianReinterpretation","x":238.27,"y":151.4},{"id":"EventSequence","x":646.27,"y":297.51},{"id":"Core_Cast_Ximen_Pan_Wu","x":498.08,"y":-7.26},{"id":"Complex_Pan_Jin_Lian","x":472.28,"y":140.53}]},"sherlock":{"nodes":[{"id":"High_Functioning_Sociopath_Holmes","x":-178.3,"y":-234.36},{"id":"Canon_of_Sherlock_Holmes","x":602.35,"y":-59.84},{"id":"Op_Canon_of_Sherlock_Holmes_to_Sherlock_CrossMediaTransformation","x":60.03,"y":277.41},{"id":"MediumType","x":3.42,"y":200.07},{"id":"Work","x":97.8,"y":-53.09},{"id":"Imitation","x":148.38,"y":-375.86},{"id":"Holmes_Watson_Bromance","x":-56.3,"y":-123.98},{"id":"Contemporary_London","x":-191.33,"y":6.5},{"id":"Op_Canon_of_Sherlock_Holmes_to_Sherlock_CharacterIntensification","x":-82.12,"y":-379.22},{"id":"Inheritance","x":246.94,"y":-250.18},{"id":"Transformation","x":276.25,"y":233.57},{"id":"CharacterArc","x":71.18,"y":-276.46},{"id":"Op_Canon_of_Sherlock_Holmes_to_Sherlock_SettingTransposition","x":9.48,"y":104.69},{"id":"Op_Canon_of_Sherlock_Holmes_to_Elementary_SettingTransposition","x":344.17,"y":293.38},{"id":"ShortStoryCollection","x":288.38,"y":120.15},{"id":"Op_Canon_of_Sherlock_Holmes_to_Sherlock_RelationshipInheritance","x":-20.22,"y":-213.33},{"id":"Sherlock","x":-406.07,"y":-29.84},{"id":"Victorian_London","x":282.72,"y":-13.4},{"id":"TV_Series","x":-294.12,"y":139.78},{"id":"Chronotope","x":38.71,"y":-3.86},{"id":"RelationType","x":130.74,"y":-166.89},{"id":"Eccentric_Rationalist_Holmes","x":286.89,"y":-312.04}]}};
+(function(){
+  if(!document.querySelector('.graf-window')) return;
+  var SVGNS='http://www.w3.org/2000/svg';
+  var STRAT=new Set(['Imitation','Inheritance','Transformation']);
+  var NECLASS=new Set(['EventSequence','MediumType','ContentDomain','Focalization','CharacterFunction','CharacterIdentity','Chronotope','WorldRules','RelationType','RelationTopology','CharacterArc','Character','Work']);
+  function norm(s){ return (s||'').trim().replace(/\s+/g,'_'); }
+  var AUD=(typeof CSV_DATA!=='undefined' && CSV_DATA.aud)?CSV_DATA.aud.slice(1):[];
+  var WORKS=new Set(); AUD.forEach(function(r){ WORKS.add(norm(r[5])); WORKS.add(norm(r[3])); });
+  function classify(id){
+    if(/^Op_/.test(id)) return 'op';
+    if(WORKS.has(id)) return 'work';
+    if(STRAT.has(id)) return 'strategy';
+    if(NECLASS.has(id)) return 'cls';
+    return 'elem';
+  }
+  // Protege OntoGraf-style edge colours per property
+  var EDGE_COLORS={hasOriginalWork:'#b0713f',hasTransformativeWork:'#3f7b7b',sourceElement:'#7d9a5f',targetElement:'#7d9a5f','rdf:type':'#8f83b8',narrativeElement:'#b07fa6'};
+  function label(id,type){ if(type==='op'){ var p=id.split('_'); return p[p.length-1]; } return id.replace(/_/g,' '); }
+  function buildEdges(idSet){
+    var edges=[], seen={};
+    function add(a,b,lab){ if(a&&b&&a!==b&&idSet.has(a)&&idSet.has(b)){ var k=a+'>'+b; if(!seen[k]){seen[k]=1; edges.push({a:a,b:b,lab:lab});} } }
+    AUD.forEach(function(r){
+      var op=r[1]; if(!idSet.has(op)) return;
+      var orig=norm(r[5]), trans=norm(r[3]), src=r[7], tgt=r[8], strat=r[2], ne=norm(r[9]);
+      add(orig,op,'hasOriginalWork'); add(op,trans,'hasTransformativeWork');
+      add(op,src,'sourceElement'); add(op,tgt,'targetElement');
+      add(op,strat,'rdf:type'); add(op,ne,'narrativeElement');
+      if(idSet.has('Work')){ add(orig,'Work','rdf:type'); add(trans,'Work','rdf:type'); }
+    });
+    return edges;
+  }
+  function el(n,a){ var e=document.createElementNS(SVGNS,n); for(var k in a) e.setAttribute(k,a[k]); return e; }
+  var UID=0;
+  function initGraph(win){
+    var key=win.dataset.graph, data=GRAPHS[key]; if(!data) return null;
+    var svg=win.querySelector('.graf-svg'), view=win.querySelector('.graf-view');
+    var gid='gm'+(UID++);
+    var nodes=data.nodes.map(function(n){ return {id:n.id,x:n.x,y:n.y,type:classify(n.id)}; });
+    var byId={}; nodes.forEach(function(n){ byId[n.id]=n; });
+    var idSet=new Set(nodes.map(function(n){ return n.id; }));
+    var edges=buildEdges(idSet);
+    // arrowhead markers (one per edge colour)
+    var defs=el('defs',{}); view.appendChild(defs);
+    var mk={};
+    function marker(color){
+      if(mk[color]) return mk[color];
+      var id=gid+'a'+Object.keys(mk).length;
+      var m=el('marker',{id:id,markerWidth:'9',markerHeight:'9',refX:'8',refY:'3',orient:'auto',markerUnits:'userSpaceOnUse'});
+      m.appendChild(el('path',{d:'M0,0 L8,3 L0,6 Z',fill:color}));
+      defs.appendChild(m); mk[color]=id; return id;
+    }
+    edges.forEach(function(e){
+      var col=EDGE_COLORS[e.lab]||'#b3a89c';
+      var ln=el('line',{'class':'gedge',stroke:col,'stroke-dasharray':(e.lab==='rdf:type'?'2,3':'5,4'),'marker-end':'url(#'+marker(col)+')'});
+      view.appendChild(ln); e.el=ln;
+      var lt=el('text',{'class':'gedge-label','text-anchor':'middle',fill:col}); lt.textContent=e.lab;
+      view.appendChild(lt); e.lt=lt;
+    });
+    // nodes as OntoGraf-style boxes (yellow = class, lavender = individual)
+    nodes.forEach(function(n){
+      var g=el('g',{'class':'gnode'}); g.dataset.id=n.id;
+      var isClass=(n.type==='strategy'||n.type==='cls');
+      var t=el('text',{'class':'gbox-label','text-anchor':'middle','dominant-baseline':'central'}); t.textContent=label(n.id,n.type);
+      g.appendChild(t); view.appendChild(g);
+      var tw=0; try{ tw=t.getComputedTextLength(); }catch(err){ tw=0; }
+      if(!tw) tw=t.textContent.length*5.6;
+      var iconW=isClass?0:13, padX=11, h=22;
+      var w=Math.max(46, Math.round(tw+padX*2+iconW));
+      var rect=el('rect',{x:-w/2,y:-h/2,width:w,height:h,rx:isClass?3:10,'class':'gbox',
+        fill:isClass?'#f6efba':'#e7e2f3',stroke:isClass?'#c9b657':'#9f94c6'});
+      g.insertBefore(rect,t);
+      if(!isClass){ g.insertBefore(el('circle',{cx:-w/2+11,cy:0,r:3.4,fill:'#e5a93b',stroke:'#bd851d','stroke-width':.5}),t); t.setAttribute('x',iconW/2); }
+      var title=el('title',{}); title.textContent=n.id.replace(/_/g,' '); g.appendChild(title);
+      n.w=w; n.h=h; n.g=g;
+    });
+    function border(n,fx,fy){ var dx=fx-n.x, dy=fy-n.y; if(!dx&&!dy) return {x:n.x,y:n.y}; var sc=1/Math.max(Math.abs(dx)/(n.w/2),Math.abs(dy)/(n.h/2)); return {x:n.x+dx*sc, y:n.y+dy*sc}; }
+    function placeNode(n){ n.g.setAttribute('transform','translate('+n.x+','+n.y+')'); }
+    function placeEdge(e){ var a=byId[e.a],b=byId[e.b]; var p1=border(a,b.x,b.y), p2=border(b,a.x,a.y);
+      e.el.setAttribute('x1',p1.x); e.el.setAttribute('y1',p1.y); e.el.setAttribute('x2',p2.x); e.el.setAttribute('y2',p2.y);
+      e.lt.setAttribute('x',(p1.x+p2.x)/2); e.lt.setAttribute('y',(p1.y+p2.y)/2-2);
+    }
+    function place(){ nodes.forEach(placeNode); edges.forEach(placeEdge); }
+    place();
+    var st={s:1,tx:0,ty:0};
+    function apply(){ view.setAttribute('transform','translate('+st.tx+','+st.ty+') scale('+st.s+')'); }
+    function bbox(){ var xs=nodes.map(function(n){return n.x;}), ys=nodes.map(function(n){return n.y;}); return {minx:Math.min.apply(null,xs),maxx:Math.max.apply(null,xs),miny:Math.min.apply(null,ys),maxy:Math.max.apply(null,ys)}; }
+    function fit(){ var r=svg.getBoundingClientRect(); var W=r.width||400,H=r.height||320; var b=bbox(); var pad=42; var w=(b.maxx-b.minx)||1,h=(b.maxy-b.miny)||1; var s=Math.min((W-2*pad)/w,(H-2*pad)/h); s=Math.max(0.05,Math.min(s,1.8)); st.s=s; st.tx=W/2 - s*(b.minx+b.maxx)/2; st.ty=H/2 - s*(b.miny+b.maxy)/2; apply(); }
+    var dragNode=null, panning=false, last=null, moved=false;
+    function pt(ev){ var r=svg.getBoundingClientRect(); return {x:ev.clientX-r.left,y:ev.clientY-r.top}; }
+    svg.addEventListener('pointerdown',function(ev){
+      var g=ev.target.closest?ev.target.closest('.gnode'):null;
+      last=pt(ev); moved=false;
+      if(g){ dragNode=byId[g.dataset.id]; } else { panning=true; svg.classList.add('grabbing'); }
+      try{ svg.setPointerCapture(ev.pointerId); }catch(e){}
+    });
+    svg.addEventListener('pointermove',function(ev){
+      if(!dragNode&&!panning) return;
+      var p=pt(ev), dx=p.x-last.x, dy=p.y-last.y; last=p; moved=true;
+      if(dragNode){ dragNode.x+=dx/st.s; dragNode.y+=dy/st.s; placeNode(dragNode);
+        edges.forEach(function(e){ if(e.a===dragNode.id||e.b===dragNode.id) placeEdge(e); });
+      } else { st.tx+=dx; st.ty+=dy; apply(); }
+    });
+    function endDrag(ev){ dragNode=null; panning=false; svg.classList.remove('grabbing'); try{ svg.releasePointerCapture(ev.pointerId); }catch(e){} }
+    svg.addEventListener('pointerup',endDrag);
+    svg.addEventListener('pointercancel',endDrag);
+    svg.addEventListener('wheel',function(ev){ ev.preventDefault(); var p=pt(ev); var f=ev.deltaY<0?1.12:1/1.12; var ns=Math.max(0.1,Math.min(6,st.s*f)); var k=ns/st.s; st.tx=p.x-(p.x-st.tx)*k; st.ty=p.y-(p.y-st.ty)*k; st.s=ns; apply(); },{passive:false});
+    function zoomC(f){ var r=svg.getBoundingClientRect(); var cx=(r.width||400)/2, cy=(r.height||320)/2; var ns=Math.max(0.1,Math.min(6,st.s*f)); var k=ns/st.s; st.tx=cx-(cx-st.tx)*k; st.ty=cy-(cy-st.ty)*k; st.s=ns; apply(); }
+    win.querySelectorAll('.graf-tools button').forEach(function(b){
+      b.addEventListener('click',function(){ var a=b.dataset.act; if(a==='in')zoomC(1.25); else if(a==='out')zoomC(0.8); else fit(); });
+    });
+    var tries=0; (function tryfit(){ var r=svg.getBoundingClientRect(); if(r.width>10){ fit(); } else if(tries++<25){ setTimeout(tryfit,120); } })();
+    return fit;
+  }
+  var fits=[];
+  document.querySelectorAll('.graf-window').forEach(function(w){ var f=initGraph(w); if(f) fits.push(f); });
+  var rt; window.addEventListener('resize',function(){ clearTimeout(rt); rt=setTimeout(function(){ fits.forEach(function(f){ try{f();}catch(e){} }); },200); });
+})();
+</script>
+</body>
+</html>
