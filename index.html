@@ -107,6 +107,15 @@ blockquote cite{display:block;font-size:12px;font-style:normal;color:var(--ink-f
 .cq-question{font-family:var(--serif);font-style:italic;font-size:15.5px;color:var(--ink);margin-bottom:.2rem}
 .cq-note{font-size:12px;color:var(--ink-faint)}
 .cq-body{padding:0}
+.cq-code{width:100%;box-sizing:border-box;background:#1a1612;color:#e8dfc8;font-family:'Courier New',monospace;font-size:12.5px;line-height:1.7;padding:1.25rem;border:none;resize:vertical;display:block;min-height:230px;white-space:pre;overflow-wrap:normal;overflow-x:auto}
+.cq-code:focus{outline:2px solid var(--accent);outline-offset:-2px}
+.cq-actions{display:flex;align-items:center;gap:.9rem;padding:.7rem 1.25rem;background:var(--parchment-deep);border-top:0.5px solid var(--parchment-border);border-bottom:0.5px solid var(--parchment-border)}
+.cq-exec{background:var(--accent);color:#fff;border:none;padding:8px 18px;border-radius:4px;font-size:13px;font-weight:500;cursor:pointer;font-family:var(--sans);letter-spacing:.02em;transition:background .15s}
+.cq-exec:hover{background:var(--accent-light)}
+.cq-status{font-size:12px;color:var(--ink-faint)}
+.cq-status.err{color:var(--accent)}
+.cq-results:empty{display:none}
+.result-table td:empty::after{content:'—';color:var(--parchment-border)}
 pre{margin:0;background:#1a1612;color:#e8dfc8;font-family:'Courier New',monospace;font-size:12.5px;line-height:1.7;padding:1.25rem;overflow-x:auto;border-radius:0}
 .cq-results{padding:1rem 1.25rem;border-top:0.5px solid var(--parchment-border)}
 .cq-results p{font-size:13px;color:var(--ink-muted);margin-bottom:.5rem;font-style:italic}
@@ -193,6 +202,9 @@ footer{background:var(--parchment-deep);border-top:0.5px solid var(--parchment-b
 .footer-meta a{color:var(--accent);text-decoration:none}
 /* SCROLL OFFSET */
 #overview,#framework,#ontology,#cases,#corpus,#operations,#cq,#methodology{scroll-margin-top:60px}
+/* ==== AUTO-HIDE NAV ON SCROLL ==== */
+nav{transition:transform .32s ease}
+body.nav-collapsed nav{transform:translateY(-100%)}
 /* ==== LEFT SIDE NAV (hover left edge) ==== */
 #side-nav{position:fixed;top:0;left:0;height:100vh;width:20px;z-index:300}
 #side-nav::before{content:'';position:absolute;top:50%;left:0;transform:translateY(-50%);width:4px;height:56px;border-radius:0 3px 3px 0;background:var(--accent);opacity:.4;transition:opacity .25s}
@@ -670,181 +682,25 @@ table.csv-table tbody tr:hover{background:var(--parchment)}
   <div class="section-inner">
     <div class="section-eyebrow">6. Competency questions</div>
     <h2 class="section-title">SPARQL queries</h2>
-    <p class="section-lead">The ontology is designed to answer three core competency questions via SPARQL 1.1. Each query is shown with an example result drawn from the knowledge base.</p>
+    <p class="section-lead">The ontology answers two core competency questions via SPARQL 1.1. Load a question below, edit the query if you like, and press <strong>Execute</strong> — it runs live over the in-page knowledge graph (the same data as <code>palimpsests.ttl</code>).</p>
 
     <div class="cq-tabs">
-      <button class="cq-tab active" data-cq="cq1">CQ1 — Source derivation</button>
-      <button class="cq-tab" data-cq="cq2">CQ2 — Creative strategies</button>
-      <button class="cq-tab" data-cq="cq3">CQ3 — Preserved &amp; reconstructed elements</button>
+      <button class="cq-tab active" data-q="1">CQ1 — Source derivation</button>
+      <button class="cq-tab" data-q="2">CQ2 — Preserved &amp; reconstructed elements</button>
     </div>
 
-    <!-- CQ1 -->
-    <div class="cq-panel active" id="cq1">
-      <div class="cq-block">
-        <div class="cq-block-head">
-          <div class="cq-question">Which original work does a given derivative derive from?</div>
-          <div class="cq-note">General query — returns all hypotext → hypertext pairs with operation count</div>
-        </div>
-        <div class="cq-body">
-<pre>PREFIX :    &lt;http://example.org/palimpsests#&gt;
-PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
-
-SELECT ?derivativeWork ?originalWork (COUNT(?op) AS ?numOps)
-WHERE {
-  ?op a :CreativeStrategy ;
-      :hasTransformativeWork ?derivativeWork ;
-      :hasOriginalWork ?originalWork .
-}
-GROUP BY ?derivativeWork ?originalWork
-ORDER BY DESC(?numOps)</pre>
-          <div class="cq-results">
-            <p>Example results (excerpt):</p>
-            <table class="result-table">
-              <tr><th>derivativeWork</th><th>originalWork</th><th>numOps</th></tr>
-              <tr><td>:Ulysses</td><td>:Odyssey</td><td>5</td></tr>
-              <tr><td>:Wicked</td><td>:The_Wonderful_Wizard_of_Oz</td><td>5</td></tr>
-              <tr><td>:Jin_Ping_Mei</td><td>:Water_Margin</td><td>5</td></tr>
-              <tr><td>:Elementary</td><td>:Canon_of_Sherlock_Holmes</td><td>5</td></tr>
-              <tr><td>:West_Side_Story</td><td>:Romeo_and_Juliet</td><td>4</td></tr>
-            </table>
-          </div>
-        </div>
+    <div class="cq-block">
+      <div class="cq-block-head">
+        <div class="cq-question" id="cq-question"></div>
+        <div class="cq-note">Editable — change any part of the query and press Execute. A subset of SPARQL 1.1 is supported (BGP, VALUES, OPTIONAL, FILTER, BIND/IF, DISTINCT, ORDER BY).</div>
       </div>
-      <div class="cq-block">
-        <div class="cq-block-head">
-          <div class="cq-question">Parameterised: which source does <em>Ulysses</em> derive from?</div>
-          <div class="cq-note">Replace :Ulysses with any work individual</div>
+      <div class="cq-body">
+        <textarea id="cq-code" class="cq-code" spellcheck="false" rows="13"></textarea>
+        <div class="cq-actions">
+          <button id="cq-run" class="cq-exec" type="button">&#9654; Execute</button>
+          <span id="cq-status" class="cq-status"></span>
         </div>
-        <div class="cq-body">
-<pre>SELECT ?originalWork ?externalRef
-WHERE {
-  ?op a :CreativeStrategy ;
-      :hasTransformativeWork :Ulysses ;
-      :hasOriginalWork ?originalWork .
-  OPTIONAL { ?originalWork :externalRef ?externalRef . }
-}</pre>
-          <div class="cq-results">
-            <table class="result-table">
-              <tr><th>originalWork</th><th>externalRef</th></tr>
-              <tr><td>:Odyssey</td><td>https://www.wikidata.org/wiki/Q35160</td></tr>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- CQ2 -->
-    <div class="cq-panel" id="cq2">
-      <div class="cq-block">
-        <div class="cq-block-head">
-          <div class="cq-question">Which creative strategies does a derivative work employ?</div>
-          <div class="cq-note">General query — returns strategy breakdown for every derivative work</div>
-        </div>
-        <div class="cq-body">
-<pre>SELECT ?derivativeWork ?strategyClass (COUNT(?op) AS ?count)
-WHERE {
-  ?op a :CreativeStrategy ;
-      :hasTransformativeWork ?derivativeWork .
-  ?op a ?strategyClass .
-  FILTER(?strategyClass IN (:Transformation, :Inheritance, :Imitation))
-}
-GROUP BY ?derivativeWork ?strategyClass
-ORDER BY ?derivativeWork DESC(?count)</pre>
-          <div class="cq-results">
-            <p>Example results for <em>Wicked</em>:</p>
-            <table class="result-table">
-              <tr><th>derivativeWork</th><th>strategyClass</th><th>count</th></tr>
-              <tr><td>:Wicked</td><td>:Transformation</td><td>3</td></tr>
-              <tr><td>:Wicked</td><td>:Imitation</td><td>1</td></tr>
-              <tr><td>:Wicked</td><td>:Inheritance</td><td>1</td></tr>
-            </table>
-          </div>
-        </div>
-      </div>
-      <div class="cq-block">
-        <div class="cq-block-head">
-          <div class="cq-question">Parameterised: strategy profile of <em>Ulysses</em></div>
-          <div class="cq-note">Double-typing pattern enables direct class membership query</div>
-        </div>
-        <div class="cq-body">
-<pre>SELECT ?strategyClass (COUNT(?op) AS ?count)
-WHERE {
-  ?op a :CreativeStrategy, ?strategyClass ;
-      :hasTransformativeWork :Ulysses .
-  FILTER(?strategyClass IN (:Transformation, :Inheritance, :Imitation))
-}
-GROUP BY ?strategyClass
-ORDER BY DESC(?count)</pre>
-          <div class="cq-results">
-            <table class="result-table">
-              <tr><th>strategyClass</th><th>count</th></tr>
-              <tr><td>:Transformation</td><td>3</td></tr>
-              <tr><td>:Imitation</td><td>1</td></tr>
-              <tr><td>:Inheritance</td><td>1</td></tr>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- CQ3 -->
-    <div class="cq-panel" id="cq3">
-      <div class="cq-block">
-        <div class="cq-block-head">
-          <div class="cq-question">Which parts of the source were preserved or reconstructed in the derivative?</div>
-          <div class="cq-note">General query — full element-level provenance across all pairs</div>
-        </div>
-        <div class="cq-body">
-<pre>SELECT ?originalWork ?derivativeWork ?strategyClass
-       ?srcElement ?tgtElement ?neType ?rationale
-WHERE {
-  ?op a :CreativeStrategy, ?strategyClass ;
-      :hasOriginalWork ?originalWork ;
-      :hasTransformativeWork ?derivativeWork ;
-      :sourceElement ?srcElement ;
-      :targetElement ?tgtElement .
-  FILTER(?strategyClass IN (:Transformation, :Inheritance, :Imitation))
-  ?srcElement a ?neType .
-  ?neType rdfs:subClassOf* :NarrativeElement .
-  OPTIONAL { ?op :rationale ?rationale . }
-}
-ORDER BY ?originalWork ?derivativeWork ?strategyClass</pre>
-          <div class="cq-results">
-            <p>Example results for <em>Odyssey</em> → <em>Ulysses</em>:</p>
-            <table class="result-table">
-              <tr><th>strategy</th><th>neType</th><th>source element</th><th>target element</th></tr>
-              <tr><td>:Transformation</td><td>:Chronotope</td><td>:Ancient_Mediterranean_Decade</td><td>:Single_Day_Modern_Dublin</td></tr>
-              <tr><td>:Transformation</td><td>:Focalization</td><td>:External_Heroic_Narration</td><td>:Interior_Stream_of_Consciousness</td></tr>
-              <tr><td>:Transformation</td><td>:MediumType</td><td>:Epic_Poem</td><td>:Modernist_Novel</td></tr>
-              <tr><td>:Inheritance</td><td>:EventSequence</td><td>:Homeric_Episode_Structure</td><td>:Homeric_Episode_Structure</td></tr>
-              <tr><td>:Imitation</td><td>:CharacterIdentity</td><td>:Hero_Odysseus</td><td>:Everyman_Leopold_Bloom</td></tr>
-            </table>
-          </div>
-        </div>
-      </div>
-      <div class="cq-block">
-        <div class="cq-block-head">
-          <div class="cq-question">Parameterised: what was <em>preserved</em> (Inheritance) in a specific pair?</div>
-          <div class="cq-note">Filter by :Inheritance to isolate unchanged elements; swap for :Transformation to get reconstructed ones</div>
-        </div>
-        <div class="cq-body">
-<pre>SELECT ?srcElement ?tgtElement ?neType ?rationale
-WHERE {
-  ?op a :CreativeStrategy, :Inheritance ;
-      :hasOriginalWork :Odyssey ;
-      :hasTransformativeWork :Ulysses ;
-      :sourceElement ?srcElement ;
-      :targetElement ?tgtElement .
-  ?srcElement a ?neType .
-  OPTIONAL { ?op :rationale ?rationale . }
-}</pre>
-          <div class="cq-results">
-            <table class="result-table">
-              <tr><th>neType</th><th>srcElement</th><th>rationale</th></tr>
-              <tr><td>:EventSequence</td><td>:Homeric_Episode_Structure</td><td>The episodic skeleton of the Homeric source is inherited as a metaphorical scaffold mapping each chapter to an episode.</td></tr>
-            </table>
-          </div>
-        </div>
+        <div class="cq-results"><table class="result-table" id="cq-out"></table></div>
       </div>
     </div>
   </div>
@@ -855,15 +711,15 @@ WHERE {
   <div class="section-inner">
     <div class="section-eyebrow">7. Methodology</div>
     <h2 class="section-title">How the model was built</h2>
-    <p class="section-lead">The project followed an ontology engineering pipeline combining theoretical grounding, corpus curation, formal modelling, and SPARQL evaluation.</p>
+    <p class="section-lead">The project followed an ontology-engineering pipeline: a hand-authored seed annotation, AI-assisted completion of the corpus, a CSV-to-Turtle conversion refined in Protégé, and SPARQL evaluation.</p>
     <div class="two-col">
       <div>
         <div class="method-steps">
           <div class="m-step"><span class="m-num">I</span><div class="m-body"><h4>Corpus selection</h4><p>18 work pairs were identified based on documented, demonstrable hypertextual relations. Selection criteria: depth of creative debt (without the hypotext the hypertext is inconceivable), diversity of strategy type, media, culture, and period — from classical antiquity to the 2020s.</p></div></div>
-          <div class="m-step"><span class="m-num">II</span><div class="m-body"><h4>Ontology design</h4><p>Starting from CreOn and Genette's theoretical vocabulary, we defined our class hierarchy and property set in OWL 2. The <code>NarrativeElement</code> type hierarchy was developed iteratively through corpus annotation. Works are grounded via Wikidata external references.</p></div></div>
-          <div class="m-step"><span class="m-num">III</span><div class="m-body"><h4>Operation annotation</h4><p>Each pair was analysed to identify its discrete creative operations. For each operation we assigned a strategy class, source and target narrative element individuals, and a natural-language rationale. The result is 67 annotated operations stored in Turtle and the source CSV.</p></div></div>
-          <div class="m-step"><span class="m-num">IV</span><div class="m-body"><h4>SPARQL evaluation</h4><p>Three competency questions were formulated and verified: the ontology and dataset together are sufficient to answer each one via standard SPARQL 1.1, including parameterised variants that filter by specific work individuals.</p></div></div>
-          <div class="m-step"><span class="m-num">V</span><div class="m-body"><h4>Documentation</h4><p>The ontology (<code>palimpsests.ttl</code>), SPARQL queries, and this documentation website form the project deliverables, modelled in Protégé following OWL 2 DL semantics.</p></div></div>
+          <div class="m-step"><span class="m-num">II</span><div class="m-body"><h4>Seed annotation</h4><p>The first three pairs were modelled by hand, each creative operation written directly as a row of a structured CSV — its strategy class, source and target narrative element individuals, work references, and a natural-language rationale. These seed rows fixed the annotation vocabulary and the operation template for everything that followed.</p></div></div>
+          <div class="m-step"><span class="m-num">III</span><div class="m-body"><h4>AI-assisted completion</h4><p>The three annotated pairs were then supplied to an AI model as worked examples, which extended the same scheme across the remaining fifteen. The output is a single complete CSV covering all 18 pairs and 67 creative operations, subsequently audited and normalised by hand.</p></div></div>
+          <div class="m-step"><span class="m-num">IV</span><div class="m-body"><h4>CSV → OWL in Protégé</h4><p>A Python script (<code>csv_to_ttl.py</code>) converts the completed CSV into RDF/Turtle — generating the class hierarchy, object and annotation properties, work and narrative-element individuals, and one operation individual per row. The Turtle was imported into Protégé, where the ontology was refined and corrected by hand into the final knowledge base, <code>palimpsests.ttl</code>.</p></div></div>
+          <div class="m-step"><span class="m-num">V</span><div class="m-body"><h4>Analysis &amp; documentation</h4><p>From <code>palimpsests.ttl</code> we produced the ontology graphs (Protégé OntoGraf), ran the SPARQL competency questions, and synthesised the results into this documentation website — the project's final deliverable, modelled under OWL 2 DL semantics.</p></div></div>
         </div>
       </div>
       <div>
@@ -914,6 +770,12 @@ WHERE {
       Knowledge Representation &amp; Extraction · DHDK Master's Programme<br>
       Università di Bologna · A.Y. 2024–25 · Prof. Aldo Gangemi<br>
       Grounded in <a href="https://github.com/aldogangemi/CreOn" target="_blank">CreOn</a> · Wikidata-linked corpus · OWL 2 DL
+    </p>
+    <p class="footer-meta" style="margin-top:1rem">
+      <strong style="color:var(--ink-muted)">Team</strong><br>
+      Li Yihua (李怡桦) — Coordination · ontology modeling<br>
+      Yu Peize (余沛泽) — Documentation · website<br>
+      Jiang Jingtong (江靖童) — Case collection · visualization
     </p>
   </div>
 </footer>
@@ -1100,19 +962,252 @@ document.querySelectorAll('.filter-btn').forEach(btn=>{
   });
 });
 
-document.querySelectorAll('.cq-tab').forEach(tab=>{
-  tab.addEventListener('click',()=>{
-    document.querySelectorAll('.cq-tab').forEach(t=>t.classList.remove('active'));
-    document.querySelectorAll('.cq-panel').forEach(p=>p.classList.remove('active'));
-    tab.classList.add('active');
-    document.getElementById(tab.dataset.cq).classList.add('active');
-  });
-});
-
 renderNEChart();
 renderCorrelation();
 renderPairs();
 renderOps();
+
+/* ==== SPARQL QUERY RUNNER — a small SPARQL 1.1 engine over the in-page knowledge graph ==== */
+(function(){
+  var codeEl=document.getElementById('cq-code');
+  if(!codeEl || typeof OPS==='undefined') return;
+  var outEl=document.getElementById('cq-out'), statusEl=document.getElementById('cq-status'), qEl=document.getElementById('cq-question');
+
+  var P='http://example.org/palimpsests#', RDF='http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+      RDFS='http://www.w3.org/2000/01/rdf-schema#', OWL='http://www.w3.org/2002/07/owl#', XSD='http://www.w3.org/2001/XMLSchema#';
+  var DEFPFX={'':P,'rdf':RDF,'rdfs':RDFS,'owl':OWL,'xsd':XSD};
+  function locName(s){ s=(s||'').trim().replace(/&/g,'and').replace(/[^\w]+/g,'_').replace(/_+/g,'_').replace(/^_|_$/g,''); if(/^[0-9]/.test(s)) s='n_'+s; return s; }
+
+  // ---- build triple store from the embedded knowledge base (mirrors palimpsests.ttl) ----
+  var T=[]; function add(s,p,o){ T.push([s,p,o]); }
+  ['Imitation','Transformation','Inheritance'].forEach(function(s){ add(P+s,RDF+'type',OWL+'Class'); add(P+s,RDFS+'subClassOf',P+'CreativeStrategy'); });
+  var NET={CharacterIdentity:'Character',CharacterArc:'Character',CharacterFunction:'Character',Chronotope:'BackgroundSetting',WorldRules:'BackgroundSetting',EventSequence:'StoryStructure',Causality:'StoryStructure',Outcome:'StoryStructure',Focalization:'StoryStructure',RelationType:'Relation',RelationTopology:'Relation',ContentDomain:'',MediumType:'',Character:'',BackgroundSetting:'',StoryStructure:'',Relation:''};
+  Object.keys(NET).forEach(function(c){ add(P+c,RDF+'type',OWL+'Class'); add(P+c,RDFS+'subClassOf',P+(NET[c]||'NarrativeElement')); });
+  add(P+'Work',RDF+'type',OWL+'Class');
+  var seenW={};
+  function regWork(name,uri){ var ln=locName(name); if(!ln) return; if(!seenW[ln]){ seenW[ln]=1; add(P+ln,RDF+'type',P+'Work'); add(P+ln,RDFS+'label',{L:name}); } if(uri){ add(P+ln,P+'externalRef',{L:uri}); } }
+  (typeof PAIRS!=='undefined'?PAIRS:[]).forEach(function(p){ regWork(p.orig,p.orig_uri); regWork(p.trans,p.trans_uri); });
+  OPS.forEach(function(o,i){
+    var s=P+'op'+i;
+    add(s,RDF+'type',P+locName(o.strategy));
+    add(s,P+'hasOriginalWork',P+locName(o.orig));
+    add(s,P+'hasTransformativeWork',P+locName(o.trans));
+    add(s,P+'sourceElement',P+o.src); add(s,P+'targetElement',P+o.tgt);
+    add(s,P+'actsOnElement',P+locName(o.ne));
+    if(o.rationale) add(s,P+'rationale',{L:o.rationale});
+    add(P+o.src,RDF+'type',P+locName(o.ne)); add(P+o.tgt,RDF+'type',P+locName(o.ne));
+  });
+
+  function tokenize(q){
+    var re=/\s+|#[^\n]*|(<[^>]*>)|(\?[A-Za-z0-9_]+)|("(?:[^"\\]|\\.)*")|([A-Za-z0-9_]*:[A-Za-z0-9_]*)|([0-9]+)|(!=|=|\{|\}|\(|\)|;|,|\.|\*)|([A-Za-z_][A-Za-z0-9_]*)/g;
+    var toks=[],m;
+    while((m=re.exec(q))!==null){
+      if(m.index===re.lastIndex) re.lastIndex++;
+      if(/^\s/.test(m[0])||m[0][0]==='#') continue;
+      if(m[1]!==undefined) toks.push({t:'iri',v:m[1].slice(1,-1)});
+      else if(m[2]!==undefined) toks.push({t:'var',v:m[2]});
+      else if(m[3]!==undefined) toks.push({t:'lit',v:JSON.parse(m[3])});
+      else if(m[4]!==undefined) toks.push({t:'pname',v:m[4]});
+      else if(m[5]!==undefined) toks.push({t:'num',v:m[5]});
+      else if(m[6]!==undefined) toks.push({t:'punct',v:m[6]});
+      else if(m[7]!==undefined) toks.push({t:'kw',v:m[7]});
+    }
+    return toks;
+  }
+  function run(q){
+    var pfx=Object.assign({},DEFPFX), toks=tokenize(q), i=0;
+    function peek(){ return toks[i]; }
+    function nx(){ return toks[i++]; }
+    function isKw(t,k){ return t&&t.t==='kw'&&t.v.toUpperCase()===k; }
+    function expandP(pn){ var idx=pn.indexOf(':'), pre=pn.slice(0,idx), lo=pn.slice(idx+1); if(!(pre in pfx)) throw new Error('unknown prefix "'+pre+':"'); return pfx[pre]+lo; }
+    function term(){
+      var t=nx(); if(!t) throw new Error('unexpected end of query');
+      if(t.t==='var') return {v:t.v};
+      if(t.t==='iri') return {iri:t.v};
+      if(t.t==='lit') return {L:t.v};
+      if(t.t==='pname') return {iri:expandP(t.v)};
+      if(t.t==='kw'&&t.v==='a') return {iri:RDF+'type'};
+      if(t.t==='num') return {L:t.v};
+      throw new Error('unexpected token "'+t.v+'"');
+    }
+    function group(){
+      var t=nx(); if(!t||!(t.t==='punct'&&t.v==='{')) throw new Error('expected "{"');
+      var items=[];
+      while(true){
+        var p=peek(); if(!p) throw new Error('unclosed "{"');
+        if(p.t==='punct'&&p.v==='}'){ nx(); break; }
+        if(p.t==='punct'&&p.v==='.'){ nx(); continue; }
+        if(isKw(p,'OPTIONAL')){ nx(); items.push({type:'optional',group:group()}); continue; }
+        if(isKw(p,'FILTER')){ nx(); items.push({type:'filter',expr:bracket()}); continue; }
+        if(isKw(p,'BIND')){ nx(); items.push(bindItem()); continue; }
+        if(isKw(p,'VALUES')){ nx(); items.push(valuesItem()); continue; }
+        triples(items);
+      }
+      return items;
+    }
+    function triples(items){
+      var subj=term();
+      while(true){
+        var pred; if(isKw(peek(),'a')){ nx(); pred={iri:RDF+'type'}; } else pred=term();
+        while(true){ items.push([subj,pred,term()]); if(peek()&&peek().t==='punct'&&peek().v===','){ nx(); continue; } break; }
+        if(peek()&&peek().t==='punct'&&peek().v===';'){ nx(); if(peek()&&peek().t==='punct'&&(peek().v==='.'||peek().v==='}')){ break; } continue; }
+        break;
+      }
+      if(peek()&&peek().t==='punct'&&peek().v==='.') nx();
+    }
+    function valuesItem(){
+      var v=nx(); if(!v||v.t!=='var') throw new Error('VALUES supports a single ?var only');
+      var b=nx(); if(!b||!(b.t==='punct'&&b.v==='{')) throw new Error('expected "{" after VALUES');
+      var vals=[]; while(peek()&&!(peek().t==='punct'&&peek().v==='}')){ vals.push(term()); } nx();
+      return {type:'values',v:v.v,vals:vals};
+    }
+    function bindItem(){
+      var o=nx(); if(!o||!(o.t==='punct'&&o.v==='(')) throw new Error('expected "(" after BIND');
+      var e=expr(); if(!isKw(peek(),'AS')) throw new Error('expected AS in BIND'); nx();
+      var v=nx(); if(!v||v.t!=='var') throw new Error('expected ?var in BIND');
+      var c=nx(); if(!c||!(c.t==='punct'&&c.v===')')) throw new Error('expected ")" in BIND');
+      return {type:'bind',v:v.v,expr:e};
+    }
+    function bracket(){ var o=nx(); if(!o||!(o.t==='punct'&&o.v==='(')) throw new Error('expected "(" after FILTER'); var e=expr(); var c=nx(); if(!c||!(c.t==='punct'&&c.v===')')) throw new Error('expected ")" after FILTER'); return e; }
+    function expr(){
+      var p=peek();
+      if(isKw(p,'IF')){ nx(); nx(); var cond=expr(); nx(); var a=expr(); nx(); var b=expr(); nx(); return {op:'if',cond:cond,a:a,b:b}; }
+      var left={op:'term',term:term()}, q2=peek();
+      if(isKw(q2,'IN')){ nx(); nx(); var list=[]; while(peek()&&!(peek().t==='punct'&&peek().v===')')){ if(peek().t==='punct'&&peek().v===','){nx();continue;} list.push(term()); } nx(); return {op:'in',left:left,list:list}; }
+      if(q2&&q2.t==='punct'&&(q2.v==='='||q2.v==='!=')){ var opv=q2.v; nx(); return {op:opv,left:left,right:expr()}; }
+      return left;
+    }
+    // parse query
+    while(isKw(peek(),'PREFIX')){ nx(); var pn=nx(), ir=nx(); if(!pn||pn.t!=='pname'||!ir||ir.t!=='iri') throw new Error('bad PREFIX declaration'); pfx[pn.v.slice(0,pn.v.indexOf(':'))]=ir.v; }
+    if(!isKw(peek(),'SELECT')) throw new Error('only SELECT queries are supported');
+    nx();
+    var distinct=false; if(isKw(peek(),'DISTINCT')){ nx(); distinct=true; } if(isKw(peek(),'REDUCED')) nx();
+    var vars=[], star=false;
+    while(peek() && !isKw(peek(),'WHERE') && !(peek().t==='punct'&&peek().v==='{')){
+      var tk=peek();
+      if(tk.t==='punct'&&tk.v==='*'){ nx(); star=true; continue; }
+      if(tk.t==='var'){ vars.push(tk.v); nx(); continue; }
+      throw new Error('unsupported SELECT item "'+tk.v+'" (aggregates/expressions are not supported)');
+    }
+    if(isKw(peek(),'WHERE')) nx();
+    var where=group();
+    var order=[], limit=null;
+    while(peek()){
+      if(isKw(peek(),'ORDER')){ nx(); if(isKw(peek(),'BY')) nx();
+        while(peek()){ var pp=peek();
+          if(pp.t==='var'){ order.push({v:pp.v,desc:false}); nx(); }
+          else if(isKw(pp,'DESC')||isKw(pp,'ASC')){ var desc=pp.v.toUpperCase()==='DESC'; nx(); if(peek()&&peek().t==='punct'&&peek().v==='(') nx(); var vv=nx(); if(peek()&&peek().t==='punct'&&peek().v===')') nx(); order.push({v:vv.v,desc:desc}); }
+          else break;
+        }
+      } else if(isKw(peek(),'LIMIT')){ nx(); limit=parseInt(nx().v,10); }
+      else if(isKw(peek(),'OFFSET')){ nx(); nx(); }
+      else break;
+    }
+    // evaluate
+    function eqv(a,b){ if(a===undefined||b===undefined) return false; if(typeof a==='string') return a===b; if(a&&b&&a.L!==undefined&&b.L!==undefined) return a.L===b.L; return false; }
+    function tval(node){ return node.iri!==undefined?node.iri:(node.L!==undefined?{L:node.L}:undefined); }
+    function clone(b){ var n={}; for(var k in b) n[k]=b[k]; return n; }
+    function matchTriple(bind,pat,tr){
+      var nb=bind, cloned=false;
+      for(var k=0;k<3;k++){ var pt=pat[k], val=tr[k];
+        if(pt.v!==undefined){ var cur=nb[pt.v]; if(cur!==undefined){ if(!eqv(cur,val)) return null; } else { if(!cloned){ nb=clone(bind); cloned=true; } nb[pt.v]=val; } }
+        else { if(!eqv(tval(pt),val)) return null; } }
+      return nb;
+    }
+    function joinT(binds,pat){ var out=[]; for(var a=0;a<binds.length;a++){ for(var j=0;j<T.length;j++){ var nb=matchTriple(binds[a],pat,T[j]); if(nb) out.push(nb); } } return out; }
+    function truthy(x){ return x===true || (x!==false && x!==undefined && !(x&&x.L!==undefined&&x.L==='')); }
+    function evalExpr(e,b){
+      if(e.op==='term'){ var t=e.term; return t.v!==undefined?b[t.v]:tval(t); }
+      if(e.op==='if') return truthy(evalExpr(e.cond,b))?evalExpr(e.a,b):evalExpr(e.b,b);
+      if(e.op==='=') return eqv(evalExpr(e.left,b),evalExpr(e.right,b));
+      if(e.op==='!=') return !eqv(evalExpr(e.left,b),evalExpr(e.right,b));
+      if(e.op==='in'){ var lv=evalExpr(e.left,b); for(var k=0;k<e.list.length;k++){ if(eqv(tval(e.list[k]),lv)) return true; } return false; }
+      throw new Error('unsupported expression');
+    }
+    function evalItems(items,binds){
+      items.forEach(function(it){
+        if(Array.isArray(it)){ binds=joinT(binds,it); }
+        else if(it.type==='optional'){ var out=[]; binds.forEach(function(b){ var sub=evalItems(it.group,[b]); if(sub.length) out.push.apply(out,sub); else out.push(b); }); binds=out; }
+        else if(it.type==='values'){ var o2=[]; binds.forEach(function(b){ it.vals.forEach(function(vn){ var val=tval(vn), cur=b[it.v]; if(cur!==undefined){ if(eqv(cur,val)) o2.push(b); } else { var nb=clone(b); nb[it.v]=val; o2.push(nb); } }); }); binds=o2; }
+        else if(it.type==='filter'){ binds=binds.filter(function(b){ return truthy(evalExpr(it.expr,b)); }); }
+        else if(it.type==='bind'){ binds=binds.map(function(b){ var nb=clone(b); nb[it.v]=evalExpr(it.expr,b); return nb; }); }
+      });
+      return binds;
+    }
+    var binds=evalItems(where,[{}]);
+    var outVars; if(star){ var vs={}; binds.forEach(function(b){ for(var k in b) vs[k]=1; }); outVars=Object.keys(vs); } else outVars=vars;
+    function sortKey(v){ return v===undefined?'':(typeof v==='object'?v.L:v); }
+    function keyOf(v){ return v===undefined?'':(typeof v==='object'?'L'+v.L:v); }
+    var rows=binds.map(function(b){ var r={}; outVars.forEach(function(v){ r[v]=b[v]; }); return r; });
+    if(order.length) rows.sort(function(a,b){ for(var k=0;k<order.length;k++){ var o=order[k], av=sortKey(a[o.v]), bv=sortKey(b[o.v]); if(av<bv) return o.desc?1:-1; if(av>bv) return o.desc?-1:1; } return 0; });
+    if(distinct){ var seen={}, dr=[]; rows.forEach(function(r){ var key=outVars.map(function(v){return keyOf(r[v]);}).join(''); if(!seen[key]){ seen[key]=1; dr.push(r); } }); rows=dr; }
+    if(limit!=null) rows=rows.slice(0,limit);
+    return {vars:outVars, rows:rows};
+  }
+  function shortIRI(v){ if(v===undefined||v===null) return ''; if(typeof v==='object') return v.L; if(v.indexOf(P)===0) return ':'+v.slice(P.length); if(v.indexOf(RDF)===0) return 'rdf:'+v.slice(RDF.length); if(v.indexOf(RDFS)===0) return 'rdfs:'+v.slice(RDFS.length); if(v.indexOf(OWL)===0) return 'owl:'+v.slice(OWL.length); return '<'+v+'>'; }
+  function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function execute(){
+    try{
+      var res=run(codeEl.value);
+      var head='<tr>'+res.vars.map(function(v){return '<th>'+esc(v.slice(1))+'</th>';}).join('')+'</tr>';
+      var body=res.rows.map(function(r){ return '<tr>'+res.vars.map(function(v){ return '<td>'+esc(shortIRI(r[v]))+'</td>'; }).join('')+'</tr>'; }).join('');
+      outEl.innerHTML=head+body;
+      statusEl.textContent=res.rows.length+' row'+(res.rows.length===1?'':'s')+' returned';
+      statusEl.classList.remove('err');
+    }catch(err){
+      outEl.innerHTML='';
+      statusEl.textContent='Error: '+err.message;
+      statusEl.classList.add('err');
+    }
+  }
+  var Q1='PREFIX : <http://example.org/palimpsests#>\n'+
+    'PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n\n'+
+    'SELECT DISTINCT ?transformativeWork ?originalWork\n'+
+    'WHERE {\n'+
+    '  ?op :hasTransformativeWork :Elementary ;\n'+
+    '      :hasOriginalWork       ?originalWork .\n'+
+    '}\n'+
+    'ORDER BY ?transformativeWork';
+  var Q2='PREFIX : <http://example.org/palimpsests#>\n'+
+    'PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n'+
+    'SELECT ?originalWork ?transformativeWork ?strategy ?sourcePart ?targetPart ?changeType ?rationale\n'+
+    'WHERE {\n'+
+    '  ?op :hasOriginalWork :Canon_of_Sherlock_Holmes ;\n'+
+    '      :hasTransformativeWork :Sherlock ;\n'+
+    '      :sourceElement ?sourcePart ;\n'+
+    '      :targetElement ?targetPart ;\n'+
+    '      rdf:type ?strategy .\n'+
+    '  VALUES ?strategy { :Imitation :Transformation :Inheritance }\n'+
+    '  OPTIONAL { ?op :rationale ?rationale }\n'+
+    '  BIND(IF(?sourcePart = ?targetPart, "preserved", "reconfigured") AS ?changeType)\n'+
+    '}\n'+
+    'ORDER BY ?transformativeWork ?strategy';
+  var QMAP={'1':{q:'Which original text is a given derivative derived from?',code:Q1},
+            '2':{q:'Which parts of the source were preserved or reconstructed in the derivative?',code:Q2}};
+  function loadQ(n){ var d=QMAP[n]; if(!d) return; qEl.textContent=d.q; codeEl.value=d.code; execute(); }
+  document.querySelectorAll('.cq-tab').forEach(function(tab){
+    tab.addEventListener('click',function(){ document.querySelectorAll('.cq-tab').forEach(function(t){t.classList.remove('active');}); tab.classList.add('active'); loadQ(tab.dataset.q); });
+  });
+  document.getElementById('cq-run').addEventListener('click',execute);
+  loadQ('1');
+})();
+
+/* ==== AUTO-HIDE NAV ON SCROLL ==== */
+(function(){
+  function currentY(){
+    return window.scrollY || window.pageYOffset ||
+      (document.scrollingElement || document.documentElement || document.body).scrollTop || 0;
+  }
+  var lastY = currentY();
+  function handle(){
+    var y = currentY();
+    if(y > 140 && y > lastY + 3){ document.body.classList.add('nav-collapsed'); }
+    else if(y < lastY - 3 || y <= 140){ document.body.classList.remove('nav-collapsed'); }
+    lastY = y;
+  }
+  window.addEventListener('scroll', handle, {passive:true});
+  document.addEventListener('scroll', handle, {passive:true});
+})();
 /* ==== CSV DATA TABLES ==== */
 const CSV_DATA = {"orig":[["Operation","operation: instance","CreativeStrategy (Class)","Transformative_Work","Transformative_Work_URI","Original_Work","Original_Work_URI","SourceElement","TargetElement","NarrativeElement (Class)","Rationale_Annotation"],["1","Op_Water_Margin_to_Jin_Ping_Mei_PerspectiveShift","Transformation","Jin Ping Mei","https://www.wikidata.org/wiki/Q753535","Water Margin","https://www.wikidata.org/wiki/Q70827","Hero_Focal","MerchantHousehold_Focal","Focalization","Water Margin focuses primarily on the chivalric exploits of outlaw heroes, while Jin Ping Mei shifts the narrative lens to the interior domestic world of the merchant Xi Men Qing's household."],["1","Op_Water_Margin_to_Jin_Ping_Mei_EventTypeShift","Transformation","Jin Ping Mei","https://www.wikidata.org/wiki/Q753535","Water Margin","https://www.wikidata.org/wiki/Q70827","Chivalrous_Violence","Domestic_Desire","ContentDomain","The dominant event type shifts from chivalric romance and heroic violence toward the novel of manners, foregrounding everyday domestic life, desire, and social maneuvering."],["1","Op_Water_Margin_to_Jing_Ping_Mei_CharacterReinterpretation","Imitation","Jin Ping Mei","https://www.wikidata.org/wiki/Q753535","Water Margin","https://www.wikidata.org/wiki/Q70827","Monotonic_Villain_Pan_Jin_Lian","Complex_Pan_Jin_Lian","CharacterFunction","Jin Ping Mei grants Pan Jin Lian greater psychological depth and human complexity; the moral condemnation imposed on her by the source text is suspended, allowing a more ambiguous reading of her character."],["1","Op_Water_Margin_to_Jing_Ping_Mei_CharacterDerivation_1","Inheritance","Jin Ping Mei","https://www.wikidata.org/wiki/Q753535","Water Margin","https://www.wikidata.org/wiki/Q70827","Xi_Men_Qing","Xi_Men_Qing","CharacterIdentity","Uses the same character from Water Margin."],["1","Op_Water_Margin_to_Jing_Ping_Mei_CharacterDerivation_2","Inheritance","Jin Ping Mei","https://www.wikidata.org/wiki/Q753535","Water Margin","https://www.wikidata.org/wiki/Q70827","Wu_Song","Wu_Song","CharacterIdentity","Uses the same character from Water Margin."],["1","Op_Water_Margin_to_Jing_Ping_Mei_CharacterDerivation_3","Inheritance","Jin Ping Mei","https://www.wikidata.org/wiki/Q753535","Water Margin","https://www.wikidata.org/wiki/Q70827","Pan_Jin_Lian","Pan_Jin_Lian","CharacterIdentity","Uses the same character from Water Margin."],["2","Op_The_Twilight_Saga_to_Fifty_Shade_of_Gray_CharacterReinterpretation","Imitation","Fifty Shades of Grey","https://www.wikidata.org/wiki/Q557867","The Twilight Saga","https://www.wikidata.org/wiki/Q652599","PowerfulAndDangerousHero_Vampire","PowerfulAndDangerousHero_Boss","Character","The male protagonist archetype is preserved: both leads are powerful and dangerous figures. However, the source of danger shifts from a supernatural origin (vampirism) to a psychological one (childhood trauma and BDSM inclination). The 'darkness' of the archetype is retained, but its explanatory framework transitions from the supernatural to psychological realism."],["2","Op_The_Twilight_Saga_to_Fifty_Shade_of_Gray_EventTypeShift","Transformation","Fifty Shades of Grey","https://www.wikidata.org/wiki/Q557867","The Twilight Saga","https://www.wikidata.org/wiki/Q652599","SupernaturalRomance","ExplicitSexuality","ContentDomain",""],["2","Op_The_Twilight_Saga_to_Fifty_Shade_of_Gray_EmotionLogicReuse","Inheritance","Fifty Shades of Grey","https://www.wikidata.org/wiki/Q557867","The Twilight Saga","https://www.wikidata.org/wiki/Q652599","WhiteKnight_complex","WhiteKnight_complex","Character Arc","The heroine's core emotional arc — the desire to redeem a dangerous man through love — is directly inherited from the source text without transformation."],["2","Op_The_Twilight_Saga_to_Fifty_Shade_of_Gray_PowerStructureReuse","Inheritance","Fifty Shades of Grey","https://www.wikidata.org/wiki/Q557867","The Twilight Saga","https://www.wikidata.org/wiki/Q652599","Hero_lead_Heroine_obey","Hero_lead_Heroine_obey","Relationship Type","The novels use the same asymmetric power dynamic between the dominant male lead and the submissive female lead"],["3","Op_Canon_of_Sherloc_Holmes_to_Sherlock_SettingTransposition","Transformation","Sherlock","https://www.wikidata.org/wiki/Q192837","Canon of Sherlock Holmes","https://www.wikidata.org/wiki/Q2316684","Victorian_London","Modern_London","Chronotope","The historical era is entirely replaced (Victorian London → contemporary London), while the geographical setting is preserved."],["3","Op_Canon_of_Sherloc_Holmes_to_Sherlock_CrossMediaTransformation","Transformation","Sherlock","https://www.wikidata.org/wiki/Q192837","Canon of Sherlock Holmes","https://www.wikidata.org/wiki/Q2316684","Novel_ShortStoryCollection","TV_Series","MediumType","The source text's format as a short story collection is transformed into a serialized television drama, with individual episodic cases expanded into season-long narrative arcs."],["3","Op_Canon_of_Sherloc_Holmes_to_Sherlock_RelationshipContinuation","Inheritance","Sherlock","https://www.wikidata.org/wiki/Q192837","Canon of Sherlock Holmes","https://www.wikidata.org/wiki/Q2316684","RoomateAndFriends_Holmes_Watson","RoomateAndFriends_Holmes_Watson","Relation","The foundational social relationship between Holmes and Watson — cohabitation and close intellectual friendship — is directly inherited without transformation."],["3","Op_Canon_of_Sherloc_Holmes_to_Sherlock_PerspectiveShift","Transformation","Sherlock","https://www.wikidata.org/wiki/Q192837","Canon of Sherlock Holmes","https://www.wikidata.org/wiki/Q2316684","SingleFocalizer_Watson","DualFocalizer_Sherlock_Watson","Focalization","The source text's single first-person focalizer (Watson as narrator) is replaced by a dual-focalizer structure in the television adaptation, granting both Holmes and Watson equal narrative access."],["3","Op_Canon_of_Sherloc_Holmes_to_Sherlock_CharacterReinterpretation","Imitation","Sherlock","https://www.wikidata.org/wiki/Q192837","Canon of Sherlock Holmes","https://www.wikidata.org/wiki/Q2316684","DetachedRationalist","High-functioning_Sociopath","CharacterArc","The protagonist's baseline characterization is significantly intensified: the source text's detached, eccentric rationalism is reframed through a modern clinical lens as high-functioning sociopathy."]],"aud":[["Operation","operation: instance","CreativeStrategy (Class)","Transformative_Work","Transformative_Work_URI","Original_Work","Original_Work_URI","SourceElement","TargetElement","NarrativeElement (Class)","Rationale_Annotation"],["1","Op_Water_Margin_to_Jin_Ping_Mei_PlotGrafting","Imitation","Jin Ping Mei","https://www.wikidata.org/wiki/Q753535","Water Margin","https://www.wikidata.org/wiki/Q70827","Wu_Song_Kills_Sister_in_law_Episode","Seed_Plot_of_Jin_Ping_Mei","EventSequence","A single marginal episode of the source -- Wu Song's killing of his adulterous sister-in-law, in places quoted almost verbatim -- is extracted and reused as the seed plot from which the entire new novel is grown."],["1","Op_Water_Margin_to_Jin_Ping_Mei_ContentDomainShift","Transformation","Jin Ping Mei","https://www.wikidata.org/wiki/Q753535","Water Margin","https://www.wikidata.org/wiki/Q70827","Chivalric_Heroism","Domestic_Desire_and_Manners","ContentDomain","The content domain is transformed from chivalric heroism and outlaw violence into the everyday domestic world of desire, money, and social maneuvering -- the founding move of the Chinese novel of manners."],["1","Op_Water_Margin_to_Jin_Ping_Mei_FocalizationShift","Transformation","Jin Ping Mei","https://www.wikidata.org/wiki/Q753535","Water Margin","https://www.wikidata.org/wiki/Q70827","Outlaw_Hero_Ensemble_Focal","Merchant_Household_Focal","Focalization","The narrative focus shifts from a rotating ensemble of outlaw heroes to the enclosed interior of a single merchant household."],["1","Op_Water_Margin_to_Jin_Ping_Mei_PanJinLianReinterpretation","Transformation","Jin Ping Mei","https://www.wikidata.org/wiki/Q753535","Water Margin","https://www.wikidata.org/wiki/Q70827","Monotonic_Villain_Pan_Jin_Lian","Complex_Pan_Jin_Lian","CharacterFunction","The flat villainess of the source is given psychological depth and her moral condemnation is suspended, transforming her narrative function from object of judgment to ambiguous subject."],["1","Op_Water_Margin_to_Jin_Ping_Mei_CharacterInheritance","Inheritance","Jin Ping Mei","https://www.wikidata.org/wiki/Q753535","Water Margin","https://www.wikidata.org/wiki/Q70827","Core_Cast_Ximen_Pan_Wu","Core_Cast_Ximen_Pan_Wu","CharacterIdentity","The core cast (Xi Men Qing, Pan Jin Lian, Wu Song) is inherited directly from the source; note that Wu Song, a protagonist there, is radically marginalized here."],["2","Op_The_Twilight_Saga_to_Fifty_Shades_of_Grey_HeroArchetypeImitation","Imitation","Fifty Shades of Grey","https://www.wikidata.org/wiki/Q557867","The Twilight Saga","https://www.wikidata.org/wiki/Q652599","PowerfulDangerousHero_Vampire","PowerfulDangerousHero_Tycoon","CharacterFunction","The dangerous-male-lead archetype is reused, but the source of danger is relocated from the supernatural (vampirism) to the psychological (childhood trauma); the 'darkness' is retained while its explanatory frame becomes realist."],["2","Op_The_Twilight_Saga_to_Fifty_Shades_of_Grey_ContentDomainShift","Transformation","Fifty Shades of Grey","https://www.wikidata.org/wiki/Q557867","The Twilight Saga","https://www.wikidata.org/wiki/Q652599","Abstinent_Supernatural_Romance","Explicit_Eroticism","ContentDomain","The content domain is inverted: the source's abstinence theme becomes explicit eroticism as the central narrative material."],["2","Op_The_Twilight_Saga_to_Fifty_Shades_of_Grey_PowerStructureInheritance","Inheritance","Fifty Shades of Grey","https://www.wikidata.org/wiki/Q557867","The Twilight Saga","https://www.wikidata.org/wiki/Q652599","Dominant_Male_Submissive_Female","Dominant_Male_Submissive_Female","RelationType","The asymmetric dominant-male / submissive-female relational dynamic, together with the heroine's redeem-him-through-love arc, is inherited from the source."],["3","Op_Canon_of_Sherlock_Holmes_to_Sherlock_SettingTransposition","Transformation","Sherlock","https://www.wikidata.org/wiki/Q192837","Canon of Sherlock Holmes","https://www.wikidata.org/wiki/Q2316684","Victorian_London","Contemporary_London","Chronotope","The historical era is replaced (Victorian becomes contemporary London) while the geographical setting is preserved."],["3","Op_Canon_of_Sherlock_Holmes_to_Sherlock_CrossMediaTransformation","Transformation","Sherlock","https://www.wikidata.org/wiki/Q192837","Canon of Sherlock Holmes","https://www.wikidata.org/wiki/Q2316684","ShortStoryCollection","TV_Series","MediumType","The short-story collection is recast as serialized television, expanding episodic cases into season-long arcs."],["3","Op_Canon_of_Sherlock_Holmes_to_Sherlock_CharacterIntensification","Imitation","Sherlock","https://www.wikidata.org/wiki/Q192837","Canon of Sherlock Holmes","https://www.wikidata.org/wiki/Q2316684","Eccentric_Rationalist_Holmes","High_Functioning_Sociopath_Holmes","CharacterArc","Holmes's baseline characterization is reused but intensified, reframing eccentric rationalism through a modern clinical idiom."],["3","Op_Canon_of_Sherlock_Holmes_to_Sherlock_RelationshipInheritance","Inheritance","Sherlock","https://www.wikidata.org/wiki/Q192837","Canon of Sherlock Holmes","https://www.wikidata.org/wiki/Q2316684","Holmes_Watson_Bromance","Holmes_Watson_Bromance","RelationType","The Holmes-Watson friendship and cohabitation is inherited intact -- the point of contrast with Elementary's reconfiguration."],["4","Op_Canon_of_Sherlock_Holmes_to_Elementary_WatsonReconception","Transformation","Elementary","https://www.wikidata.org/wiki/Q247643","Canon of Sherlock Holmes","https://www.wikidata.org/wiki/Q2316684","Male_Narrator_John_Watson","Female_Sober_Companion_Joan_Watson","CharacterFunction","Elementary's central creative move: Watson is reconceived as Joan Watson, changing both gender and narrative function from male chronicler to sober companion."],["4","Op_Canon_of_Sherlock_Holmes_to_Elementary_HolmesAddictionArc","Transformation","Elementary","https://www.wikidata.org/wiki/Q247643","Canon of Sherlock Holmes","https://www.wikidata.org/wiki/Q2316684","Occasional_Drug_Use_Detail","Recovering_Addict_Arc","CharacterArc","A minor canonical detail (Holmes's drug use) is amplified into the protagonist's defining arc as a recovering addict."],["4","Op_Canon_of_Sherlock_Holmes_to_Elementary_SettingTransposition","Transformation","Elementary","https://www.wikidata.org/wiki/Q247643","Canon of Sherlock Holmes","https://www.wikidata.org/wiki/Q2316684","Victorian_London","Contemporary_New_York","Chronotope","Both era and place are replaced: Victorian London becomes contemporary New York City."],["4","Op_Canon_of_Sherlock_Holmes_to_Elementary_DeductiveMethodImitation","Imitation","Elementary","https://www.wikidata.org/wiki/Q247643","Canon of Sherlock Holmes","https://www.wikidata.org/wiki/Q2316684","Observation_and_Deduction","Observation_and_Deduction","CharacterFunction","Holmes's signature method of observation and deduction is reused as the recognizable prototype of the protagonist's function."],["4","Op_Canon_of_Sherlock_Holmes_to_Elementary_ConsultingRoleInheritance","Inheritance","Elementary","https://www.wikidata.org/wiki/Q247643","Canon of Sherlock Holmes","https://www.wikidata.org/wiki/Q2316684","Consulting_Detective_Assists_Police","Consulting_Detective_Assists_Police","RelationType","The structural relationship of the consulting detective assisting the official police is inherited from the source."],["5","Op_Journey_to_the_West_to_A_Chinese_Odyssey_DestinySubversion","Transformation","A Chinese Odyssey","https://www.wikidata.org/wiki/Q868483","Journey to the West","https://www.wikidata.org/wiki/Q70784","Ascetic_Pilgrim_Destiny","Romantic_Mortal_Tragicomedy","CharacterArc","The Monkey King's ascetic, predestined divinity is subverted into secular romantic love and a postmodern meditation on fate, recasting a religious pilgrimage as romantic tragicomedy."],["5","Op_Journey_to_the_West_to_A_Chinese_Odyssey_PilgrimageFrameImitation","Imitation","A Chinese Odyssey","https://www.wikidata.org/wiki/Q868483","Journey to the West","https://www.wikidata.org/wiki/Q70784","Westward_Pilgrimage_Frame","Westward_Pilgrimage_Frame","EventSequence","The recognizable westward-pilgrimage premise is reused as the scaffold on which the new story is built."],["5","Op_Journey_to_the_West_to_A_Chinese_Odyssey_CharacterInheritance","Inheritance","A Chinese Odyssey","https://www.wikidata.org/wiki/Q868483","Journey to the West","https://www.wikidata.org/wiki/Q70784","Sun_Wukong_and_Companions","Sun_Wukong_and_Companions","CharacterIdentity","The iconic pilgrims, led by Sun Wukong, are inherited from the source."],["6","Op_Record_of_the_Western_Regions_to_Journey_to_the_West_WorldRulesTransformation","Transformation","Journey to the West","https://www.wikidata.org/wiki/Q70784","Record of the Western Regions","https://www.wikidata.org/wiki/Q1146069","Factual_Travelogue_World","Gods_and_Demons_Cosmos","WorldRules","A factual geographic travelogue is transformed into a supernatural cosmos of gods and demons fusing Confucian, Buddhist, and Daoist thought."],["6","Op_Record_of_the_Western_Regions_to_Journey_to_the_West_HistoricalSettingInheritance","Inheritance","Journey to the West","https://www.wikidata.org/wiki/Q70784","Record of the Western Regions","https://www.wikidata.org/wiki/Q1146069","Xuanzang_Pilgrimage_Route_and_Era","Xuanzang_Pilgrimage_Route_and_Era","Chronotope","The historical journey of Xuanzang to obtain scriptures -- its route, destination, and Tang-era spatio-temporal frame -- is inherited from the record."],["6","Op_Record_of_the_Western_Regions_to_Journey_to_the_West_MonkImitation","Imitation","Journey to the West","https://www.wikidata.org/wiki/Q70784","Record of the Western Regions","https://www.wikidata.org/wiki/Q1146069","Historical_Monk_Xuanzang","Fictional_Pilgrim_Tang_Sanzang","CharacterIdentity","The historical monk Xuanzang is reused as the prototype for the fictional pilgrim Tang Sanzang."],["7","Op_Ghost_Blows_Out_the_Light_to_Daomu_Biji_TombRaiderImitation","Imitation","Daomu Biji","https://www.wikidata.org/wiki/Q4861172","Ghost Blows Out the Light","https://www.wikidata.org/wiki/Q5557059","Tomb_Raider_Protagonist_Archetype","Tomb_Raider_Protagonist_Archetype","CharacterFunction","Having begun as a derivative tribute to its predecessor, it reuses the tomb-raider protagonist archetype as the prototype for its own cast."],["7","Op_Ghost_Blows_Out_the_Light_to_Daomu_Biji_WorldRulesInheritance","Inheritance","Daomu Biji","https://www.wikidata.org/wiki/Q4861172","Ghost Blows Out the Light","https://www.wikidata.org/wiki/Q5557059","Tomb_Raiding_World_and_Hazards","Tomb_Raiding_World_and_Hazards","WorldRules","The grave-robbing world-building -- ancient tombs, supernatural hazards, and the lore governing them -- is inherited from the source."],["7","Op_Ghost_Blows_Out_the_Light_to_Daomu_Biji_AffectiveModeShift","Transformation","Daomu Biji","https://www.wikidata.org/wiki/Q4861172","Ghost Blows Out the Light","https://www.wikidata.org/wiki/Q5557059","Hardcore_Adventure_Folklore","Suspense_and_Emotional_Bonds","ContentDomain","The dominant mode is transformed from the predecessor's hardcore exploration-and-folklore adventure toward serialized suspense centered on mystery and the emotional bonds between characters."],["8","Op_Harry_Potter_to_The_Mortal_Instruments_CharacterArchetypeImitation","Imitation","The Mortal Instruments","https://www.wikidata.org/wiki/Q478151","Harry Potter","https://www.wikidata.org/wiki/Q8337","Chosen_One_and_Pairings","Chosen_One_and_Pairings","CharacterFunction","Originating as Harry Potter fan fiction, it reuses the 'chosen one' archetype and specific character tensions established in the fan community as prototypes for its new cast."],["8","Op_Harry_Potter_to_The_Mortal_Instruments_WorldRulesTransformation","Transformation","The Mortal Instruments","https://www.wikidata.org/wiki/Q478151","Harry Potter","https://www.wikidata.org/wiki/Q8337","Hidden_Magic_Boarding_School","Urban_Fantasy_Shadow_World","WorldRules","The hidden-magic premise is relocated from a magical boarding school into an urban-fantasy shadow-world ontology, transforming the rules of the magic system."],["8","Op_Harry_Potter_to_The_Mortal_Instruments_PairingInheritance","Inheritance","The Mortal Instruments","https://www.wikidata.org/wiki/Q478151","Harry Potter","https://www.wikidata.org/wiki/Q8337","BadBoy_ResilientGirl_Pairing","BadBoy_ResilientGirl_Pairing","RelationType","The central romantic pairing dynamic carried over from the fan community is inherited without transformation."],["9","Op_The_Wonderful_Wizard_of_Oz_to_Wicked_VillainSubversion","Transformation","Wicked","https://www.wikidata.org/wiki/Q616439","The Wonderful Wizard of Oz","https://www.wikidata.org/wiki/Q130295","Wicked_Witch_as_Evil","Sympathetic_Elphaba","CharacterFunction","The fixed villain is elevated to protagonist and given a sympathetic backstory, deconstructing the good-versus-evil binary and adding reflection on propaganda and prejudice."],["9","Op_The_Wonderful_Wizard_of_Oz_to_Wicked_PerspectiveShift","Transformation","Wicked","https://www.wikidata.org/wiki/Q616439","The Wonderful Wizard of Oz","https://www.wikidata.org/wiki/Q130295","Dorothy_Focal","Elphaba_Focal","Focalization","The focal point shifts from the heroine Dorothy to the previously marginalized Wicked Witch of the West."],["9","Op_The_Wonderful_Wizard_of_Oz_to_Wicked_CrossMediaTransformation","Transformation","Wicked","https://www.wikidata.org/wiki/Q616439","The Wonderful Wizard of Oz","https://www.wikidata.org/wiki/Q130295","Novel","Stage_Musical","MediumType","The source novel is adapted into a stage musical."],["9","Op_The_Wonderful_Wizard_of_Oz_to_Wicked_WorldInheritance","Inheritance","Wicked","https://www.wikidata.org/wiki/Q616439","The Wonderful Wizard of Oz","https://www.wikidata.org/wiki/Q130295","Land_of_Oz_and_Cast","Land_of_Oz_and_Cast","WorldRules","The Land of Oz, its inhabitants, and named characters are inherited from the source."],["9","Op_The_Wonderful_Wizard_of_Oz_to_Wicked_CharacterImitation","Imitation","Wicked","https://www.wikidata.org/wiki/Q616439","The Wonderful Wizard of Oz","https://www.wikidata.org/wiki/Q130295","Witches_of_Oz","Witches_of_Oz","CharacterIdentity","The witches of Oz are reused as the retelling's central figures."],["10","Op_Pride_and_Prejudice_to_Pride_and_Prejudice_and_Zombies_GenreHybridization","Transformation","Pride and Prejudice and Zombies","https://www.wikidata.org/wiki/Q2659311","Pride and Prejudice","https://www.wikidata.org/wiki/Q170583","Regency_Comedy_of_Manners","Romance_Horror_Mashup","ContentDomain","Zombie-apocalypse horror is injected into the comedy of manners, producing a parodic cross-genre mash-up."],["10","Op_Pride_and_Prejudice_to_Pride_and_Prejudice_and_Zombies_PlotAndProseInheritance","Inheritance","Pride and Prejudice and Zombies","https://www.wikidata.org/wiki/Q2659311","Pride and Prejudice","https://www.wikidata.org/wiki/Q170583","Marriage_Plot_and_Original_Prose","Marriage_Plot_and_Original_Prose","EventSequence","The plot skeleton and large stretches of the original prose and dialogue are inherited near-verbatim."],["10","Op_Pride_and_Prejudice_to_Pride_and_Prejudice_and_Zombies_CharacterImitation","Imitation","Pride and Prejudice and Zombies","https://www.wikidata.org/wiki/Q2659311","Pride and Prejudice","https://www.wikidata.org/wiki/Q170583","Bennet_Family","Zombie_Slaying_Bennet_Family","CharacterIdentity","The Bennet sisters and other named characters are reused, recast as trained zombie-slayers."],["11","Op_The_Three_Body_Problem_to_ThreeBodyX_NarrativeGapExpansion","Transformation","ThreeBodyX","https://baike.baidu.com/item/三体X·观想之宙/7656426","The Three-Body Problem","https://www.wikidata.org/wiki/Q607112","Yun_Tianming_Blank_Storyline","Expanded_Cosmic_Sociology","EventSequence","As an authorized continuation, it fills a storyline the parent text left blank (Yun Tianming's fate), expanding the original's cosmic-sociology concepts into new territory."],["11","Op_The_Three_Body_Problem_to_ThreeBodyX_WorldInheritance","Inheritance","ThreeBodyX","https://baike.baidu.com/item/三体X·观想之宙/7656426","The Three-Body Problem","https://www.wikidata.org/wiki/Q607112","Three_Body_Cosmology","Three_Body_Cosmology","WorldRules","The physics, cosmology, and world-building of the Three-Body universe are inherited directly from the source."],["11","Op_The_Three_Body_Problem_to_ThreeBodyX_CharacterImitation","Imitation","ThreeBodyX","https://baike.baidu.com/item/三体X·观想之宙/7656426","The Three-Body Problem","https://www.wikidata.org/wiki/Q607112","Canon_Characters_Yun_Tianming","Canon_Characters_Yun_Tianming","CharacterIdentity","Canonical characters such as Yun Tianming are reused to suture the continuation to the parent text."],["12","Op_Odyssey_to_Ulysses_SettingTransposition","Transformation","Ulysses","https://www.wikidata.org/wiki/Q6511","Odyssey","https://www.wikidata.org/wiki/Q35160","Ancient_Mediterranean_Decade","Single_Day_Modern_Dublin","Chronotope","A decade-spanning ancient epic is compressed onto a single ordinary day in modern Dublin."],["12","Op_Odyssey_to_Ulysses_FocalizationShift","Transformation","Ulysses","https://www.wikidata.org/wiki/Q6511","Odyssey","https://www.wikidata.org/wiki/Q35160","External_Heroic_Narration","Interior_Stream_of_Consciousness","Focalization","Narration shifts from external heroic deeds to interior stream-of-consciousness."],["12","Op_Odyssey_to_Ulysses_CrossMediaTransformation","Transformation","Ulysses","https://www.wikidata.org/wiki/Q6511","Odyssey","https://www.wikidata.org/wiki/Q35160","Epic_Poem","Modernist_Novel","MediumType","The classical epic poem is transformed into a modernist prose novel."],["12","Op_Odyssey_to_Ulysses_StructuralInheritance","Inheritance","Ulysses","https://www.wikidata.org/wiki/Q6511","Odyssey","https://www.wikidata.org/wiki/Q35160","Homeric_Episode_Structure","Homeric_Episode_Structure","EventSequence","The episodic skeleton of the Homeric source is inherited as a metaphorical scaffold mapping each chapter to an episode."],["12","Op_Odyssey_to_Ulysses_HeroImitation","Imitation","Ulysses","https://www.wikidata.org/wiki/Q6511","Odyssey","https://www.wikidata.org/wiki/Q35160","Hero_Odysseus","Everyman_Leopold_Bloom","CharacterIdentity","The hero Odysseus is reimagined as the everyman Leopold Bloom, an imitative mapping of prototype onto modern figure."],["13","Op_Romeo_and_Juliet_to_West_Side_Story_SettingTransposition","Transformation","West Side Story","https://www.wikidata.org/wiki/Q669010","Romeo and Juliet","https://www.wikidata.org/wiki/Q83186","Renaissance_Verona_Feud","1950s_New_York_Gang_Conflict","Chronotope","The setting is transposed from Renaissance Verona to 1950s New York, recasting aristocratic feud as urban racial and gang conflict."],["13","Op_Romeo_and_Juliet_to_West_Side_Story_CrossMediaTransformation","Transformation","West Side Story","https://www.wikidata.org/wiki/Q669010","Romeo and Juliet","https://www.wikidata.org/wiki/Q83186","Verse_Tragedy","Musical","MediumType","The verse tragedy is transformed into a song-and-dance musical."],["13","Op_Romeo_and_Juliet_to_West_Side_Story_RelationTopologyInheritance","Inheritance","West Side Story","https://www.wikidata.org/wiki/Q669010","Romeo and Juliet","https://www.wikidata.org/wiki/Q83186","Lovers_Between_Feuding_Factions","Lovers_Between_Feuding_Factions","RelationTopology","The core relational topology -- two lovers caught between two feuding factions, ending in tragedy -- is inherited from the source."],["13","Op_Romeo_and_Juliet_to_West_Side_Story_LoversImitation","Imitation","West Side Story","https://www.wikidata.org/wiki/Q669010","Romeo and Juliet","https://www.wikidata.org/wiki/Q83186","Romeo_and_Juliet","Tony_and_Maria","CharacterIdentity","The lovers Romeo and Juliet are reused as prototypes for Tony and Maria."],["14","Op_Emma_to_Clueless_SettingTransposition","Transformation","Clueless","https://www.wikidata.org/wiki/Q931165","Emma","https://www.wikidata.org/wiki/Q223880","Regency_Gentry","1990s_Beverly_Hills_High_School","Chronotope","The Regency gentry's matchmaking and class hierarchy is mapped onto a 1990s Beverly Hills high school."],["14","Op_Emma_to_Clueless_CrossMediaTransformation","Transformation","Clueless","https://www.wikidata.org/wiki/Q931165","Emma","https://www.wikidata.org/wiki/Q223880","Novel","Film","MediumType","The source novel is adapted into a feature film."],["14","Op_Emma_to_Clueless_PlotInheritance","Inheritance","Clueless","https://www.wikidata.org/wiki/Q931165","Emma","https://www.wikidata.org/wiki/Q223880","Matchmaker_Plot_and_Dynamics","Matchmaker_Plot_and_Dynamics","EventSequence","The matchmaking plot and its interpersonal power dynamics are inherited and shown to still operate in a modern microcosm."],["14","Op_Emma_to_Clueless_HeroineImitation","Imitation","Clueless","https://www.wikidata.org/wiki/Q931165","Emma","https://www.wikidata.org/wiki/Q223880","Emma_Woodhouse","Cher_Horowitz","CharacterIdentity","The heroine Emma Woodhouse is reused as the prototype for Cher Horowitz."],["15","Op_Dracula_to_Nosferatu_CrossMediaTransformation","Transformation","Nosferatu","https://www.wikidata.org/wiki/Q151895","Dracula","https://www.wikidata.org/wiki/Q41542","Epistolary_Novel","Silent_Expressionist_Film","MediumType","The epistolary novel is transformed into a silent expressionist film whose Gothic amplification shaped later vampire visual conventions."],["15","Op_Dracula_to_Nosferatu_CharacterImitation","Imitation","Nosferatu","https://www.wikidata.org/wiki/Q151895","Dracula","https://www.wikidata.org/wiki/Q41542","Count_Dracula","Count_Orlok","CharacterIdentity","Lacking authorization, the film files off the source's names -- renaming Dracula as Count Orlok -- while reusing the underlying vampire prototype."],["15","Op_Dracula_to_Nosferatu_PlotInheritance","Inheritance","Nosferatu","https://www.wikidata.org/wiki/Q151895","Dracula","https://www.wikidata.org/wiki/Q41542","Vampire_Relocation_and_Plague","Vampire_Relocation_and_Plague","EventSequence","The core plot -- a vampire's relocation and the predatory plague he spreads -- is inherited from the source."],["16","Op_Jin_Yong_Universe_to_The_Here_and_Now_Youth_SettingTransposition","Transformation","The Here and Now Youth","https://zh.wikipedia.org/wiki/此间的少年","Jin Yong universe","https://www.wikidata.org/wiki/Q180626","Wuxia_Jianghu","Modern_University_Campus","Chronotope","The famous wuxia characters are extracted from the jianghu and relocated into a modern university campus, pioneering the 'characters-in-a-new-context' fan fiction model."],["16","Op_Jin_Yong_Universe_to_The_Here_and_Now_Youth_ContentDomainShift","Transformation","The Here and Now Youth","https://zh.wikipedia.org/wiki/此间的少年","Jin Yong universe","https://www.wikidata.org/wiki/Q180626","Martial_Heroism","Campus_Youth_Life","ContentDomain","The content domain shifts from martial heroism to everyday campus youth and friendship."],["16","Op_Jin_Yong_Universe_to_The_Here_and_Now_Youth_CharacterImitation","Imitation","The Here and Now Youth","https://zh.wikipedia.org/wiki/此间的少年","Jin Yong universe","https://www.wikidata.org/wiki/Q180626","Jin_Yong_Hero_Roster","Campus_Student_Roster","CharacterIdentity","Jin Yong's characters (Guo Jing, Huang Rong, Linghu Chong, and others) are reused as prototypes for the campus cast."],["16","Op_Jin_Yong_Universe_to_The_Here_and_Now_Youth_RelationInheritance","Inheritance","The Here and Now Youth","https://zh.wikipedia.org/wiki/此间的少年","Jin Yong universe","https://www.wikidata.org/wiki/Q180626","Character_Relationship_Web","Character_Relationship_Web","RelationTopology","The web of relationships among the original characters is transposed largely intact into the new setting."],["17","Op_Investiture_of_the_Gods_to_KamigamiNoJonin_CrossMediaTransformation","Transformation","KamigamiNoJonin","https://ja.wikipedia.org/wiki/封神演義_(漫画)","Investiture of the Gods","https://www.wikidata.org/wiki/Q1336310","Vernacular_Novel","Manga","MediumType","The chapter-based mythological novel is reimagined as manga, a transformation influential enough to turn the classical Fengshen IP into a modern repository of fan-creative material."],["17","Op_Investiture_of_the_Gods_to_KamigamiNoJonin_AlignmentReinterpretation","Transformation","KamigamiNoJonin","https://ja.wikipedia.org/wiki/封神演義_(漫画)","Investiture of the Gods","https://www.wikidata.org/wiki/Q1336310","Fixed_Deity_Alignments","Reinterpreted_Roles_and_Motives","CharacterFunction","The fixed moral alignments of the deities are reinterpreted, recasting roles and motivations across the ensemble."],["17","Op_Investiture_of_the_Gods_to_KamigamiNoJonin_WorldInheritance","Inheritance","KamigamiNoJonin","https://ja.wikipedia.org/wiki/封神演義_(漫画)","Investiture of the Gods","https://www.wikidata.org/wiki/Q1336310","Fengshen_Mythos","Fengshen_Mythos","WorldRules","The mythological cosmology of the source is inherited as the world framework."],["17","Op_Investiture_of_the_Gods_to_KamigamiNoJonin_DeityImitation","Imitation","KamigamiNoJonin","https://ja.wikipedia.org/wiki/封神演義_(漫画)","Investiture of the Gods","https://www.wikidata.org/wiki/Q1336310","Fengshen_Deity_Roster","Fengshen_Deity_Roster","CharacterIdentity","The deities and immortals of the source, led by Taigong Wang, are reused as the manga's cast."],["18","Op_Li_Bai_Poem_to_Jin_Yong_Novel_PlotDeviceReuse","Imitation","Jin Yong Novel Xiake Xing","https://www.wikidata.org/wiki/Q835716","Li Bai Poem Xiake Xing","https://zh.wikipedia.org/wiki/侠客行_(诗)","Poem_Text","Martial_Arts_Manual_Puzzle","EventSequence","The verses of Li Bai's poem are reused as the central plot device: martial masters study the text hoping to unlock a legendary skill, yet only an illiterate protagonist grasps its true essence."],["18","Op_Li_Bai_Poem_to_Jin_Yong_Novel_CrossMediaExpansion","Transformation","Jin Yong Novel Xiake Xing","https://www.wikidata.org/wiki/Q835716","Li Bai Poem Xiake Xing","https://zh.wikipedia.org/wiki/侠客行_(诗)","Classical_Poem","Full_Length_Wuxia_Novel","MediumType","A short classical poem is expanded across media into a full-length wuxia novel that interrogates what it means to be truly chivalrous."],["18","Op_Li_Bai_Poem_to_Jin_Yong_Novel_ChivalricSpiritInheritance","Inheritance","Jin Yong Novel Xiake Xing","https://www.wikidata.org/wiki/Q835716","Li Bai Poem Xiake Xing","https://zh.wikipedia.org/wiki/侠客行_(诗)","Chivalric_Ethos","Chivalric_Ethos","ContentDomain","The chivalrous spirit and ethos defined by the source poem are inherited -- a relationship of spiritual continuity across literary forms."]]};
 (function(){
